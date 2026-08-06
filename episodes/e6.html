@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات دوره ویندوز سرور | اپیزود ۶</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Vazirmatn Font -->
+    <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.0/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Vazirmatn', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B1120', 800: '#1e293b', 700: '#334155' },
+                        brand: { light: '#fde68a', DEFAULT: '#f59e0b', dark: '#d97706' }, /* Amber theme for Ep 6 */
+                        accent: { DEFAULT: '#f97316', light: '#fdba74' } /* Orange accent */
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #0B1120;
+            color: #e2e8f0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .section-fade {
+            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B1120; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        .content-box h3 {
+            color: #f8fafc;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .content-box h3::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background-color: #f59e0b;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #f59e0b;
+        }
+        .content-box p { line-height: 1.9; color: #94a3b8; margin-bottom: 1rem; text-align: justify; }
+        .content-box ul { list-style: none; padding: 0; margin-bottom: 1.5rem; }
+        .content-box ul li { position: relative; padding-right: 1.5rem; margin-bottom: 0.75rem; line-height: 1.8; color: #cbd5e1; }
+        .content-box ul li::before {
+            content: '\f104';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            color: #f59e0b;
+            font-size: 0.9rem;
+        }
+        .content-box strong { color: #e2e8f0; background: rgba(255,255,255,0.05); padding: 0 4px; border-radius: 4px; }
+
+        .nav-btn.active {
+            background: linear-gradient(90deg, rgba(245,158,11,0.15) 0%, transparent 100%);
+            border-right: 4px solid #f59e0b;
+            color: #fde68a;
+        }
+        .nav-btn { border-right: 4px solid transparent; }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+        }
+
+        .highlight-code {
+            display: inline-block;
+            background: #0f172a;
+            color: #fde68a;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid #1e293b;
+            direction: ltr;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Mobile Overlay -->
+    <div id="mobileOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity" onclick="closeSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed inset-y-0 right-0 w-72 bg-dark-800/95 backdrop-blur-xl border-l border-white/10 flex flex-col z-50 transform translate-x-full lg:translate-x-0 transition-transform duration-300 shadow-2xl lg:static lg:shadow-none">
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-accent flex items-center justify-center shadow-lg shadow-brand/20 ml-3">
+                <i class="fa-solid fa-network-wired text-white text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-white font-black text-lg">ویندوز سرور</h1>
+                <p class="text-brand-light text-xs font-medium">اپیزود ۶ | Subnetting</p>
+            </div>
+            <button onclick="closeSidebar()" class="lg:hidden mr-auto text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+            <button onclick="showSection(1, this)" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-diagram-project w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۱. مفاهیم پایه ساب‌نتینگ
+            </button>
+            <button onclick="showSection(2, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-shield-halved w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۲. مزایا و دلایل Subnetting
+            </button>
+            <button onclick="showSection(3, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-route w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۳. سوپرنتینگ (Supernetting)
+            </button>
+            <button onclick="showSection(4, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-globe w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۴. کاربرد در ISPها و VLSM
+            </button>
+        </nav>
+        
+        <div class="p-5 border-t border-white/5 bg-black/20">
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+                <i class="fa-solid fa-layer-group text-brand"></i>
+                معماری پیشرفته IP Addressing
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
+        <header class="h-20 bg-dark-900/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6 sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <button onclick="openSidebar()" class="lg:hidden text-slate-300 hover:text-white bg-white/5 p-2 rounded-lg transition-colors">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h2 id="topTitle" class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-white to-slate-400 hidden sm:block">۱. مفاهیم پایه ساب‌نتینگ</h2>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="bg-brand/10 text-brand-light px-3 py-1 rounded-full text-xs font-semibold border border-brand/20">
+                    اپیزود ششم
+                </span>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 lg:p-12 relative" id="scrollArea">
+            <div class="max-w-4xl mx-auto content-box pb-24">
+                
+                <h2 id="mobileTitle" class="text-2xl font-bold text-white mb-8 sm:hidden">۱. مفاهیم پایه ساب‌نتینگ</h2>
+
+                <!-- SECTION 1 -->
+                <div id="section-1" class="section-content section-fade block">
+                    <div class="glass-card p-8 mb-8 bg-gradient-to-br from-brand/10 to-transparent border-t-2 border-brand text-center">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand/20 mb-4 text-brand-light text-3xl">
+                            <i class="fa-solid fa-diagram-project"></i>
+                        </div>
+                        <h3 class="text-white font-bold text-2xl mb-3 mt-0 border-none justify-center before:hidden">ساب‌نتینگ (Subnetting) از صفر تا صد</h3>
+                        <p class="mb-0 text-slate-300 text-sm leading-relaxed max-w-2xl mx-auto text-center">
+                            ساب‌نتینگ در لغت به معنای شکستن و تقسیم کردن یک شبکه فیزیکی یا منطقی بزرگ به چندین شبکه (زیرشبکه) کوچکتر است. این مفهوم قلب تپنده مدیریت شبکه‌های کامپیوتری مدرن است.
+                        </p>
+                    </div>
+
+                    <h3>ساختار آدرس IP و مکانیزم قرض گرفتن</h3>
+                    <p>در آدرس‌دهی IP، هر آدرس به طور کلی از دو بخش تشکیل شده است:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-dark-800 p-5 rounded-lg border border-white/5 relative overflow-hidden">
+                            <div class="absolute right-0 top-0 h-full w-1 bg-blue-500"></div>
+                            <h4 class="text-blue-400 font-bold mb-2">Network ID (شناسه شبکه)</h4>
+                            <p class="text-sm text-slate-400 mb-0">بخش ثابت آدرس که نشان می‌دهد سیستم در کدام محله یا شبکه قرار دارد. سیستم‌های یک شبکه، Network ID یکسانی دارند.</p>
+                        </div>
+                        <div class="bg-dark-800 p-5 rounded-lg border border-white/5 relative overflow-hidden">
+                            <div class="absolute right-0 top-0 h-full w-1 bg-emerald-500"></div>
+                            <h4 class="text-emerald-400 font-bold mb-2">Host ID (شناسه دستگاه)</h4>
+                            <p class="text-sm text-slate-400 mb-0">بخش متغیر آدرس که مشخص‌کننده پلاکِ دقیق آن کامپیوتر یا دستگاهِ خاص درون آن شبکه است.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-dark-900/50 p-6 rounded-xl border border-brand/20">
+                        <h4 class="text-brand-light font-bold mb-2 text-lg"><i class="fa-solid fa-scissors ml-2"></i>جادوی ساب‌نتینگ چگونه کار می‌کند؟</h4>
+                        <p class="text-sm text-slate-300 mb-0 leading-relaxed">
+                            در ساب‌نتینگ، ما تعدادی از بیت‌های بخش <strong>Host</strong> را قرض می‌گیریم و به بخش <strong>Network</strong> اضافه می‌کنیم. با این کار، ما شبکه‌های بیشتری خلق می‌کنیم، اما در عوض تعداد کلاینت‌هایی (Host) که می‌توانند در هر کدام از این شبکه‌های جدید قرار بگیرند کاهش می‌یابد. 
+                        </p>
+                    </div>
+                </div>
+
+                <!-- SECTION 2 -->
+                <div id="section-2" class="section-content hidden">
+                    <h3 class="mt-0">چرا ساب‌نتینگ می‌کنیم؟ (۴ دلیل حیاتی)</h3>
+                    <p class="mb-6">انجام عملیات Subnetting در طراحی شبکه‌های سازمانی یک انتخاب نیست، بلکه یک الزام است. دلایل اصلی آن عبارتند از:</p>
+
+                    <div class="space-y-4">
+                        <div class="glass-card p-5 border-r-4 border-accent">
+                            <h4 class="text-white font-bold mb-2 text-md flex items-center gap-2">
+                                <i class="fa-solid fa-volume-low text-accent-light"></i> ۱. کوچک کردن دامنه برادکست (Broadcast Domain)
+                            </h4>
+                            <p class="text-sm text-slate-300 mb-0 leading-relaxed">در یک شبکه بزرگ (مثلاً با ۱۰۰۰ کلاینت)، اگر یک سیستم پیام برادکست (مثل درخواست DHCP یا کشف ARP) بفرستد، ۹۹۹ سیستم دیگر درگیر پردازش آن می‌شوند که شبکه را به شدت کند (Congest) می‌کند. با ساب‌نتینگ، ترافیک برادکستِ هر بخش فقط در همان بخش محصور می‌ماند.</p>
+                        </div>
+
+                        <div class="glass-card p-5 border-r-4 border-brand">
+                            <h4 class="text-white font-bold mb-2 text-md flex items-center gap-2">
+                                <i class="fa-solid fa-shield-virus text-brand-light"></i> ۲. افزایش بی‌نظیر امنیت
+                            </h4>
+                            <p class="text-sm text-slate-300 mb-0 leading-relaxed">شبکه‌های ساب‌نت شده در لایه ۲ از هم جدا هستند و برای ارتباط با یکدیگر حتماً نیاز به روتر (یا سوییچ لایه ۳) دارند. در نتیجه ما می‌توانیم روی روتر فایروال یا ACL (Access Control List) بنویسیم و مثلاً قانون بگذاریم: "ساب‌نتِ بخش حسابداری حق ندارد با ساب‌نتِ برنامه‌نویسان ارتباط بگیرد."</p>
+                        </div>
+
+                        <div class="glass-card p-5 border-r-4 border-emerald-500">
+                            <h4 class="text-white font-bold mb-2 text-md flex items-center gap-2">
+                                <i class="fa-solid fa-droplet-slash text-emerald-400"></i> ۳. جلوگیری از هدر رفتن آی‌پی‌ها
+                            </h4>
+                            <p class="text-sm text-slate-300 mb-0 leading-relaxed">کلاس‌های استاندارد و قدیمی (A, B, C) به شدت آی‌پی هدر می‌دهند. مثلاً کلاس C دقیقاً ۲۵۴ آی‌پی می‌دهد. اگر دپارتمانی فقط ۳۰ کامپیوتر داشته باشد، ۲۲۴ آی‌پیِ دیگر بلااستفاده می‌ماند و هدر می‌رود. ساب‌نتینگ به ما اجازه می‌دهد شبکه را دقیقاً به اندازه نیازمان قواره کنیم (مثلاً با <span class="highlight-code text-xs">/27</span> دقیقاً ۳۰ آی‌پی تولید کنیم).</p>
+                        </div>
+
+                        <div class="glass-card p-5 border-r-4 border-blue-500">
+                            <h4 class="text-white font-bold mb-2 text-md flex items-center gap-2">
+                                <i class="fa-solid fa-stethoscope text-blue-400"></i> ۴. مدیریت و عیب‌یابی (Troubleshooting) آسان‌تر
+                            </h4>
+                            <p class="text-sm text-slate-300 mb-0 leading-relaxed">پیدا کردن مشکل، نویز یا لوپ در یک زیرشبکه کوچکِ ۵۰ کاربره بسیار راحت‌تر و سریع‌تر از پیدا کردن همان مشکل در یک شبکه درهم‌تنیده‌ی ۱۰۰۰ کاربره است.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 3 -->
+                <div id="section-3" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-accent flex items-start gap-4 bg-gradient-to-l from-accent/5 to-transparent">
+                        <i class="fa-solid fa-compress text-3xl text-accent-light mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-1">سوپرنتینگ (Supernetting) چیست؟</h4>
+                            <p class="mb-0 text-slate-300 text-sm leading-relaxed">سوپرنتینگ که به آن <strong>Route Summarization (خلاصه‌سازی مسیر)</strong> هم می‌گویند، دقیقاً <strong>برعکس ساب‌نتینگ</strong> است! یعنی ترکیب کردن و تجمیع چندین شبکه کوچکِ هم‌جوار به یک شبکه (یا یک مسیر) بسیار بزرگ‌تر.</p>
+                        </div>
+                    </div>
+
+                    <h3>مکانیزم سوپرنتینگ</h3>
+                    <p>در سوپرنتینگ برعکسِ حالت قبل، ما بیت‌هایی را از بخش <strong>Network</strong> پس می‌گیریم و به بخش <strong>Host</strong> می‌دهیم تا فضای کلاینت‌ها بسیار بزرگتر شود و شبکه‌ها با هم ادغام شوند.</p>
+
+                    <h3 class="mt-8 mb-4">چرا سوپرنتینگ می‌کنیم؟ (کوچک کردن Routing Table)</h3>
+                    <div class="bg-dark-800 p-6 rounded-xl border border-white/5 relative">
+                        <i class="fa-solid fa-server absolute left-6 top-6 text-4xl text-slate-600 opacity-50"></i>
+                        <p class="text-sm text-slate-300 leading-relaxed mb-4">
+                            فرض کنید شرکت شما ۸ شعبه در یک شهر دارد که آی‌پی‌های آن‌ها از <span class="highlight-code text-xs">192.168.1.0</span> تا <span class="highlight-code text-xs">192.168.8.0</span> است. روتر مرکزی برای پیدا کردن این شعبات باید <strong>۸ خط روتِ مختلف</strong> در جدول مسیریابی (Routing Table) خود بنویسد.
+                        </p>
+                        <p class="text-sm text-slate-300 leading-relaxed mb-4">
+                            هرچه این جدول بزرگتر باشد، روتر باید CPU و RAM بیشتری مصرف کند تا مسیر بسته‌ها را پیدا کند و در شبکه‌های جهانی این جدول می‌تواند باعث از کار افتادن روتر شود.
+                        </p>
+                        <div class="bg-accent/10 p-4 rounded-lg border border-accent/30 text-center">
+                            <h5 class="text-accent-light font-bold mb-2">راه‌حل با Route Summarization</h5>
+                            <p class="text-sm text-slate-300 mb-0">
+                                با سوپرنتینگ، ما آن ۸ خط مجزا را با هم ترکیب کرده و به یک خطِ روت واحد (مثلاً <span class="highlight-code text-xs">192.168.0.0/20</span>) تبدیل می‌کنیم. این کار بار پردازشی روترهای هسته (Core Routers) را به شدت کاهش می‌دهد.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 4 -->
+                <div id="section-4" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 text-center border-t-2 border-brand-light">
+                        <i class="fa-solid fa-globe text-4xl text-brand-light mb-3"></i>
+                        <h4 class="text-white font-bold text-xl mb-2">کاربرد حیاتی در ISP ها و پروتکل VLSM</h4>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-0">اینترنت امروزی بر پایه پروتکلی به نام <strong>VLSM (Variable Length Subnet Mask)</strong> یا ساب‌نتینگ با طول متغیر کار می‌کند. اگر VLSM و تکنیک‌های ساب‌نتینگ نبود، تمام آی‌پی‌های نسخه ۴ (IPv4) سال‌ها پیش کاملاً تمام می‌شدند!</p>
+                    </div>
+
+                    <h3>رفتار ISP چگونه است؟</h3>
+                    <p>یک ISP (شرکت ارائه‌دهنده اینترنت) یک بلوک عظیم از آی‌پی‌های Public (عمومی) را از سازمان جهانی IANA خریداری می‌کند (مثلاً یک بلوک <span class="highlight-code text-xs">/16</span> که شامل 65,536 آی‌پی است). حالا ISP با استفاده از ابزار VLSM این بلوک را برای مشتریان مختلف برش می‌زند:</p>
+
+                    <div class="space-y-4 my-6">
+                        <div class="bg-dark-800 p-5 rounded-lg border-l-4 border-emerald-500">
+                            <h4 class="text-white font-bold text-sm mb-2"><i class="fa-solid fa-house-user text-emerald-400 ml-2"></i>سناریوی مشتری خانگی (بلاک /30)</h4>
+                            <p class="text-sm text-slate-400 mb-0">مشتری خانگی فقط <strong>یک</strong> آی‌پی استاتیک می‌خواهد. ISP با ساب‌نتینگ، یک بلوک <span class="highlight-code text-xs">/30</span> به او می‌دهد. اسلش ۳۰ در مجموع ۴ آی‌پی دارد (شبکه، برادکست، پورت ISP، مودم مشتری). در نتیجه <strong>هیچ آی‌پی اضافه‌ای هدر نمی‌رود</strong>.</p>
+                        </div>
+
+                        <div class="bg-dark-800 p-5 rounded-lg border-l-4 border-blue-500">
+                            <h4 class="text-white font-bold text-sm mb-2"><i class="fa-solid fa-building text-blue-400 ml-2"></i>سناریوی شرکت بزرگ (بلاک /29)</h4>
+                            <p class="text-sm text-slate-400 mb-0">یک سرور فارم به ۵ آی‌پی پابلیک نیاز دارد. ISP این بار بلوک آی‌پیِ خود را می‌شکند و یک شبکه <span class="highlight-code text-xs">/29</span> (که ۶ آی‌پی قابل استفاده دارد) به آن شرکت می‌فروشد.</p>
+                        </div>
+
+                        <div class="bg-dark-800 p-5 rounded-lg border-l-4 border-accent">
+                            <h4 class="text-white font-bold text-sm mb-2"><i class="fa-solid fa-satellite-dish text-accent ml-2"></i>ارتباط بین روترهای هسته</h4>
+                            <p class="text-sm text-slate-400 mb-0">برای ارتباط مستقیم (Point-to-Point) بین دو روتر غول‌پیکرِ خودِ ISP در دو شهر مختلف، فقط به ۲ آی‌پی نیاز است که باز هم از زیرشبکه <span class="highlight-code text-xs">/30</span> یا <span class="highlight-code text-xs">/31</span> استفاده می‌کنند.</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 mt-8 border border-brand/30 bg-brand/5 text-center">
+                        <i class="fa-solid fa-tree text-3xl text-brand mb-3"></i>
+                        <p class="text-sm text-slate-300 leading-relaxed mb-0">
+                            <strong>مثال نجاری:</strong> ISP ها مانند نجاری هستند که یک تنه درخت بزرگ (آی‌پی‌های اصلی) را می‌گیرند و با ابزار VLSM (ساب‌نتینگ پیشرفته)، قطعاتِ چوب را <strong>دقیقاً و میلی‌متری</strong> به اندازه‌ای که مشتری سفارش داده بُرش می‌زنند تا ذره‌ای خاک‌اره (آی‌پی هدر رفته) تولید نشود!
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+        const topTitle = document.getElementById('topTitle');
+        const mobileTitle = document.getElementById('mobileTitle');
+        const scrollArea = document.getElementById('scrollArea');
+
+        function openSidebar() {
+            sidebar.classList.remove('translate-x-full');
+            overlay.classList.remove('hidden');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('translate-x-full');
+            overlay.classList.add('hidden');
+        }
+
+        function showSection(sectionNumber, btnElement) {
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.classList.remove('block', 'section-fade');
+                el.classList.add('hidden');
+            });
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            const targetSection = document.getElementById('section-' + sectionNumber);
+            targetSection.classList.remove('hidden');
+            void targetSection.offsetWidth; 
+            targetSection.classList.add('block', 'section-fade');
+
+            btnElement.classList.add('active');
+
+            const btnText = btnElement.innerText.trim();
+            topTitle.innerText = btnText;
+            mobileTitle.innerText = btnText;
+
+            scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (window.innerWidth < 1024) {
+                closeSidebar();
+            }
+        }
+    </script>
+</body>
+</html>

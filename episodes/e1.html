@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات دوره ویندوز سرور | اپیزود ۱</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Vazirmatn Font -->
+    <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.0/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Vazirmatn', 'sans-serif'] },
+                    colors: {
+                        dark: {
+                            900: '#0B1120',
+                            800: '#1e293b',
+                            700: '#334155'
+                        },
+                        brand: {
+                            light: '#a5b4fc',
+                            DEFAULT: '#6366f1',
+                            dark: '#4f46e5'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #0B1120;
+            color: #e2e8f0;
+            /* Tech background pattern */
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* Smooth Section Transitions */
+        .section-fade {
+            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Beautiful Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B1120; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        /* Typography & Content Styles */
+        .content-box h3 {
+            color: #f8fafc;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .content-box h3::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background-color: #6366f1;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #6366f1;
+        }
+        .content-box p {
+            line-height: 1.9;
+            color: #94a3b8;
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+        .content-box ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1.5rem;
+        }
+        .content-box ul li {
+            position: relative;
+            padding-right: 1.5rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+            color: #cbd5e1;
+        }
+        .content-box ul li::before {
+            content: '\f104'; /* FontAwesome angle-left */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            color: #6366f1;
+            font-size: 0.9rem;
+        }
+        .content-box strong {
+            color: #e2e8f0;
+            background: rgba(255,255,255,0.05);
+            padding: 0 4px;
+            border-radius: 4px;
+        }
+
+        /* Sidebar active state */
+        .nav-btn.active {
+            background: linear-gradient(90deg, rgba(99,102,241,0.15) 0%, transparent 100%);
+            border-right: 4px solid #6366f1;
+            color: #a5b4fc;
+        }
+        .nav-btn {
+            border-right: 4px solid transparent;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Mobile Overlay -->
+    <div id="mobileOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity" onclick="closeSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed inset-y-0 right-0 w-72 bg-dark-800/95 backdrop-blur-xl border-l border-white/10 flex flex-col z-50 transform translate-x-full lg:translate-x-0 transition-transform duration-300 shadow-2xl lg:static lg:shadow-none">
+        <!-- Logo Area -->
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center shadow-lg shadow-teal-500/20 ml-3">
+                <i class="fa-solid fa-layer-group text-white text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-white font-black text-lg">ویندوز سرور</h1>
+                <p class="text-emerald-400 text-xs font-medium">اپیزود ۱ | مدیریت و کلاسترینگ</p>
+            </div>
+            <!-- Mobile Close Button -->
+            <button onclick="closeSidebar()" class="lg:hidden mr-auto text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+            <button onclick="showSection(1, this)" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-sitemap w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۱. سایت، پارتیشن و SYSVOL
+            </button>
+            <button onclick="showSection(2, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-server w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۲. ادیشن‌ها و محیط سرور
+            </button>
+            <button onclick="showSection(3, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-users-gear w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۳. مدیریت OU و پالیسی‌ها
+            </button>
+            <button onclick="showSection(4, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-id-card w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۴. پروفایل کاربران و مانیتورینگ
+            </button>
+            <button onclick="showSection(5, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-trash-can-arrow-up w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۵. کنسول‌ها و Recycle Bin
+            </button>
+        </nav>
+
+        <div class="p-5 border-t border-white/5 bg-black/20">
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+                <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                تمامی مطالب اپیزود ۱ ثبت شده است.
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
+        
+        <!-- Header -->
+        <header class="h-20 bg-dark-900/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6 sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <button onclick="openSidebar()" class="lg:hidden text-slate-300 hover:text-white bg-white/5 p-2 rounded-lg transition-colors">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h2 id="topTitle" class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-white to-slate-400 hidden sm:block">۱. سایت، پارتیشن و SYSVOL</h2>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <span class="bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-full text-xs font-semibold border border-emerald-500/20">
+                    اپیزود ۱
+                </span>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 lg:p-12 relative" id="scrollArea">
+            <div class="max-w-4xl mx-auto content-box pb-24">
+                
+                <!-- Title Header for Mobile -->
+                <h2 id="mobileTitle" class="text-2xl font-bold text-white mb-8 sm:hidden">۱. سایت، پارتیشن و SYSVOL</h2>
+
+                <!-- SECTION 1 -->
+                <div id="section-1" class="section-content section-fade block">
+                    <div class="glass-card p-6 mb-8 border-r-4 border-r-brand">
+                        <p class="mb-0 text-white font-medium">مباحث اپیزود اول روی معماری فیزیکی، همگام‌سازی بین سرورها (Replication) و مدیریت پیشرفته اشیاء متمرکز است.</p>
+                    </div>
+
+                    <h3>نام‌گذاری فارست</h3>
+                    <p>در معماری دامین، نام کل <strong>Forest (فارست)</strong> دقیقاً برابر با نام اولین دامینی است که ساخته می‌شود و به آن Forest Root Domain می‌گویند.</p>
+
+                    <h3>اکتیودایرکتوری سایت (AD Site) و دو کارکرد آن</h3>
+                    <p>مفهوم Site برای مدیریت توپولوژی فیزیکی شبکه استفاده می‌شود و دو وظیفه بسیار مهم دارد:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 mb-6">
+                        <div class="glass-card p-5">
+                            <h4 class="text-emerald-400 font-bold mb-2"><i class="fa-solid fa-location-crosshairs ml-2"></i>Service Localization</h4>
+                            <p class="text-sm text-slate-300">به کلاینت‌ها می‌فهمانیم که برای سرویس گرفتن، باید از DC شعبه لوکال (محلی) خودشان استفاده کنند، نه اینکه بر اساس شبکه، به شعبه دیگری متصل شوند.</p>
+                        </div>
+                        <div class="glass-card p-5">
+                            <h4 class="text-brand-light font-bold mb-2"><i class="fa-solid fa-traffic-light ml-2"></i>Traffic Control</h4>
+                            <p class="text-sm text-slate-300">با سایت‌ها مشخص می‌کنیم که کلاینت‌ها به صورت کنترل‌شده در DCهای مختلف پخش شوند تا بار ترافیکی (حتی در یک شعبه لوکال) بالانس شود.</p>
+                        </div>
+                    </div>
+
+                    <h3>کنترل ترافیک بین شعبات و نماینده‌ها</h3>
+                    <p>در هر سایت یک <strong>نماینده (Bridgehead Server)</strong> داریم. وقتی شعبات می‌خواهند دیتابیس را آپدیت کنند، نماینده‌ها با هم صحبت می‌کنند، نه اینکه تمام DCها با هم ارتباط بگیرند که باعث افت شبکه شود. در کنترل ترافیک، همین نماینده‌ها مشخص می‌کنند که هر چند دقیقه و چندبار با هم ارتباط و همگام‌سازی (Replication) داشته باشند.</p>
+
+                    <h3>پارتیشن‌های اکتیودایرکتوری</h3>
+                    <p>وقتی DCها با هم ارتباط می‌گیرند، ۴ دسته اطلاعات را به هم می‌گویند که به آن‌ها پارتیشن‌های اکتیودایرکتوری گفته می‌شود:</p>
+                    <ol class="list-decimal list-inside text-slate-300 space-y-2 mb-6">
+                        <li><strong>Domain Naming Context:</strong> یا پارتیشن دامین.</li>
+                        <li><strong>Schema Partition:</strong> حاوی ساختار اکتیو دایرکتوری.</li>
+                        <li><strong>Configuration Partition:</strong> تنظیمات مربوط به سایت‌ها و دامین‌ها.</li>
+                        <li><strong>Application Partition:</strong> اطلاعات اپلیکیشن‌های متصل به دامین.</li>
+                    </ol>
+
+                    <h3>پوشه SYSVOL و Replication آن</h3>
+                    <p>وقتی اکتیودایرکتوری را نصب می‌کنیم، پوشه SYSVOL به صورت <strong>خودکار</strong> ایجاد می‌شود. وظیفه این پوشه این است که تمامی <strong>GPOها (Group Policy)</strong> را درون خود سیو کند. این پوشه و پالیسی‌ها بین DCها رد و بدل می‌شوند تا همه‌جا یکسان باشند، که این کار از طریق پروتکل <strong>DFSR</strong> انجام می‌پذیرد.</p>
+                    
+                    <div class="glass-card p-5 mt-4 border-l-4 border-rose-500 bg-rose-500/10">
+                        <h4 class="text-rose-400 font-bold mb-2"><i class="fa-solid fa-triangle-exclamation ml-2"></i>ترابل‌شوتینگ پوشه SYSVOL</h4>
+                        <p class="mb-0 text-sm">اشکالات زیادی ممکن است در پوشه SYSVOL اتفاق بیفتد. مثلاً وقتی یک DC جدید نصب می‌کنید، ممکن است پالیسی‌ها Replicate نشوند. در اینجا ادمین باید با <strong>دیباگ و ترابل‌شوتینگ</strong> مشکل را حل کند تا GPOها روی DC جدید هم اعمال شوند.</p>
+                    </div>
+                </div>
+
+                <!-- SECTION 2 -->
+                <div id="section-2" class="section-content hidden">
+                    <h3>ادیشن‌های (Editions) ویندوز سرور</h3>
+                    <p>مایکروسافت برای ویندوز سرور نسخه‌های مختلفی ارائه کرده است:</p>
+                    <ul>
+                        <li><strong>Datacenter (دیتاسنتر):</strong> کامل‌ترین ادیشن ویندوز است که تمامی رول‌ها و فیچرها را داراست.</li>
+                        <li><strong>Standard (استاندارد):</strong> نسخه پایه‌ای‌تر برای محیط‌هایی که نیاز به مجازی‌سازی سنگین ندارند.</li>
+                        <li><strong>Essential (اسنشیال):</strong> برای شرکت‌های کوچک (در حد ۲۵ یوزر و ۵۰ دیوایس). نکته جالب این است که وقتی نصب می‌شود، خودش اتوماتیک آماده است و اکتیودایرکتوری (DC) را نصب می‌کند و قیمت پایین‌تری دارد.</li>
+                        <li><strong>Multipoint Premium Server:</strong> برای این استفاده می‌شود که اپلیکیشن‌ها را روی این سرور نصب کنیم تا کلاینت‌ها بتوانند به آن ریموت زده و از برنامه‌ها استفاده کنند.</li>
+                        <li><strong>Hyper-V Server:</strong> نسخه‌ای که فقط و فقط رول هایپر-وی را دارد و جز این هیچ چیز دیگری ندارد.</li>
+                    </ul>
+
+                    <div class="glass-card p-6 my-6 border border-brand/30 bg-gradient-to-br from-brand/5 to-transparent relative overflow-hidden">
+                        <i class="fa-brands fa-microsoft absolute -left-4 -top-4 text-7xl text-brand/10 transform -rotate-12"></i>
+                        <h4 class="text-brand-light font-bold mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-bolt"></i>
+                            مزیت طلایی نسخه Datacenter در مجازی‌سازی
+                        </h4>
+                        <p class="text-sm leading-relaxed text-slate-300 mb-0">
+                            نکته بسیار مهم در محیط <strong>Hyper-V</strong> این است: وقتی ویندوز سرور دیتاسنتر نصب و اکتیو (لایسنس‌دار) باشد، شما می‌توانید <strong>نامحدود</strong> ماشین مجازی (Virtual Machine) روی آن بالا بیاورید که همگی به صورت رایگان اکتیو می‌شوند! اما روی ویندوز سرور استاندارد، فقط مجازید <strong>۲ عدد</strong> ماشین مجازی را رایگان و بدون نیاز به لایسنس مجدد بالا بیاورید.
+                        </p>
+                    </div>
+
+                    <h3>محیط‌های POSE و VOSE</h3>
+                    <p>دو محیط اصلی برای اجرای سیستم‌عامل سرور وجود دارد:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 mb-6">
+                        <div class="bg-dark-800 rounded-lg p-4 border border-white/5">
+                            <h4 class="text-white font-bold mb-1">POSE</h4>
+                            <p class="text-sm text-slate-400">ویندوزی که مستقیماً روی سخت‌افزار ما نصب شده است (همان Host اصلی).</p>
+                        </div>
+                        <div class="bg-dark-800 rounded-lg p-4 border border-white/5">
+                            <h4 class="text-white font-bold mb-1">VOSE</h4>
+                            <p class="text-sm text-slate-400">ویندوزهایی که به صورت ویرچوال (مجازی) نصب شده‌اند و با استفاده از Hardware Virtualization منابع به آن‌ها تخصیص داده شده است.</p>
+                        </div>
+                    </div>
+
+                    <h3>محیط کاربری (GUI در برابر Server Core)</h3>
+                    <p>ما معمولاً با ویندوز سرور دیتاسنتر کار می‌کنیم. دسکتاپ (یا همان GUI) به شدت منابع سرور را مصرف می‌کند. به همین دلیل ما از محیط <strong>Core</strong> (بدون گرافیک) استفاده می‌کنیم.</p>
+                    <p><strong>استراتژی کانفیگ:</strong> همه سرورها را Core نصب می‌کنیم. سپس فقط <strong>یک سرور GUI</strong> راه‌اندازی می‌کنیم تا از طریق همان یک سرور، تمامی سرورهای Core را کانفیگ و مدیریت کنیم. البته باید توجه داشت که نسخه Core یک‌سری رول‌های محدود را ساپورت نمی‌کند که تعدادشان واقعاً زیاد نیست و مشکلی ایجاد نمی‌کند.</p>
+                </div>
+
+                <!-- SECTION 3 -->
+                <div id="section-3" class="section-content hidden">
+                    <h3>مدیریت با OU و Container</h3>
+                    <p>برای کنترل خیلی بهتر یوزرها در AD DS، <strong>OU (Organizational Unit)</strong> های جداگانه می‌سازیم (برای مثال OU مالی، اداری، مدیران).</p>
+                    <p><strong>معیارهای ساخت OU:</strong> ساختارهای سازمانی معمولاً بر این سه اساس ساخته می‌شوند:</p>
+                    <ol class="list-decimal list-inside text-slate-300 space-y-1 mb-4">
+                        <li>Function (عملکرد/وظیفه)</li>
+                        <li>Location (موقعیت جغرافیایی/شعبه)</li>
+                        <li>Organization (ساختار سازمانی)</li>
+                    </ol>
+                    <p><strong>تفاوت کلیدی:</strong> به OUها <strong>مستقیماً</strong> می‌شود گروپ پالیسی (GPO) اعمال کرد، ولی به کانتینر (Container) خیر! نکته مهم اینجاست که وقتی کامپیوتری عضو دامین می‌شود، خودکار در کانتینری به نام <code>Computers</code> عضو می‌شود (که GPO مستقیمی نمی‌گیرد) تا زمانی که آن را به OU مدنظرمان منتقل کنیم.</p>
+
+                    <h3>پسوردها و ورود Administrator</h3>
+                    <p>پسوردهای دامین به صورت پیش‌فرض <strong>کامپلکس (پیچیده)</strong> هستند و باید حداقل <strong>۷ رقمی</strong> باشند.</p>
+                    <p>وقتی در کادر Sign-in عبارت <code>Administrator</code> را می‌نویسیم، سیستم آن را به عنوان <strong>لوکال ادمین</strong> در نظر می‌گیرد؛ مگر اینکه با روش‌های نام‌گذاری دامین مثل استفاده از <code>@</code> یا <code>\</code> وارد ادمین دامین شویم. البته به خاطر مسائل <strong>هاردنینگ (Hardening)</strong> و امن‌سازی، حتماً باید این اسم‌های پیش‌فرض را تغییر دهیم.</p>
+
+                    <h3>محدودیت لاگین (Log On To) و چالش اپلیکیشن‌ها</h3>
+                    <p>در بخش Properties یوزر، در کادر <strong>Log On To</strong> می‌توانیم محدود کنیم که این یوزر فقط در کدام کامپیوترها و با چه آی‌پی‌هایی امکان لاگین دارد (این لیست می‌تواند شامل چند آی‌پی باشد).</p>
+                    <div class="glass-card p-4 mt-2 border-r-4 border-amber-500 bg-amber-500/10">
+                        <p class="mb-0 text-sm"><strong>نکته عملیاتی:</strong> به علت مشکلات Authentication در بعضی از <em>اپلیکیشن‌های درپیت (غیراستاندارد)</em>، گاهی مجبور می‌شویم آدرس <strong>خود سرور</strong> را هم در کادر Log On To وارد کنیم تا یوزر بتواند از آن اپلیکیشن‌ها که روی سرورها قرار دارند استفاده کند!</p>
+                    </div>
+
+                    <h3 class="mt-8">مدیریت اسکیما (Schema)</h3>
+                    <p>برای دسترسی به اسکیما، بعد از زدن کامند/DLL مربوطه در کادر Run، می‌توانیم با کنسول <strong>MMC</strong> وارد Schema Manager بشویم. باید بدانید که اشیاء داخل اسکیما <strong>هرگز پاک نمی‌شوند</strong>، بلکه در صورت نیاز فقط <strong>غیرفعال (Disable)</strong> می‌شوند.</p>
+
+                    <h3>پروتکل LDAP</h3>
+                    <p>پروتکل <strong>LDAP</strong> پروتکلی است که قالب و نحوه قرارگیری اطلاعات در دیتابیس دایرکتوری را مشخص می‌کند و استانداردی برای تبادل اطلاعات با اکتیودایرکتوری است.</p>
+                </div>
+
+                <!-- SECTION 4 -->
+                <div id="section-4" class="section-content hidden">
+                    <h3>رومینگ پروفایل (Roaming Profile)</h3>
+                    <p>رومینگ پروفایل برای این است که دسکتاپ و تنظیمات کاربر در شبکه همراهش باشد. نحوه راه‌اندازی آن به این شکل است:</p>
+                    <ol class="list-decimal list-inside text-slate-300 space-y-2 mb-4">
+                        <li>ابتدا فولدری را در File Server شیر (Share) می‌کنیم.</li>
+                        <li>به Properties یک یوزر رفته و در تب Profile، در قسمت <strong>Path</strong>، آدرس تحت شبکه آن سرور و فولدر و ساب‌فولدرها را می‌زنیم.</li>
+                    </ol>
+                    <div class="glass-card p-4 my-4 border-l-4 border-teal-500 bg-teal-500/10">
+                        <p class="mb-0 text-sm"><strong>ترفند نام‌گذاری:</strong> اگر خواستیم سرور به صورت خودکار به اسم همان یوزر پوشه بسازد، در انتهای مسیر از متغیر <code>%username%</code> استفاده می‌کنیم.</p>
+                    </div>
+                    <p>نکته مهم این است که رومینگ پروفایل، <strong>هم روی سیستم لوکال</strong> کش می‌شود و <strong>هم روی لوکیشنی</strong> که ما روی سرور تعریف کرده‌ایم قرار دارد.</p>
+
+                    <h3>جابجایی پوشه‌ها (Folder Redirection)</h3>
+                    <p>رومینگ پروفایل گاهی می‌تواند باعث کندی شبکه شود. با قابلیت <strong>Folder Redirection</strong> می‌توانیم تعریف کنیم که <em>کل</em> پروفایل کاربر را نبرد، بلکه فقط داکیومنت‌ها، فولدر دسکتاپ یا موارد این‌چنینی به سمت سرور هدایت شوند.</p>
+
+                    <h3>مانیتورینگ اکتیودایرکتوری</h3>
+                    <div class="bg-dark-800 rounded-lg p-5 border border-brand/20 mt-6 flex items-center gap-4">
+                        <i class="fa-solid fa-chart-line text-4xl text-brand"></i>
+                        <div>
+                            <h4 class="text-white font-bold mb-1">ابزار ADAudit Plus</h4>
+                            <p class="text-sm text-slate-400">نرم‌افزار <strong>ManageEngine ADAudit Plus</strong> یک ابزار فوق‌العاده حرفه‌ای و کارآمد برای مانیتورینگ دقیق تغییرات و حسابرسی در اکتیودایرکتوری است.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 5 -->
+                <div id="section-5" class="section-content hidden">
+                    <h3>کنسول ADAC و اهمیت Recycle Bin</h3>
+                    <p>ما علاوه بر کنسول سنتی، یک کنسول جدیدتر به نام <strong>ADAC (Active Directory Administrative Center)</strong> هم داریم که قابلیت‌های مضاعفی در مدیریت به ما می‌دهد.</p>
+                    <p>یکی از این قابلیت‌ها، فعال‌سازی <strong>Recycle Bin (سطل زباله اکتیودایرکتوری)</strong> است که فعال کردنش <em>خیلی مهم</em> است. وقتی فعال شود، هر آبجکتی که پاک بشود را تا <strong>۱۸۰ روز</strong> نگه می‌دارد.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+                        <div class="glass-card p-5 border-l-4 border-emerald-500">
+                            <h4 class="text-emerald-400 font-bold mb-2">بازگردانی با Recycle Bin</h4>
+                            <p class="text-sm text-slate-300">با استفاده از Recycle Bin، اگر آبجکتی را بازگردانی کنیم، <strong>همه‌چیز کامل برمی‌گردد</strong> و هیچ اطلاعاتی از دست نمی‌رود.</p>
+                        </div>
+                        <div class="glass-card p-5 border-l-4 border-rose-500">
+                            <h4 class="text-rose-400 font-bold mb-2">بازگردانی با Tombstone</h4>
+                            <p class="text-sm text-slate-300">اگر سطل آشغال را فعال نکرده باشیم، مجبوریم با قابلیتی به نام <strong>Tombstone</strong> آبجکت‌ها را برگردانیم. عیب بزرگش این است که اگر با آن برگردانیم، <strong>تمامی Attributeها از بین می‌روند!</strong></p>
+                        </div>
+                    </div>
+
+                    <h3>قابلیت جستجوی پیشرفته (Query)</h3>
+                    <p>در اکتیودایرکتوری قابلیتی به اسم <strong>Query</strong> داریم که با آن می‌توانیم سرچ‌های دقیق و هوشمندانه‌ای انجام بدهیم. برای مثال می‌توانیم جستجو کنیم:</p>
+                    <ul class="list-disc pl-5">
+                        <li>وضعیت اکانت‌ها: Enable / Disable Accounts</li>
+                        <li>زمان آخرین ورود: Last Log On Days</li>
+                        <li>وضعیت پسورد: Password Never Expire</li>
+                    </ul>
+
+                    <h3>مدیریت از راه دور با MMC و Server Manager</h3>
+                    <p>برای مدیریت سرورها از راه دور، ابزارهای متمرکزی داریم:</p>
+                    <div class="bg-dark-800 rounded-lg p-5 border border-white/5 my-4">
+                        <h4 class="text-white font-bold mb-2 text-sm flex items-center gap-2"><i class="fa-solid fa-desktop text-brand-light"></i> مدیریت با کنسول MMC</h4>
+                        <p class="text-sm text-slate-400 mb-0">با قابلیت <code>On Another PC</code> در کنسول MMC می‌توانیم از راه دور، یک سرور DC یا کامپیوتر دیگر را به کنسول خود اضافه کرده و مدیریت کنیم.</p>
+                    </div>
+                    <div class="bg-dark-800 rounded-lg p-5 border border-white/5">
+                        <h4 class="text-white font-bold mb-2 text-sm flex items-center gap-2"><i class="fa-solid fa-server text-emerald-400"></i> مدیریت در Server Manager</h4>
+                        <p class="text-sm text-slate-400 mb-0">همان‌طور که قبلاً گفته شد، ما با اضافه کردن سرورها از قسمت <code>All Servers</code> در Server Manager، می‌توانیم تمام سرورهای Core شبکه را با یک سرور دارای GUI، به صورت متمرکز کانفیگ کنیم.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+        const topTitle = document.getElementById('topTitle');
+        const mobileTitle = document.getElementById('mobileTitle');
+        const scrollArea = document.getElementById('scrollArea');
+
+        // Toggle Sidebar for mobile
+        function openSidebar() {
+            sidebar.classList.remove('translate-x-full');
+            overlay.classList.remove('hidden');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('translate-x-full');
+            overlay.classList.add('hidden');
+        }
+
+        // Section navigation logic
+        function showSection(sectionNumber, btnElement) {
+            // 1. Hide all sections
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.classList.remove('block', 'section-fade');
+                el.classList.add('hidden');
+            });
+
+            // 2. Remove active class from all buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // 3. Show selected section with animation
+            const targetSection = document.getElementById('section-' + sectionNumber);
+            targetSection.classList.remove('hidden');
+            // Trigger reflow to restart animation
+            void targetSection.offsetWidth;
+            targetSection.classList.add('block', 'section-fade');
+
+            // 4. Activate clicked button
+            btnElement.classList.add('active');
+
+            // 5. Update titles
+            const btnText = btnElement.innerText.trim();
+            topTitle.innerText = btnText;
+            mobileTitle.innerText = btnText;
+
+            // 6. Scroll to top smoothly
+            scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // 7. Close sidebar on mobile
+            if (window.innerWidth < 1024) {
+                closeSidebar();
+            }
+        }
+    </script>
+</body>
+</html>

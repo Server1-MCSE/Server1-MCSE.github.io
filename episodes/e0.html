@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات دوره ویندوز سرور</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Vazirmatn Font -->
+    <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.0/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    
+    <!-- FontAwesome Icons (No JS required for rendering, instant preview) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Vazirmatn', 'sans-serif'] },
+                    colors: {
+                        dark: {
+                            900: '#0B1120',
+                            800: '#1e293b',
+                            700: '#334155'
+                        },
+                        brand: {
+                            light: '#a5b4fc',
+                            DEFAULT: '#6366f1',
+                            dark: '#4f46e5'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #0B1120;
+            color: #e2e8f0;
+            /* Tech background pattern */
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* Smooth Section Transitions */
+        .section-fade {
+            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Beautiful Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B1120; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        /* Typography & Content Styles */
+        .content-box h3 {
+            color: #f8fafc;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .content-box h3::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background-color: #6366f1;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #6366f1;
+        }
+        .content-box p {
+            line-height: 1.9;
+            color: #94a3b8;
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+        .content-box ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1.5rem;
+        }
+        .content-box ul li {
+            position: relative;
+            padding-right: 1.5rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+            color: #cbd5e1;
+        }
+        .content-box ul li::before {
+            content: '\f104'; /* FontAwesome angle-left */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            color: #6366f1;
+            font-size: 0.9rem;
+        }
+        .content-box strong {
+            color: #e2e8f0;
+            background: rgba(255,255,255,0.05);
+            padding: 0 4px;
+            border-radius: 4px;
+        }
+
+        /* Sidebar active state */
+        .nav-btn.active {
+            background: linear-gradient(90deg, rgba(99,102,241,0.15) 0%, transparent 100%);
+            border-right: 4px solid #6366f1;
+            color: #a5b4fc;
+        }
+        .nav-btn {
+            border-right: 4px solid transparent;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+        }
+    </style>
+</head>
+<body class="font-sans flex h-screen overflow-hidden">
+
+    <!-- Mobile Overlay -->
+    <div id="mobileOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity" onclick="closeSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed inset-y-0 right-0 w-72 bg-dark-800/95 backdrop-blur-xl border-l border-white/10 flex flex-col z-50 transform translate-x-full lg:translate-x-0 transition-transform duration-300 shadow-2xl lg:static lg:shadow-none">
+        <!-- Logo Area -->
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-brand-dark flex items-center justify-center shadow-lg shadow-brand/20 ml-3">
+                <i class="fa-brands fa-windows text-white text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-white font-black text-lg">ویندوز سرور</h1>
+                <p class="text-brand-light text-xs font-medium">اپیزود صفر | مستندات کامل</p>
+            </div>
+            <!-- Mobile Close Button -->
+            <button onclick="closeSidebar()" class="lg:hidden mr-auto text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+            <button onclick="showSection(1, this)" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-server w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۱. مفاهیم پایه و دامین
+            </button>
+            <button onclick="showSection(2, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-shield-halved w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۲. احراز هویت و دسترسی‌ها
+            </button>
+            <button onclick="showSection(3, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-sitemap w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۳. ساختار نام‌گذاری و فارست
+            </button>
+            <button onclick="showSection(4, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-database w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۴. ساختار درونی و DNS
+            </button>
+            <button onclick="showSection(5, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-network-wired w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۵. قوانین عضویت و پروتکل‌ها
+            </button>
+            <button onclick="showSection(6, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-gear w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۶. راه‌اندازی و دیتابیس
+            </button>
+        </nav>
+
+        <div class="p-5 border-t border-white/5 bg-black/20">
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+                <i class="fa-solid fa-circle-info text-brand"></i>
+                تمامی مطالب بدون خلاصه‌سازی درج شده است.
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
+        
+        <!-- Header -->
+        <header class="h-20 bg-dark-900/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6 sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <button onclick="openSidebar()" class="lg:hidden text-slate-300 hover:text-white bg-white/5 p-2 rounded-lg transition-colors">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h2 id="topTitle" class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-white to-slate-400 hidden sm:block">۱. مفاهیم پایه و دامین</h2>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <span class="bg-brand/10 text-brand-light px-3 py-1 rounded-full text-xs font-semibold border border-brand/20">
+                    دوره آموزشی
+                </span>
+            </div>
+        </header>
+
+        <!-- Scrollable Article Area -->
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 lg:p-12 relative" id="scrollArea">
+            <div class="max-w-4xl mx-auto content-box pb-24">
+                
+                <!-- Title Header for Mobile -->
+                <h2 id="mobileTitle" class="text-2xl font-bold text-white mb-8 sm:hidden">۱. مفاهیم پایه و دامین</h2>
+
+                <!-- SECTION 1 -->
+                <div id="section-1" class="section-content section-fade block">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand">
+                        <p class="mb-0 text-white font-medium">این دوره، دروازه ورود به دنیای مدیریت شبکه‌های سازمانی است. ابتدا سیلابس‌ها و نقشه راه (Roadmap) را بررسی می‌کنیم.</p>
+                    </div>
+
+                    <h3>مسیرهای تخصصی مایکروسافت (Azure)</h3>
+                    <p>در این دوره جزئیات آزمون‌های <strong>Microsoft Azure</strong> معرفی می‌شود. این آزمون‌ها برای علاقه‌مندانی است که قصد دارند پس از اتمام دوره‌های «ویندوز سرور ۳» دانش خود را به‌روز کرده و بدانند برای ورود به این حوزه کلاد چه آزمون‌هایی را باید پشت سر بگذارند.</p>
+
+                    <h3>دامین چیست و چه تفاوتی با ورک‌گروپ دارد؟</h3>
+                    <p>در شبکه‌های <strong>Workgroup (ورک‌گروپ)</strong> همه چیز غیرمتمرکز (لوکالی) است؛ یعنی برای کارهایی مثل افزودن کاربر و دسترسی‌ها باید تک‌تک روی هر سیستم این کار را انجام دهیم.</p>
+                    <p>اما <strong>دامین (Domain)</strong> یک مرز منطقی است که تمامی این عملیات‌ها را متمرکز می‌کند. مجموعه‌ای از کامپیوترها که تحت مدیریت مرکزی یک سرور هستند و دایرکتوری مشترکی با آن سرور دارند. نماد دامین در نقشه‌های شبکه معمولاً یک <strong>مثلث</strong> است.</p>
+
+                    <h3>راه‌اندازی دامین، AD DS و دایرکتوری</h3>
+                    <p>ویندوز سرور شامل دو بخش Role (نقش) و Feature (ویژگی) است که در مجموع ۲۱ رول اصلی دارد. برای راه‌اندازی دامین، باید روی یک ویندوز سرور، رول <strong>AD DS (Active Directory Domain Services)</strong> را نصب کنیم.</p>
+                    <ul>
+                        <li><strong>دایرکتوری:</strong> دقیقاً مثل یک دفترچه تلفن عمل می‌کند؛ اطلاعاتی را در آن می‌گذارید و در زمان نیاز برمی‌دارید.</li>
+                        <li><strong>DC (Domain Controller):</strong> سروری که رول AD DS روی آن نصب شده و مدیر دامین است (که یک ساختار لاجیکال است).</li>
+                        <li><strong>عضویت:</strong> در شبکه این کامپیوترها هستند که عضو دامین می‌شوند نه یوزرها. اما یک سیستم عضو می‌تواند از دامین‌های دیگر هم در صورت وجود مجوز استفاده کند.</li>
+                    </ul>
+
+                    <h3>پایگاه داده SAM در برابر دامین</h3>
+                    <p>کاربران عادی و سیستم‌های کلاینت دارای فایلی به نام <strong>SAM</strong> هستند که اطلاعات محلی در آن ذخیره می‌شود. اما سرور DC به هیچ‌عنوان SAM ندارد و مدیریت در سطح دایرکتوری انجام می‌شود.</p>
+                </div>
+
+                <!-- SECTION 2 -->
+                <div id="section-2" class="section-content hidden">
+                    <h3>قابلیت جذاب SSO (Single Sign-On)</h3>
+                    <p>با استفاده از مکانیزم SSO می‌توانیم بدون نیاز به وارد کردن مجدد یوزر و پسورد، در سرورهایی که داخل یک DC هستند کار کنیم. کاربری که در دامین ساخته می‌شود، هر جای شبکه که مجوز (Permission) داشته باشد می‌تواند بدون لاگین مجدد وارد شود.</p>
+
+                    <h3>وضعیت‌های یک ویندوز سرور</h3>
+                    <p>یک ویندوز سرور همیشه در یکی از این سه حالت قرار دارد:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-6 text-sm">
+                        <div class="glass-card p-4 text-center">
+                            <i class="fa-solid fa-crown text-amber-400 text-2xl mb-2"></i>
+                            <h4 class="text-white font-bold">Domain Controller</h4>
+                            <p class="text-slate-400 mt-1">مدیر اصلی شبکه (DC)</p>
+                        </div>
+                        <div class="glass-card p-4 text-center">
+                            <i class="fa-solid fa-users text-brand-light text-2xl mb-2"></i>
+                            <h4 class="text-white font-bold">Member Server</h4>
+                            <p class="text-slate-400 mt-1">عضو دامین تحت فرمان DC</p>
+                        </div>
+                        <div class="glass-card p-4 text-center">
+                            <i class="fa-solid fa-user-astronaut text-slate-400 text-2xl mb-2"></i>
+                            <h4 class="text-white font-bold">Stand Alone</h4>
+                            <p class="text-slate-400 mt-1">قرار گرفته در ساختار ورک‌گروپ</p>
+                        </div>
+                    </div>
+
+                    <h3>مفهوم FQDN و محدودیت کلاینت‌ها</h3>
+                    <p>شبکه ورک‌گروپ اسمی فلت و تک‌قسمتی دارد، اما دامین حتماً باید حداقل دو قسمتی باشد (مثل <code>Gam.local</code> یا <code>Network.ir</code>). کامپیوترهای عضو دامین باید اسم یونیک (منحصربه‌فرد) داشته باشند. بعد از جوین شدن، ساختار نام آن‌ها <strong>FQDN</strong> می‌شود (مانند <code>ComputerName.Gam.Local</code>).</p>
+                    <p>در یک دامین می‌توان کامپیوتر نامحدود اضافه کرد، اما توصیه مایکروسافت (Recommend) این است که با ساخت یک DC، حتماً یک کپی هم از آن (برای redundancy) بسازیم.</p>
+
+                    <h3>گروه‌های کاربری و پرمیشن‌ها</h3>
+                    <ul>
+                        <li>یوزرهایی که در DC ساخته می‌شوند اتوماتیک عضو <strong>Domain Users</strong> می‌شوند که هیچ ویژگی اضافه‌ای نسبت به گروه Users ندارد و پرمیشن‌هایشان یکی است. این یوزرها اتوماتیک روی کلاینت‌ها به عنوان User ست می‌شوند.</li>
+                        <li><strong>Domain Admins:</strong> کاربرانی که روی تمامی سیستم‌های DC و خود سرور ادمین هستند.</li>
+                    </ul>
+
+                    <h3>محدودیت لاگین و Cached Credentials</h3>
+                    <p>ما می‌توانیم یوزر را محدود کنیم که فقط روی یک سیستم خاص بشیند، یا روی هر سیستمی که خواست بنشیند ولی همزمان فقط یک نفر بتواند لاگین کند.</p>
+                    <div class="glass-card p-5 mt-4 border-l-4 border-emerald-500">
+                        <h4 class="text-emerald-400 font-bold mb-2"><i class="fa-solid fa-memory ml-2"></i>مزیت SAM و Cached Credentials</h4>
+                        <p class="mb-0 text-sm">مزیت فایل SAM روی سیستم‌های عادی این است که اگر DC بترکد، می‌توانیم لوکالی لاگین کنیم. وقتی کلاینت چندبار با DC ارتباط بگیرد، قابلیتی به نام <strong>Cash Credentials</strong> اطلاعات را آفلاین می‌کند تا اگر DC از مدار خارج شد، سیستم مختل نشود. این قابلیت قابل غیرفعال‌سازی است و تعداد محدودی (نامحدود نیست) پسورد را کش می‌کند.</p>
+                    </div>
+
+                    <h3>لاگین لوکالی روی کلاینت عضو دامین</h3>
+                    <p>اگر کامپیوتری عضو دامین است بخواهد در یوزر لوکال خودش وارد شود، باید قبل از اسم از عبارت <code>.\</code> استفاده کند. ادمین شبکه باید با ابزار مانیتورینگ چک کند که کاربری که عضو دامین است چرا باید نیاز به لاگین لوکالی پیدا کند؟ این موضوعات امنیتی باید بررسی شود.</p>
+                </div>
+
+                <!-- SECTION 3 -->
+                <div id="section-3" class="section-content hidden">
+                    <h3>ساختارهای ورود به سیستم</h3>
+                    <p>نام‌گذاری و ورود به سیستم در ساختارهای مختلف متفاوت است:</p>
+                    <div class="bg-dark-800 rounded-lg p-5 border border-white/5 my-5">
+                        <ul class="mb-0">
+                            <li><strong>UPN Suffix:</strong> با فرمت <code>UserName@DomainName</code> (مثل <code>Ali@Gam.Local</code>). کاربردش برای سیستم‌هایی است که نمی‌فهمند قصد لاگین در دامین را داریم.</li>
+                            <li><strong>Pre-Windows 2000:</strong> با فرمت <code>Domain\User</code> (مثل <code>Gam\Ali</code>).</li>
+                            <li><strong>Local Login:</strong> وقتی لوکالی بخواهیم لاگین کنیم با فرمت <code>PC1\Ali</code> وارد می‌شویم.</li>
+                        </ul>
+                    </div>
+
+                    <h3>ترفند استفاده از Help Desk</h3>
+                    <p>مزیت وجود دیتابیس SAM در کلاینت‌ها این است که به جای اینکه بیاییم به هلپ‌دسک بدبخت و بیچاره دسترسی خطرناک <strong>Domain Admin</strong> بدهیم، می‌توانیم یوزر دامین او را فقط روی کلاینت مدنظر به صورت <strong>لوکالی ادمین</strong> کنیم تا اگر کار کانفیگی بود به راحتی انجام دهد.</p>
+
+                    <h3>Forest (جنگل) چیست؟</h3>
+                    <p>فارست به مجموعه‌ای از یک یا چند دامین گفته می‌شود که دارای <strong>اسکیما (Schema)</strong> و <strong>GC</strong> مشترک باشند. به محض اینکه یک دامین درست می‌کنید، بلافاصله فارست نیز درست می‌شود. اولین دامینی که در یک فارست ساخته می‌شود <strong>Forest Root Domain</strong> نام دارد.</p>
+
+                    <h3>Trust و اشتراک‌گذاری منابع</h3>
+                    <p>شرکت‌های مختلف دامین‌های مختلفی دارند. وقتی دامین‌ها در ساختار <strong>Child و Parent</strong> هستند، با دادن پرمیشن می‌توان منابعشان را به اشتراک گذاشت. این قابلیت توسط مکانیزمی به نام <strong>Trust (اعتماد)</strong> رخ می‌دهد که در برخی جاها خودکار است و در برخی موارد باید تعریف شود.</p>
+                    <p>مسیری که یک یوزر طی می‌کند تا به منبع در دامین دیگر برسد (بدون اینکه لازم باشد یوزر را مجدداً بسازیم)، اصطلاحاً <strong>Trust Path</strong> نامیده می‌شود.</p>
+
+                    <div class="glass-card p-4 mt-6 border-r-4 border-rose-500 bg-rose-500/10">
+                        <h4 class="text-rose-400 font-bold"><i class="fa-solid fa-crown ml-2"></i>گروه Enterprise Admin</h4>
+                        <p class="mb-0 text-sm text-slate-300 mt-2">این گروه قدرتمند فقط روی Forest Root Domain قرار دارد اما می‌تواند درون <strong>تمامی دامین‌ها</strong> هر کاری انجام دهد.</p>
+                    </div>
+                </div>
+
+                <!-- SECTION 4 -->
+                <div id="section-4" class="section-content hidden">
+                    <h3>گلوبال کاتالوگ (GC) چیست؟</h3>
+                    <p>سرور GC مخفف <strong>Global Catalog</strong> یک Domain Controller است که نسبت به دامین خودش اطلاعات کامل و دقیق دارد، اما نسبت به DCهای دامین‌های دیگر فقط اطلاعاتی کلی در اختیار دارد. GC نمی‌داند که پرمیشن دسترسی وجود دارد یا نه، بلکه فقط راهنمایی می‌کند که "همچین چیزی هست، از این مسیر برو".</p>
+                    <p>به صورت پیش‌فرض اولین DCای که نصب می‌کنید نقش GC را نیز دارد. باید دقت داشت که سرورهای GC خیلی از پهنای باند شبکه استفاده می‌کنند.</p>
+
+                    <h3>اسکیما (Schema) چیست؟</h3>
+                    <p>اسکیما <strong>شاسی اکتیودایرکتوری</strong> است. تمام تب‌های Properties یک یوزر که در شبکه مشترک هستند، درون اسکیما تعریف شده‌اند. نکته به‌شدت مهم این است که اگر اسکیما را تغییر دهیم، این تغییر در کل دامین‌های آن Forest اِعمال می‌شود.</p>
+                    <ul>
+                        <li><strong>Principal Object:</strong> به هر یوزر، کامپیوتر یا گروهی که دارای SID (شناسه یکتا) باشند می‌گویند که منحصر‌به‌فرد هستند.</li>
+                    </ul>
+
+                    <div class="glass-card p-6 my-6 border border-brand/30 bg-gradient-to-br from-brand/5 to-transparent relative overflow-hidden">
+                        <i class="fa-solid fa-magnifying-glass absolute -left-4 -top-4 text-7xl text-brand/10 transform -rotate-12"></i>
+                        <h4 class="text-brand-light font-bold mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-search"></i>
+                            پاسخ به جستجو: Active Directory Site چیست؟
+                        </h4>
+                        <p class="text-sm leading-relaxed text-slate-300 mb-0">
+                            در حالی که دامین ساختار منطقی (Logical) شبکه را تعیین می‌کند، <strong>سایت (Site) ساختار فیزیکی (Physical)</strong> شبکه شما را نشان می‌دهد. سایت شامل یک یا چند ساب‌نت (Subnet) است که ارتباط شبکه‌ای سریع با هم دارند. ما از سایت استفاده می‌کنیم تا ترافیک لاگین و Replication دیتابیس را بین شعبات مختلف فیزیکی شرکت (که ممکن است پهنای باند ضعیفی داشته باشند) مدیریت کنیم تا کلاینت‌ها همیشه به نزدیک‌ترین سرور فیزیکی خود متصل شوند.
+                        </p>
+                    </div>
+
+                    <h3>ارتباط حیاتی DNS و اکتیودایرکتوری</h3>
+                    <p>روی سروری که رول AD DS نصب می‌کنیم اگر DNS نباشد مطلقاً کار نمی‌کند، <strong>نصب آن حتماً نیاز است</strong>. سیستمی که می‌خواهد جوین دامین بشود اگر آدرس DNS نداشته باشد اصلاً نمی‌تواند دامین را پیدا کند.</p>
+                    <p>این DNS است که می‌گوید کدام سیستم سرور DC یا GC است. چون معمولاً در کنار هم نصب می‌شوند، آی‌پی DNS کلاینت‌ها دقیقاً همان آی‌پی خود سرور DC تنظیم می‌شود.</p>
+
+                    <h3>تفکر اشتباه در مورد انتخاب DC توسط کلاینت</h3>
+                    <p>بر فرض مثال اگر ۲ تا DC داشته باشیم و بخواهیم کلاینت سراغ DC دوم برود، همه می‌گویند اگر آی‌پی DNS 2 را در کارت شبکه بدهی حتماً سراغ همان می‌رود. <strong>ولی این تفکر اشتباه است.</strong> وقتی درخواست به سمت DNS می‌رود، DNS کاملاً <strong>رندوم</strong> یک DC را به کلاینت معرفی می‌کند. البته با تنظیماتی (مثل همان Sites) می‌توان کاری کرد که خودکار نباشد و با خواست ما پیش برود.</p>
+
+                    <h3>دسترسی به اینترنت (Forwarder)</h3>
+                    <p>وقتی در کلاینت قصد استفاده از اینترنت را دارید، DNS دامین شما آدرس اینترنتی را نمی‌داند. هیچ‌وقت نباید در DNS داخلی سازمان چیزی غیر از رکوردهای داخلی ثبت شود. برای حل این مشکل، بعداً سرویس <strong>Forwarder</strong> را اوکی می‌کنیم تا به سرور بگوییم: "اگر آدرس و آی‌پی‌ای آمد که روی دیتابیس تو نبود، بفرستش یک سمت دیگه (سمت سرورهای اینترنت)".</p>
+
+                    <p>نکته پایانی نصب: به ازای هر رول مهم، باید یک ویندوز سرور نصب بشود؛ نه اینکه ۱۰ تا رول را همزمان روی یک سرور بریزیم.</p>
+                </div>
+
+                <!-- SECTION 5 -->
+                <div id="section-5" class="section-content hidden">
+                    <h3>شرایط و قوانین Join شدن</h3>
+                    <p>جوین کردن یک سیستم از حالت ورک‌گروپ به دامین دارای شرایط زیر است:</p>
+                    <ul>
+                        <li>کاربر حتماً باید روی سیستمی که می‌خواهد جوین کند، <strong>لوکالی ادمین</strong> باشد. یوزر عادی نمی‌تواند این کار را بکند.</li>
+                        <li>یک <strong>یوزر عادی دامین</strong> می‌تواند تا حداکثر <strong>۱۰ بار</strong> سیستم جوین کند (که با تریک‌هایی می‌شود بیشترش کرد).</li>
+                        <li>اما یوزری که <strong>Domain Admin</strong> باشد، می‌تواند سیستم‌ها را به صورت <strong>نامحدود</strong> اضافه کند.</li>
+                    </ul>
+
+                    <h3>پروتکل کربروس (Kerberos): سگ سه‌سر</h3>
+                    <p>پروتکل احراز هویت در شبکه‌های دامین توسط <strong>کربروس ورژن ۵</strong> اتفاق می‌افتد (کربروس نام سگ سه‌سر در اساطیر است). این پروتکل امنیتی فقط مخصوص محصولات مایکروسافت نیست و در سیستم‌عامل‌های دیگر نیز استفاده می‌شود.</p>
+                    <p>در زمان‌های قدیم، به جای کربروس از پروتکل <strong>NTLM (NT Lan Management)</strong> استفاده می‌شد.</p>
+
+                    <h3>ارتباط دامین با سیستم‌های ورک‌گروپ</h3>
+                    <p>ساختار دامین، مانع ارتباط یک سیستم ورک‌گروپ با دامین یا بالعکس نمی‌شود. تفاوت در این است که چون <strong>SSO ندارد</strong>، در این شرایط برای برقراری ارتباط صرفاً کادر درخواست یوزر و پسورد ظاهر می‌شود.</p>
+
+                    <h3>تفاوت مدل‌های RW و RO در سرورها</h3>
+                    <p>در شبکه‌های اکتیودایرکتوری ما دو مدل Domain Controller داریم:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+                        <div class="glass-card p-5 border-l-4 border-indigo-500">
+                            <h4 class="text-indigo-400 font-bold mb-2">مدل RW (Read/Write)</h4>
+                            <p class="text-sm text-slate-300">در این سرور اصلی می‌توانیم پرینسیپال‌ها (یوزر، گروه) را بسازیم، ویرایش کنیم و در دیتابیس تغییرات بدهیم.</p>
+                        </div>
+                        <div class="glass-card p-5 border-l-4 border-rose-500">
+                            <h4 class="text-rose-400 font-bold mb-2">مدل RO (Read-Only)</h4>
+                            <p class="text-sm text-slate-300">سرور RODC فقط سرویس ارائه می‌دهد و هیچ تغییری در دیتابیس نمی‌تواند بدهد. برای امنیت بیشتر، در شبکه‌ها و شعباتی که امنیتشان کمتر است و امکان نفوذ یا سرقت فیزیکی سرور وجود دارد، از این مدل استفاده می‌کنیم.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 6 -->
+                <div id="section-6" class="section-content hidden">
+                    <h3>انتخاب نسخه سیستم‌عامل</h3>
+                    <p>برای راه‌اندازی دامین ترجیحاً استیبل‌ترین ورژن و آپدیت را می‌ریزیم. حداقل <strong>۶ ماه</strong> از آخرین آپدیت گذشته باشد تا باگ خیلی زیادی نداشته باشد. البته برای محیط تست خیلی این چیزها را در نظر نمی‌گیریم.</p>
+                    
+                    <div class="glass-card p-5 my-6">
+                        <h4 class="text-white font-bold mb-4 border-b border-white/10 pb-2">بیس (Base) ویندوزهای سرور و کلاینت</h4>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+                            <div class="text-slate-400">Windows XP</div><div class="text-brand-light font-bold">Windows Server 2003</div>
+                            <div class="text-slate-400">Windows 7</div><div class="text-brand-light font-bold">Windows Server 2008</div>
+                            <div class="text-slate-400">Windows 10</div><div class="text-brand-light font-bold">Windows Server 2012 / 2016 / 2019</div>
+                            <div class="text-slate-400">Windows 11</div><div class="text-brand-light font-bold">Windows Server 2022 / 2025</div>
+                        </div>
+                    </div>
+
+                    <h3>پیش‌نیازهای حیاتی نصب</h3>
+                    <p>قبل از راه‌اندازی باید <strong>تایم سیستم درست ست بشود</strong> و حتماً <strong>آی‌پی استاتیک</strong> به سرور اختصاص یابد.</p>
+
+                    <h3>مراحل کانفیگ Deployment</h3>
+                    <p>بعد از نصب AD DS، در محیط کانفیگ Deployment می‌توانیم چند گزینه انتخاب کنیم:</p>
+                    <ul>
+                        <li>DC جدید به دامین موجود</li>
+                        <li>دامین جدید به فارست موجود</li>
+                        <li>و در نهایت ساخت فارست جدید</li>
+                    </ul>
+
+                    <h3>مفاهیم DFL و FFL</h3>
+                    <p>هر کدام از ورژن‌های ویندوز سرور یک‌سری قابلیت جدید در DC اضافه کردند که به آن <strong>Domain Functional Level (DFL)</strong> می‌گویند. اگر DFL را بگذاریم روی ۲۰۱۶، دیگر هیچ سرور DC زیر ورژن ۲۰۱۶ را نمی‌شود به دامین اضافه کرد. این موضوع فقط برای DC است و هیچ ربطی به سرورهای Member ندارد.</p>
+                    <p>همچنین <strong>Forest Functional Level</strong> برای کل دامین‌های آن فارست است که باید از آن سطح به بالا باشند.</p>
+
+                    <h3>مفاهیم پایه‌ای NetBios، دیتابیس و DSRM</h3>
+                    <ul>
+                        <li><strong>DSRM:</strong> اگر اکتیودایرکتوری به مشکل بخورد، چون SAM ندارد، می‌رویم در بخش Advanced Boot و پسورد DSRM را می‌زنیم تا سیستم برایمان بالا بیاید.</li>
+                        <li><strong>NetBios:</strong> اسم کامپیوتر قبل از ویندوز ۲۰۰۰ است که تک‌قسمتی بوده و این هم نمی‌تواند تکراری باشد. موقع نصب DC باید اسم نت‌بایوس را برایش بگذاریم.</li>
+                        <li><strong>NTDS:</strong> نام فایل دیتابیس اصلی اکتیودایرکتوری است.</li>
+                    </ul>
+
+                    <div class="glass-card p-6 my-6 border border-brand/30 bg-gradient-to-br from-brand/5 to-transparent relative overflow-hidden">
+                        <i class="fa-solid fa-folder-open absolute -left-4 -top-4 text-7xl text-brand/10 transform -rotate-12"></i>
+                        <h4 class="text-brand-light font-bold mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-search"></i>
+                            پاسخ به جستجو: پوشه SYSVOL چیست؟
+                        </h4>
+                        <p class="text-sm leading-relaxed text-slate-300 mb-0">
+                            پوشه <strong>SYSVOL</strong> یک پوشه اشتراکی و بسیار حیاتی روی سرورهای DC است. زمانی که سروری به DC تبدیل می‌شود این پوشه ایجاد می‌گردد. وظیفه اصلی SYSVOL، نگهداری نسخه‌ای از <strong>گروپ پالیسی‌ها (GPO)</strong> و <strong>اسکریپت‌های لاگین</strong> شبکه است. این پوشه بین تمام سرورهای DC همگام‌سازی (Replicate) می‌شود تا اگر کلاینتی از طریق هر سروری لاگین کرد، دقیقاً پالیسی‌های یکسانی دریافت کند.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+        const topTitle = document.getElementById('topTitle');
+        const mobileTitle = document.getElementById('mobileTitle');
+        const scrollArea = document.getElementById('scrollArea');
+
+        // Toggle Sidebar for mobile
+        function openSidebar() {
+            sidebar.classList.remove('translate-x-full');
+            overlay.classList.remove('hidden');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('translate-x-full');
+            overlay.classList.add('hidden');
+        }
+
+        // Section navigation logic
+        function showSection(sectionNumber, btnElement) {
+            // 1. Hide all sections
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.classList.remove('block', 'section-fade');
+                el.classList.add('hidden');
+            });
+
+            // 2. Remove active class from all buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // 3. Show selected section with animation
+            const targetSection = document.getElementById('section-' + sectionNumber);
+            targetSection.classList.remove('hidden');
+            // Trigger reflow to restart animation
+            void targetSection.offsetWidth;
+            targetSection.classList.add('block', 'section-fade');
+
+            // 4. Activate clicked button
+            btnElement.classList.add('active');
+
+            // 5. Update titles
+            const btnText = btnElement.innerText.trim();
+            topTitle.innerText = btnText;
+            mobileTitle.innerText = btnText;
+
+            // 6. Scroll to top smoothly
+            scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // 7. Close sidebar on mobile
+            if (window.innerWidth < 1024) {
+                closeSidebar();
+            }
+        }
+    </script>
+</body>
+</html>

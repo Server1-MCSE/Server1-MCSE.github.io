@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات دوره ویندوز سرور | اپیزود ۱۰</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.0/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Vazirmatn', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B1120', 800: '#1e293b', 700: '#334155' },
+                        brand: { light: '#a5b4fc', DEFAULT: '#6366f1', dark: '#4338ca' }, /* Indigo Theme for Ep 10 */
+                        accent: { DEFAULT: '#f43f5e', light: '#fda4af' } /* Rose accent */
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #0B1120;
+            color: #e2e8f0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .section-fade { animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B1120; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        .content-box h3 {
+            color: #f8fafc;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .content-box h3::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background-color: #6366f1;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #6366f1;
+        }
+        .content-box p { line-height: 1.9; color: #94a3b8; margin-bottom: 1rem; text-align: justify; }
+        .content-box ul { list-style: none; padding: 0; margin-bottom: 1.5rem; }
+        .content-box ul li { position: relative; padding-right: 1.5rem; margin-bottom: 0.75rem; line-height: 1.8; color: #cbd5e1; }
+        .content-box ul li::before {
+            content: '\f104';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            color: #6366f1;
+            font-size: 0.9rem;
+        }
+        .content-box strong { color: #e2e8f0; background: rgba(255,255,255,0.05); padding: 0 4px; border-radius: 4px; }
+
+        .nav-btn.active {
+            background: linear-gradient(90deg, rgba(99,102,241,0.15) 0%, transparent 100%);
+            border-right: 4px solid #6366f1;
+            color: #a5b4fc;
+        }
+        .nav-btn { border-right: 4px solid transparent; }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+        }
+
+        .highlight-code {
+            display: inline-block;
+            background: #0f172a;
+            color: #a5b4fc;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid #1e293b;
+            direction: ltr;
+        }
+        
+        .agdlp-box {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            position: relative;
+        }
+        .agdlp-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6366f1;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <div id="mobileOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity" onclick="closeSidebar()"></div>
+
+    <aside id="sidebar" class="fixed inset-y-0 right-0 w-72 bg-dark-800/95 backdrop-blur-xl border-l border-white/10 flex flex-col z-50 transform translate-x-full lg:translate-x-0 transition-transform duration-300 shadow-2xl lg:static lg:shadow-none">
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-brand-dark flex items-center justify-center shadow-lg shadow-brand/20 ml-3">
+                <i class="fa-solid fa-users-gear text-white text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-white font-black text-lg">ویندوز سرور</h1>
+                <p class="text-brand-light text-xs font-medium">اپیزود ۱۰ | Groups & DC Clustering</p>
+            </div>
+            <button onclick="closeSidebar()" class="lg:hidden mr-auto text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+            <button onclick="showSection(1, this)" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-print w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۱. مدیریت پیشرفته پرینترها
+            </button>
+            <button onclick="showSection(2, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-link-slash w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۲. عیب‌یابی Trust Relationship
+            </button>
+            <button onclick="showSection(3, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-network-wired w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۳. یکپارچگی DHCP و DNS
+            </button>
+            <button onclick="showSection(4, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-layer-group w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۴. کالبدشکافی گروه‌ها (AGDLP)
+            </button>
+            <button onclick="showSection(5, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-server w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۵. راه‌اندازی DC ثانویه
+            </button>
+        </nav>
+        
+        <div class="p-5 border-t border-white/5 bg-black/20">
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+                <i class="fa-solid fa-circle-check text-brand"></i>
+                کامل‌ترین مفاهیم زیرساخت
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
+        <header class="h-20 bg-dark-900/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6 sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <button onclick="openSidebar()" class="lg:hidden text-slate-300 hover:text-white bg-white/5 p-2 rounded-lg transition-colors">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h2 id="topTitle" class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-white to-slate-400 hidden sm:block">۱. مدیریت پیشرفته پرینترها</h2>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="bg-brand/10 text-brand-light px-3 py-1 rounded-full text-xs font-semibold border border-brand/20">
+                    اپیزود دهم
+                </span>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 lg:p-12 relative" id="scrollArea">
+            <div class="max-w-4xl mx-auto content-box pb-24">
+                
+                <h2 id="mobileTitle" class="text-2xl font-bold text-white mb-8 sm:hidden">۱. مدیریت پیشرفته پرینترها</h2>
+
+                <div id="section-1" class="section-content section-fade block">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand flex items-start gap-4">
+                        <i class="fa-solid fa-print text-3xl text-brand-light mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-1">استقرار پرینتر با Group Policy</h4>
+                            <p class="mb-0 text-slate-300 text-sm leading-relaxed">در کنسول Print Management سرور، می‌توانید روی یک پرینتر راست‌کلیک کرده و گزینه <code>Deploy with Group Policy</code> را بزنید. با این کار، پرینتر مستقیماً به یک GPO متصل می‌شود تا به صورت خودکار برای کاربرانِ یک OU خاص نصب شود.</p>
+                        </div>
+                    </div>
+
+                    <h3>انواع پرینترها (Printer Types)</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+                        <div class="bg-dark-800 p-4 rounded-xl border border-white/5 text-center">
+                            <i class="fa-solid fa-usb text-2xl text-slate-400 mb-2"></i>
+                            <h5 class="text-white font-bold text-sm mb-1">Local Printer</h5>
+                            <p class="text-xs text-slate-400 mb-0">پرینتری که با کابل USB یا LPT مستقیم به کامپیوتر یا خودِ سرور وصل است.</p>
+                        </div>
+                        <div class="bg-dark-800 p-4 rounded-xl border border-brand/20 text-center">
+                            <i class="fa-solid fa-network-wired text-2xl text-brand-light mb-2"></i>
+                            <h5 class="text-white font-bold text-sm mb-1">Network Printer</h5>
+                            <p class="text-xs text-slate-400 mb-0">کارت شبکه دارد، با کابل LAN به سوییچ وصل شده و مستقیماً آی‌پی می‌گیرد.</p>
+                        </div>
+                        <div class="bg-dark-800 p-4 rounded-xl border border-white/5 text-center">
+                            <i class="fa-solid fa-file-pdf text-2xl text-slate-400 mb-2"></i>
+                            <h5 class="text-white font-bold text-sm mb-1">Virtual Printer</h5>
+                            <p class="text-xs text-slate-400 mb-0">پرینترهای نرم‌افزاری برای خروجی فایل (مثل Print to PDF).</p>
+                        </div>
+                    </div>
+
+                    <h3 class="mt-8">اینترنت پرینتینگ (Internet Printing)</h3>
+                    <p>یک Role Service فوق‌العاده در ویندوز سرور است که بر بستر وب‌سرور (IIS) کار می‌کند. با نصب آن، یک پورتال وب ساخته می‌شود (مثلاً <code>http://server/printers</code>). کاربران حتی خارج از شبکه می‌توانند با مرورگر وارد این صفحه شوند و با استفاده از پروتکل <strong>IPP (Internet Printing Protocol)</strong> دستور چاپ را مستقیماً از طریق اینترنت به سازمان بفرستند!</p>
+                </div>
+
+                <div id="section-2" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 border-r-4 border-r-accent bg-accent/5">
+                        <h4 class="text-accent-light font-bold mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            The trust relationship between this workstation and the primary domain failed.
+                        </h4>
+                        <p class="text-sm text-slate-300 leading-relaxed mb-0">هر کامپیوتر در دامین یک پسورد مخفی (Machine Password) دارد که هر ۳۰ روز با سرور عوض می‌شود. اگر کلاینت مدت زیادی خاموش باشد یا به Snapshot قبلی برگردد، این رمز از سینک خارج شده (Out of sync) و ارتباط (Trust) قطع می‌شود.</p>
+                    </div>
+
+                    <h3>نحوه رفع خطای Trust</h3>
+                    <p>برای حل این مشکل دو راهکار اصلی (یکی از سمت سرور و دیگری از سمت کلاینت) وجود دارد:</p>
+
+                    <div class="space-y-4 mt-4">
+                        <!-- Method 1 -->
+                        <div class="bg-dark-800 p-5 rounded-lg border border-white/10">
+                            <h4 class="text-brand-light font-bold text-sm mb-2">۱. روش Reset Account (از سمت سرور - نیازمند Rejoin)</h4>
+                            <p class="text-sm text-slate-300 mb-2">در کنسول AD UC در سرور، روی کامپیوتر راست‌کلیک کرده و <strong>Reset Account</strong> را می‌زنیم. این کار پسورد کلاینت را در دیتابیس سرور ریست می‌کند. <em>پس از این کار باید کلاینت را یکبار Workgroup و مجدداً Join دامین کنید.</em></p>
+                        </div>
+
+                        <!-- Method 2 -->
+                        <div class="bg-dark-800 p-5 rounded-lg border border-emerald-500/30 border-l-4 border-l-emerald-500">
+                            <h4 class="text-emerald-400 font-bold text-sm mb-2">۲. تعمیر بدون خروج از دامین (از سمت کلاینت)</h4>
+                            <p class="text-sm text-slate-300 mb-3">با اکانت Local Admin وارد کلاینت خراب شوید. CMD یا PowerShell را باز کرده و کانال امن را تعمیر کنید:</p>
+                            
+                            <div class="bg-black/50 p-3 rounded mb-2">
+                                <span class="text-xs text-slate-500 block mb-1">روش PowerShell:</span>
+                                <code class="highlight-code text-emerald-300 text-xs w-full text-left">Test-ComputerSecureChannel -Repair -Credential Domain\Administrator</code>
+                            </div>
+                            <div class="bg-black/50 p-3 rounded">
+                                <span class="text-xs text-slate-500 block mb-1">روش CMD کلاسیک:</span>
+                                <code class="highlight-code text-emerald-300 text-xs w-full text-left">nltest /sc_reset:DomainName</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="section-3" class="section-content hidden">
+                    <h3>یکپارچگی DHCP و DNS (گروه DnsUpdateProxy)</h3>
+                    <p>در شبکه‌هایی که کلاینت‌های قدیمی (مثل ویندوزهای قدیمی یا دیوایس‌های خاص) نمی‌توانند رکورد DNS خود را آپدیت کنند، ما تنظیم می‌کنیم که <strong>سرور DHCP این کار را به نیابت از آن‌ها انجام دهد (Secure Update)</strong>.</p>
+                    
+                    <div class="glass-card p-6 mt-6">
+                        <h4 class="text-brand-light font-bold mb-2">مشکل مالکیت رکوردها</h4>
+                        <p class="text-sm text-slate-300 mb-4">وقتی DHCP رکوردی را در DNS ثبت می‌کند، "مالک" آن رکورد می‌شود. اگر این سرور DHCP بسوزد و یک سرور جدید جایگزین کنید، سرور جدید حق ندارد رکوردهایی که سرور قبلی ثبت کرده بود را آپدیت کند!</p>
+                        
+                        <h4 class="text-emerald-400 font-bold mb-2"><i class="fa-solid fa-check-circle ml-2"></i>راه‌حل:</h4>
+                        <p class="text-sm text-slate-300 mb-0">باید اکانت کامپیوتریِ سرور DHCP را عضو یک گروه امنیتی ویژه به نام <strong>DnsUpdateProxy</strong> در اکتیودایرکتوری کنیم. اعضای این گروه وقتی رکوردی می‌سازند، مالکیتِ انحصاری روی آن ندارند و در نتیجه سایر سرورها (مثل سرور DHCP جدید) می‌توانند آن رکوردها را دستکاری و آپدیت کنند.</p>
+                    </div>
+                </div>
+
+                <div id="section-4" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 bg-gradient-to-l from-brand/10 to-transparent">
+                        <h4 class="text-white font-bold text-lg mb-2">کالبدشکافی گروه‌ها در AD</h4>
+                        <p class="text-sm text-slate-300 mb-0">گروه‌ها دارای دو مفهوم اصلی هستند: <strong>Group Type</strong> (نوع عملکرد) و <strong>Group Scope</strong> (گستره و مرز جغرافیایی عضوگیری و اعمال دسترسی).</p>
+                    </div>
+
+                    <h3>انواع گروه (Group Type)</h3>
+                    <ul class="mb-8">
+                        <li><strong>Security (امنیتی):</strong> هم برای دادن دسترسی (Permission) به فایل‌ها/شیرها استفاده می‌شود و هم می‌توان به آن‌ها ایمیل گروهی زد.</li>
+                        <li><strong>Distribution (توزیع):</strong> <em>فقط</em> برای ارسال ایمیل گروهی (در Exchange Server) کاربرد دارد و هیچ‌گونه دسترسی امنیتی نمی‌توان به آن اختصاص داد.</li>
+                    </ul>
+
+                    <h3>گستره گروه‌ها (Group Scope)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                        <div class="bg-dark-800 p-4 rounded-xl border-t-2 border-brand-light text-sm">
+                            <strong class="text-brand-light block mb-2 text-center text-base">Domain Local</strong>
+                            <p class="text-slate-300 mb-2"><strong>عضو می‌پذیرد از:</strong> همه جا! (یوزرها و گروه‌های Global/Universal از دامین خودش یا دامین‌های تراست‌شده).</p>
+                            <p class="text-slate-300 mb-0"><strong>اعمال دسترسی در:</strong> فقط در همان دامینی که ساخته شده.</p>
+                        </div>
+                        <div class="bg-dark-800 p-4 rounded-xl border-t-2 border-accent text-sm">
+                            <strong class="text-accent block mb-2 text-center text-base">Global</strong>
+                            <p class="text-slate-300 mb-2"><strong>عضو می‌پذیرد از:</strong> محدود! فقط یوزرها و گروه‌های Global از <em>دامینِ خودش</em>.</p>
+                            <p class="text-slate-300 mb-0"><strong>اعمال دسترسی در:</strong> همه‌جا! (کل فارست و دامین‌های متصل).</p>
+                        </div>
+                        <div class="bg-dark-800 p-4 rounded-xl border-t-2 border-emerald-500 text-sm">
+                            <strong class="text-emerald-500 block mb-2 text-center text-base">Universal</strong>
+                            <p class="text-slate-300 mb-2"><strong>عضو می‌پذیرد از:</strong> کل فارست.</p>
+                            <p class="text-slate-300 mb-0"><strong>اعمال دسترسی در:</strong> کل فارست (به دلیل سنگینی، در Global Catalog ذخیره می‌شود).</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-dark-900/50 p-6 rounded-xl border border-white/10 mb-6">
+                        <h4 class="text-white font-bold mb-4 text-center">استراتژی طلایی مایکروسافت: AGDLP (و AGDLA)</h4>
+                        <p class="text-sm text-slate-400 text-center mb-6">قانون اصلی: هیچ‌وقت مستقیماً به یک یوزر پرمیشن ندهید!</p>
+                        
+                        <div class="flex flex-col md:flex-row items-center justify-between gap-2">
+                            <div class="agdlp-box w-full md:w-1/4">
+                                <strong class="text-white text-lg">A</strong>
+                                <span class="block text-xs text-slate-400">Accounts</span>
+                            </div>
+                            <div class="agdlp-arrow"><i class="fa-solid fa-arrow-left"></i></div>
+                            <div class="agdlp-box w-full md:w-1/4">
+                                <strong class="text-white text-lg">G</strong>
+                                <span class="block text-xs text-slate-400">Global Group</span>
+                            </div>
+                            <div class="agdlp-arrow"><i class="fa-solid fa-arrow-left"></i></div>
+                            <div class="agdlp-box w-full md:w-1/4">
+                                <strong class="text-white text-lg">DL</strong>
+                                <span class="block text-xs text-slate-400">Domain Local</span>
+                            </div>
+                            <div class="agdlp-arrow"><i class="fa-solid fa-arrow-left"></i></div>
+                            <div class="agdlp-box w-full md:w-1/4 border-brand-light">
+                                <strong class="text-brand-light text-lg">P / A</strong>
+                                <span class="block text-xs text-brand-light">Permissions / Access</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-300 text-center mt-4 mb-0">کاربران (A) را عضو گروه Global می‌کنیم. گروه Global را عضو گروه Domain Local می‌کنیم. و در نهایت پرمیشنِ پوشه (P) یا دسترسی (Access) را به گروه Domain Local اختصاص می‌دهیم. (AGDLA نام دیگر همین استراتژی است که حرف A آخر به معنی Access است).</p>
+                    </div>
+
+                    <p class="text-sm text-slate-300"><strong>ابزار ADMT:</strong> ابزار رایگان مایکروسافت (Active Directory Migration Tool) برای مهاجرت یوزرها و کامپیوترها بین دامین‌ها یا فارست‌ها بدون از دست رفتن رمز عبور یا پرمیشن‌ها (با استفاده از قابلیتی به نام SID History).</p>
+                </div>
+
+                <div id="section-5" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand flex items-start gap-4">
+                        <i class="fa-solid fa-server text-3xl text-brand-light mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-1">کلاسترینگ دامین (DC ثانویه)</h4>
+                            <p class="mb-0 text-slate-300 text-sm leading-relaxed">برای جلوگیری از قطعی شبکه در صورت سوختن سرور، یک سرور جدید به عنوان Additional DC نصب می‌کنیم. چون زون DNS از نوع ADI است، دیتابیس DNS اتوماتیک بین سرورها کپی (Replicate) می‌شود.</p>
+                        </div>
+                    </div>
+
+                    <h3>تکنیک IFM (Install From Media)</h3>
+                    <p>اگر بخواهیم در شعبه‌ای در شهر دیگر یک DC راه‌اندازی کنیم، کپی شدن دیتابیس حجیم از طریق اینترنت کُند، زمان‌بر است. با تکنیک IFM، روی سرور اصلی از دیتابیس AD یک کپی در فلش‌مموری می‌گیریم، فلش را به شهر دوم برده و DC جدید را <strong>از روی فلش</strong> نصب می‌کنیم تا ترافیک شبکه مصرف نشود.</p>
+
+                    <h3>تنظیمات ضربدری DNS (Cross-DNS)</h3>
+                    <p>پس از راه‌اندازی DC دوم، برای جلوگیری از پدیده‌ای به نام Island (جزیره‌ای شدن و قطع ارتباط دامین‌ها)، تنظیمات کارت شبکه (NIC) هر دو سرور را به صورت ضربدری ست می‌کنیم:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+                        <div class="bg-dark-800 p-4 rounded-lg border border-white/10">
+                            <strong class="text-brand-light block text-center mb-2">سرور اصلی (DC 1)</strong>
+                            <ul class="text-sm mb-0">
+                                <li>Primary DNS: <span class="text-emerald-400">آی‌پی سرور DC 2</span></li>
+                                <li>Alternate DNS: 127.0.0.1 (خودش)</li>
+                            </ul>
+                        </div>
+                        <div class="bg-dark-800 p-4 rounded-lg border border-white/10">
+                            <strong class="text-brand-light block text-center mb-2">سرور ثانویه (DC 2)</strong>
+                            <ul class="text-sm mb-0">
+                                <li>Primary DNS: <span class="text-emerald-400">آی‌پی سرور DC 1</span></li>
+                                <li>Alternate DNS: 127.0.0.1 (خودش)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>دستورات همگام‌سازی (Repadmin)</h3>
+                    <p>برای بررسی و اجبار به کپی شدن سریع اطلاعات بین دامین‌کنترلرها از دستورات زیر در CMD استفاده می‌کنیم:</p>
+                    <div class="space-y-3">
+                        <div class="bg-black/40 p-4 rounded-lg border border-white/5">
+                            <code class="text-brand-light font-bold block mb-1">repadmin /kcc</code>
+                            <p class="text-xs text-slate-400 mb-0">به سرور دستور می‌دهد تا توپولوژی ارتباطی و مسیرهای بین DCها را مجدداً محاسبه کند.</p>
+                        </div>
+                        <div class="bg-black/40 p-4 rounded-lg border border-white/5">
+                            <code class="text-brand-light font-bold block mb-1">repadmin /syncall</code>
+                            <p class="text-xs text-slate-400 mb-0">پروسه Replicate و همگام‌سازی بین سرورها را فوراً و به صورت دستی آغاز می‌کند.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+        const topTitle = document.getElementById('topTitle');
+        const mobileTitle = document.getElementById('mobileTitle');
+        const scrollArea = document.getElementById('scrollArea');
+
+        function openSidebar() {
+            sidebar.classList.remove('translate-x-full');
+            overlay.classList.remove('hidden');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('translate-x-full');
+            overlay.classList.add('hidden');
+        }
+
+        function showSection(sectionNumber, btnElement) {
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.classList.remove('block', 'section-fade');
+                el.classList.add('hidden');
+            });
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            const targetSection = document.getElementById('section-' + sectionNumber);
+            targetSection.classList.remove('hidden');
+            void targetSection.offsetWidth; 
+            targetSection.classList.add('block', 'section-fade');
+
+            btnElement.classList.add('active');
+
+            const btnText = btnElement.innerText.trim();
+            topTitle.innerText = btnText;
+            mobileTitle.innerText = btnText;
+
+            scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (window.innerWidth < 1024) {
+                closeSidebar();
+            }
+        }
+    </script>
+</body>
+</html>

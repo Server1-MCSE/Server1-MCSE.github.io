@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات دوره ویندوز سرور | اپیزود ۱۱</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.0/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Vazirmatn', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B1120', 800: '#1e293b', 700: '#334155' },
+                        brand: { light: '#c4b5fd', DEFAULT: '#8b5cf6', dark: '#6d28d9' }, /* Violet/Purple Theme */
+                        accent: { DEFAULT: '#f43f5e', light: '#fda4af' } /* Rose accent */
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #0B1120;
+            color: #e2e8f0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .section-fade { animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B1120; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        .content-box h3 {
+            color: #f8fafc;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .content-box h3::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background-color: #8b5cf6;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #8b5cf6;
+        }
+        .content-box p { line-height: 1.9; color: #94a3b8; margin-bottom: 1rem; text-align: justify; }
+        .content-box ul { list-style: none; padding: 0; margin-bottom: 1.5rem; }
+        .content-box ul li { position: relative; padding-right: 1.5rem; margin-bottom: 0.75rem; line-height: 1.8; color: #cbd5e1; }
+        .content-box ul li::before {
+            content: '\f104';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            color: #8b5cf6;
+            font-size: 0.9rem;
+        }
+        .content-box strong { color: #e2e8f0; background: rgba(255,255,255,0.05); padding: 0 4px; border-radius: 4px; }
+
+        .nav-btn.active {
+            background: linear-gradient(90deg, rgba(139,92,246,0.15) 0%, transparent 100%);
+            border-right: 4px solid #8b5cf6;
+            color: #c4b5fd;
+        }
+        .nav-btn { border-right: 4px solid transparent; }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+        }
+
+        .highlight-code {
+            display: inline-block;
+            background: #0f172a;
+            color: #c4b5fd;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid #1e293b;
+            direction: ltr;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <div id="mobileOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity" onclick="closeSidebar()"></div>
+
+    <aside id="sidebar" class="fixed inset-y-0 right-0 w-72 bg-dark-800/95 backdrop-blur-xl border-l border-white/10 flex flex-col z-50 transform translate-x-full lg:translate-x-0 transition-transform duration-300 shadow-2xl lg:static lg:shadow-none">
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-brand-dark flex items-center justify-center shadow-lg shadow-brand/20 ml-3">
+                <i class="fa-solid fa-server text-white text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-white font-black text-lg">ویندوز سرور</h1>
+                <p class="text-brand-light text-xs font-medium">اپیزود ۱۱ | مجازی‌سازی و هایپروی</p>
+            </div>
+            <button onclick="closeSidebar()" class="lg:hidden mr-auto text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+            <button onclick="showSection(1, this)" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-microchip w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۱. معماری مجازی‌سازی
+            </button>
+            <button onclick="showSection(2, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-network-wired w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۲. شبکه‌بندی در هایپروی
+            </button>
+            <button onclick="showSection(3, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-hard-drive w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۳. استوریج و اسنپ‌شات
+            </button>
+            <button onclick="showSection(4, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-brands fa-windows w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۴. استقرار نرم‌افزار (GPO)
+            </button>
+        </nav>
+        
+        <div class="p-5 border-t border-white/5 bg-black/20">
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+                <i class="fa-solid fa-circle-check text-brand"></i>
+                کالبدشکافی VHDX و ReFS
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
+        <header class="h-20 bg-dark-900/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6 sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <button onclick="openSidebar()" class="lg:hidden text-slate-300 hover:text-white bg-white/5 p-2 rounded-lg transition-colors">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h2 id="topTitle" class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-white to-slate-400 hidden sm:block">۱. معماری مجازی‌سازی</h2>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="bg-brand/10 text-brand-light px-3 py-1 rounded-full text-xs font-semibold border border-brand/20">
+                    اپیزود یازدهم
+                </span>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 lg:p-12 relative" id="scrollArea">
+            <div class="max-w-4xl mx-auto content-box pb-24">
+                
+                <h2 id="mobileTitle" class="text-2xl font-bold text-white mb-8 sm:hidden">۱. معماری مجازی‌سازی</h2>
+
+                <div id="section-1" class="section-content section-fade block">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand flex items-start gap-4">
+                        <i class="fa-solid fa-microchip text-3xl text-brand-light mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-1">انواع تایپ‌های مجازی‌سازی (Virtualization Types)</h4>
+                            <p class="mb-0 text-slate-300 text-sm leading-relaxed">برای اجرای ماشین‌ها و سرویس‌های مجازی، سه رویکرد و معماری اصلی در دنیای IT وجود دارد.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
+                        <div class="bg-dark-800 p-5 rounded-xl border-t-2 border-brand text-sm">
+                            <strong class="text-brand-light block mb-2 text-center text-base">Type 1 (Bare-Metal)</strong>
+                            <p class="text-slate-300 mb-0">هایپروایزر مستقیماً روی سخت‌افزار سرور نصب می‌شود (بدون نیاز به ویندوز واسط). بالاترین سرعت و پایداری را دارد. <strong>مثال:</strong> Microsoft Hyper-V و VMware ESXi.</p>
+                        </div>
+                        <div class="bg-dark-800 p-5 rounded-xl border-t-2 border-brand text-sm">
+                            <strong class="text-brand-light block mb-2 text-center text-base">Type 2 (Hosted)</strong>
+                            <p class="text-slate-300 mb-0">نرم‌افزار مجازی‌ساز روی یک سیستم‌عامل (مثل ویندوز ۱۰) نصب می‌شود. برای محیط‌های تست و خانگی است. <strong>مثال:</strong> VMware Workstation و VirtualBox.</p>
+                        </div>
+                        <div class="bg-dark-800 p-5 rounded-xl border-t-2 border-brand text-sm">
+                            <strong class="text-brand-light block mb-2 text-center text-base">Container (OS-Level)</strong>
+                            <p class="text-slate-300 mb-0">مجازی‌سازی در سطح سیستم‌عامل. ماشینِ کامل ساخته نمی‌شود، بلکه برنامه‌ها در محیط‌های ایزوله اجرا می‌شوند و کرنل (هسته) با سیستم میزبان مشترک است.</p>
+                        </div>
+                    </div>
+
+                    <h3>داکر و کوبرنتیز (Docker & Kubernetes)</h3>
+                    <p>در دنیای مدرن، به جای ماشین مجازی (VM)، از کانتینرها استفاده می‌شود:</p>
+                    <ul class="mb-6">
+                        <li><strong>Docker (داکر):</strong> ابزاری است که یک نرم‌افزار را با تمام پیش‌نیازها و کتابخانه‌هایش در یک پکیج ایزوله (به نام Container) بسته‌بندی می‌کند تا مطمئن باشیم برنامه روی هر سیستمی (سرور، لپ‌تاپ برنامه‌نویس) دقیقاً یکسان اجرا می‌شود.</li>
+                        <li><strong>Kubernetes (کوبرنتیز یا K8s):</strong> وقتی تعداد کانتینرهای داکر به صدها عدد برسد، مدیریت آن‌ها دستی غیرممکن است. کوبرنتیز یک ابزار ارکستریشن است که کانتینرها را مدیریت می‌کند، در صورت کرش کردن آن‌ها را ری‌استارت می‌کند و بار را بین سرورها تقسیم می‌کند (Load Balancing).</li>
+                    </ul>
+
+                    <h3>معماری Monolithic در برابر Microkernel</h3>
+                    <p>هایپروایزرهای نوع یک (Type 1) به دو دسته معماری تقسیم می‌شوند:</p>
+                    <div class="bg-dark-900/50 p-5 rounded-lg border border-white/5 mb-4">
+                        <strong class="text-accent-light block mb-1">Monolithic (یکپارچه - مثل VMware ESXi):</strong>
+                        <p class="text-sm text-slate-300 mb-0">در این معماری، تمام درایورهای سخت‌افزاریِ سرور مستقیماً درون خودِ لایه هایپروایزر قرار دارند. مزیت آن سرعت بسیار بالاست، اما عیب آن این است که هایپروایزر حجیم می‌شود و اگر درایوری باگ داشته باشد، کل سیستم کرش می‌کند.</p>
+                    </div>
+                    <div class="bg-dark-900/50 p-5 rounded-lg border border-white/5">
+                        <strong class="text-emerald-400 block mb-1">Microkernel (ریزکرنل - مثل Microsoft Hyper-V):</strong>
+                        <p class="text-sm text-slate-300 mb-0">لایه هایپروایزر به شدت کوچک و سبک است و هیچ درایوری ندارد! درایورها در سیستم‌عامل میزبان (که به آن Parent Partition می‌گویند) نصب می‌شوند. امنیت و پایداری این روش بالاتر است.</p>
+                    </div>
+                </div>
+
+                <div id="section-2" class="section-content hidden">
+                    <h3>شبکه‌بندی در Hyper-V (Virtual Switches)</h3>
+                    <p>در هایپروی برای ارتباط ماشین‌ها، سوییچ‌های مجازی می‌سازیم. تفاوت دو سوییچ اصلی:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="glass-card p-5 border-r-4 border-brand">
+                            <h4 class="text-brand-light font-bold mb-2">۱. External (خارجی)</h4>
+                            <p class="text-sm text-slate-300 mb-0"><strong>تنها سوییچی است که مستقیماً به کارت شبکه فیزیکی سرور (NIC) متصل می‌شود.</strong> ماشین‌های مجازی وصل شده به این سوییچ، به شبکه واقعیِ بیرون (LAN و اینترنت) دسترسی دارند.</p>
+                        </div>
+                        <div class="glass-card p-5 border-r-4 border-slate-500">
+                            <h4 class="text-slate-300 font-bold mb-2">۲. Private (خصوصی)</h4>
+                            <p class="text-sm text-slate-300 mb-0">یک سوییچ کاملاً ایزوله است. فقط ماشین‌های مجازی می‌توانند با هم ارتباط بگیرند. نه به اینترنت دسترسی دارند و نه حتی خودِ ویندوز سرور (میزبان) می‌تواند با آن‌ها شبکه شود.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-black/30 p-4 rounded-lg border-l-2 border-brand mb-8">
+                        <strong class="text-white text-sm"><i class="fa-solid fa-tags text-brand-light ml-2"></i>کاربرد VLAN ID در هایپروی</strong>
+                        <p class="text-sm text-slate-400 mt-2 mb-0">در تنظیمات کارت شبکه مجازی هر ماشین، گزینه‌ای به نام VLAN ID وجود دارد. با فعال کردن این گزینه، ماشین مجازی مستقیماً به VLAN مربوطه در سوییچ‌های فیزیکیِ شبکه متصل می‌شود (به شرطی که پورت فیزیکی سرور روی حالت Trunk تنظیم شده باشد).</p>
+                    </div>
+
+                    <h3>افزونگی شبکه (Teaming) و مدیریت سرور (ILO)</h3>
+                    <ul class="space-y-4">
+                        <li class="bg-dark-800 p-4 rounded">
+                            <strong class="text-brand-light block mb-1">NIC Teaming / EtherChannel:</strong>
+                            <p class="text-sm text-slate-300 mb-0">تکنیکی است که در آن دو یا چند کارت شبکه فیزیکی را با هم ادغام می‌کنیم تا به یک کارت شبکه منطقی (Virtual) تبدیل شوند. این کار دو مزیت دارد: ۱. <strong>افزایش پهنای باند</strong> ۲. <strong>افزونگی (Redundancy)</strong> تا اگر یک کابل قطع شد، ارتباط سرور قطع نشود. (به این تکنیک در سوییچ‌های سیسکو EtherChannel می‌گویند).</p>
+                        </li>
+                        <li class="bg-dark-800 p-4 rounded">
+                            <strong class="text-brand-light block mb-1">تکنولوژی ILO (Integrated Lights-Out):</strong>
+                            <p class="text-sm text-slate-300 mb-0">یک چیپ سخت‌افزاری و پورت شبکه اختصاصی روی سرورهای HP است. با وصل کردن کابل به این پورت، حتی اگر سرور خاموش باشد یا ویندوزش پریده باشد، می‌توانید از راه دور (تحت وب) سرور را روشن کنید، صفحه مانیتورش را ببینید و حتی از راه دور ویندوز نصب کنید!</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="section-3" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand">
+                        <h4 class="text-white font-bold text-lg mb-1">فرمت هاردهای مجازی: VHD در برابر VHDX</h4>
+                        <p class="mb-0 text-slate-300 text-sm">در هایپروی دو فرمت اصلی برای هارد دیسک داریم:</p>
+                        <ul class="text-sm mt-3 mb-0 space-y-2">
+                            <li><strong>VHD (قدیمی):</strong> محدودیت حجم تا ۲ ترابایت دارد و در برابر قطعی برق آسیب‌پذیر است.</li>
+                            <li><strong class="text-brand-light">VHDX (جدید):</strong> فرمت مدرن مایکروسافت. تا ۶۴ ترابایت حجم می‌گیرد. دارای قابلیت لاگ‌برداری است که باعث می‌شود در صورت قطعی ناگهانی برق، اطلاعات هارد کرش (Corrupt) نکند.</li>
+                        </ul>
+                    </div>
+
+                    <h3>اسنپ‌شات (Checkpoint) و خطرات آن</h3>
+                    <p>وقتی در هایپروی اسنپ‌شات می‌گیرید، فایل اصلی هارد (VHDX) قفل (Read-only) می‌شود و از آن لحظه به بعد، تمام تغییرات در یک فایل جدید به نام <strong>AVHDX</strong> ذخیره می‌شود.</p>
+                    
+                    <div class="bg-rose-500/10 border border-rose-500/20 p-5 rounded-lg mb-6">
+                        <strong class="text-rose-400 block mb-2"><i class="fa-solid fa-triangle-exclamation"></i> قانون طلایی اسنپ‌شات: همیشه Merge کنید!</strong>
+                        <p class="text-sm text-slate-300 mb-0">اسنپ‌شات‌ها فقط برای تست موقت هستند. پس از اتمام تست، باید اسنپ‌شات را در کنسول هایپروی <strong>Delete</strong> کنید. با زدن دکمه دیلیت، تغییراتِ فایل AVHDX به داخل هارد اصلی <strong>Merge (ادغام)</strong> می‌شود. اگر اسنپ‌شات‌ها را پاک نکنید، هارد سرور پر می‌شود، سرعت ماشین به شدت افت می‌کند و اگر کسی فایل‌ها را دستی جابجا کند، ماشین برای همیشه خراب می‌شود!</p>
+                    </div>
+
+                    <h3>مدیریت فضای هارد</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div class="bg-dark-800 p-4 rounded-xl border border-white/5">
+                            <strong class="text-white block mb-2">اکشن Compact (فشرده‌سازی)</strong>
+                            <p class="text-sm text-slate-400 mb-0">در هاردهای داینامیک (Dynamically Expanding)، اگر فایلی را در ماشین پاک کنید، حجم فایل VHDX در هاست کم نمی‌شود. با استفاده از اکشن <code>Compact</code> در تنظیمات هارد، فضاهای خالی بازیافت شده و حجم فایل کاهش می‌یابد.</p>
+                        </div>
+                        <div class="bg-dark-800 p-4 rounded-xl border border-brand/30 bg-brand/5">
+                            <strong class="text-brand-light block mb-2">سیستم فایل ReFS</strong>
+                            <p class="text-sm text-slate-300 mb-0">مخفف Resilient File System. نسل جدید فرمت درایوهای ویندوز (به جای NTFS) است. <strong>بهترین درایو برای نگهداری VHDXهاست.</strong> به لطف قابلیت <code class="text-xs">Block Cloning</code>، ساخت و ادغام اسنپ‌شات‌ها روی ReFS در کسری از ثانیه انجام می‌شود!</p>
+                        </div>
+                    </div>
+
+                    <h3>ایمپورت کردن ماشین مجازی (Import Virtual Machine)</h3>
+                    <p>وقتی می‌خواهید یک ماشینِ از پیش ساخته شده را وارد هایپروی کنید، ۳ گزینه دارید:</p>
+                    <ol class="list-decimal list-inside text-slate-300 space-y-2 text-sm">
+                        <li><strong>Register in-place:</strong> ماشین را در همان مسیری که هست ثبت می‌کند (بدون کپی فایل) و <strong>ID ماشین را تغییر نمی‌دهد.</strong></li>
+                        <li><strong>Restore the virtual machine:</strong> فایل‌های ماشین را به مسیرهای استانداردِ هایپروی کپی می‌کند، اما <strong>ID ماشین را تغییر نمی‌دهد.</strong></li>
+                        <li><strong>Copy the virtual machine:</strong> فایل‌ها را کپی می‌کند و <strong>یک ID کاملاً جدید و یکتا</strong> به آن اختصاص می‌دهد. (بهترین گزینه برای زمانی که می‌خواهید از یک ماشین به عنوان الگو چندین کپی بسازید تا IDها در شبکه تداخل نکنند).</li>
+                    </ol>
+                </div>
+
+                <div id="section-4" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand flex items-start gap-4">
+                        <i class="fa-brands fa-windows text-3xl text-brand-light mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-1">استقرار نرم‌افزار با گروپ پالیسی (Software Installation)</h4>
+                            <p class="mb-0 text-slate-300 text-sm leading-relaxed">این ابزار در GPO به ما اجازه می‌دهد نرم‌افزارهای سازمان را بدون مراجعه حضوری، روی صدها کامپیوتر به صورت متمرکز و شبکه‌ای نصب کنیم.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-dark-800 p-5 rounded-lg border border-white/5 mb-6">
+                        <strong class="text-brand-light block mb-2">الزام پسوند MSI و تبدیل نرم‌افزارها</strong>
+                        <p class="text-sm text-slate-300 mb-0">گروپ پالیسی برای نصب اتوماتیک <strong>فقط پکیج‌های فرمت <code>.msi</code> را قبول می‌کند</strong>. اگر نرم‌افزار ما خروجی <code>.exe</code> داشت، باید با ابزارهای تخصصی مثل <strong>MSI Wrapper</strong> یا <strong>Advanced Installer</strong>، آن فایل اجرایی را درون یک پکیج MSI بسته‌بندی (Wrap) کنیم تا GPO بتواند آن را درک کند.</p>
+                    </div>
+
+                    <h3>دو حالتِ اعمال نرم‌افزار: Assign در برابر Publish</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div class="bg-dark-900/80 p-5 rounded-xl border border-white/10">
+                            <h4 class="text-rose-400 font-bold mb-2"><i class="fa-solid fa-lock ml-2"></i>حالت Assign (اجباری)</h4>
+                            <ul class="text-sm text-slate-300 mb-0 space-y-1">
+                                <li>هم به کامپیوترها و هم به یوزرها اعمال می‌شود.</li>
+                                <li>نرم‌افزار <strong>بدون پرسش از کاربر</strong> نصب می‌شود.</li>
+                                <li>اگر به سطح Computer اختصاص یابد، یوزرهای عادی <strong>حق پاک کردن (Uninstall) آن را ندارند!</strong></li>
+                            </ul>
+                        </div>
+                        <div class="bg-dark-900/80 p-5 rounded-xl border border-white/10">
+                            <h4 class="text-emerald-400 font-bold mb-2"><i class="fa-solid fa-gift ml-2"></i>حالت Publish (اختیاری)</h4>
+                            <ul class="text-sm text-slate-300 mb-0 space-y-1">
+                                <li><strong>فقط</strong> به سطح User اعمال می‌شود.</li>
+                                <li>به صورت خودکار نصب <strong>نمی‌شود!</strong></li>
+                                <li>نرم‌افزار در بخش <code class="text-xs">Control Panel > Get Programs</code> قرار می‌گیرد تا کاربر در صورت نیاز و تمایل، خودش دکمه نصب را بزند.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>آپدیت نرم‌افزارها با فایل MSP</h3>
+                    <p>شرکت‌های نرم‌افزاری برای ارائه آپدیت‌ها، فایل‌های پچ (Patch) با پسوند <code>.msp</code> ارائه می‌دهند. در کنسول GPO می‌توانید این فایل‌های MSP را به پکیجِ اصلی متصل کنید تا نرم‌افزارهای نصب‌شده روی کلاینت‌ها آپدیت شوند.</p>
+                    
+                    <div class="bg-black/30 p-4 rounded-lg border-l-2 border-brand">
+                        <p class="text-sm text-slate-400 mb-0"><strong>نکته عملیاتی:</strong> ابزار Software Installation در ویندوز سرور کمی ابتدایی است. در سازمان‌های بزرگ برای دیپلوی نرم‌افزار، آپدیت‌ها و گرفتن گزارش نصب، از نرم‌افزارهای سازمانی قدرتمند شخص‌ثالث مانند <strong>ManageEngine Endpoint Central (Desktop Central)</strong> استفاده می‌شود.</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+        const topTitle = document.getElementById('topTitle');
+        const mobileTitle = document.getElementById('mobileTitle');
+        const scrollArea = document.getElementById('scrollArea');
+
+        function openSidebar() { sidebar.classList.remove('translate-x-full'); overlay.classList.remove('hidden'); }
+        function closeSidebar() { sidebar.classList.add('translate-x-full'); overlay.classList.add('hidden'); }
+
+        function showSection(sectionNumber, btnElement) {
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.classList.remove('block', 'section-fade');
+                el.classList.add('hidden');
+            });
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+            const targetSection = document.getElementById('section-' + sectionNumber);
+            targetSection.classList.remove('hidden');
+            void targetSection.offsetWidth; 
+            targetSection.classList.add('block', 'section-fade');
+
+            btnElement.classList.add('active');
+            const btnText = btnElement.innerText.trim();
+            topTitle.innerText = btnText;
+            mobileTitle.innerText = btnText;
+            scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (window.innerWidth < 1024) closeSidebar();
+        }
+    </script>
+</body>
+</html>

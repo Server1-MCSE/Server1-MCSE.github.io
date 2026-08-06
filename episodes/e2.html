@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات دوره ویندوز سرور | اپیزود ۲</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.0/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Vazirmatn', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B1120', 800: '#1e293b', 700: '#334155' },
+                        brand: { light: '#a5b4fc', DEFAULT: '#6366f1', dark: '#4f46e5' },
+                        accent: { DEFAULT: '#f43f5e', light: '#fda4af' }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #0B1120;
+            color: #e2e8f0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .section-fade {
+            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B1120; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        .content-box h3 {
+            color: #f8fafc;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .content-box h3::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background-color: #6366f1;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #6366f1;
+        }
+        .content-box p { line-height: 1.9; color: #94a3b8; margin-bottom: 1rem; text-align: justify; }
+        .content-box ul { list-style: none; padding: 0; margin-bottom: 1.5rem; }
+        .content-box ul li { position: relative; padding-right: 1.5rem; margin-bottom: 0.75rem; line-height: 1.8; color: #cbd5e1; }
+        .content-box ul li::before {
+            content: '\f104';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            color: #6366f1;
+            font-size: 0.9rem;
+        }
+        .content-box strong { color: #e2e8f0; background: rgba(255,255,255,0.05); padding: 0 4px; border-radius: 4px; }
+
+        .nav-btn.active {
+            background: linear-gradient(90deg, rgba(99,102,241,0.15) 0%, transparent 100%);
+            border-right: 4px solid #6366f1;
+            color: #a5b4fc;
+        }
+        .nav-btn { border-right: 4px solid transparent; }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+        }
+        
+        .search-badge {
+            background: rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-right: 8px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <div id="mobileOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity" onclick="closeSidebar()"></div>
+
+    <aside id="sidebar" class="fixed inset-y-0 right-0 w-72 bg-dark-800/95 backdrop-blur-xl border-l border-white/10 flex flex-col z-50 transform translate-x-full lg:translate-x-0 transition-transform duration-300 shadow-2xl lg:static lg:shadow-none">
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-brand-dark flex items-center justify-center shadow-lg shadow-brand/20 ml-3">
+                <i class="fa-solid fa-layer-group text-white text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-white font-black text-lg">ویندوز سرور</h1>
+                <p class="text-brand-light text-xs font-medium">اپیزود ۲ | ساختار پیشرفته</p>
+            </div>
+            <button onclick="closeSidebar()" class="lg:hidden mr-auto text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+            <button onclick="showSection(1, this)" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-server w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۱. آپدیت سرور و FSMO Roles
+            </button>
+            <button onclick="showSection(2, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-sitemap w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۲. کالبدشکافی Group Policy
+            </button>
+            <button onclick="showSection(3, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-filter w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۳. فیلترینگ و شبیه‌سازی GPO
+            </button>
+            <button onclick="showSection(4, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-crosshairs w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۴. Preferences و هدف‌گذاری
+            </button>
+            <button onclick="showSection(5, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-user-shield w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۵. امنیت، LAPS و RSAT
+            </button>
+        </nav>
+
+        <div class="p-5 border-t border-white/5 bg-black/20">
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+                <i class="fa-solid fa-circle-check text-brand"></i>
+                پاسخ تمامی Search ها گنجانده شده است.
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
+        <header class="h-20 bg-dark-900/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6 sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <button onclick="openSidebar()" class="lg:hidden text-slate-300 hover:text-white bg-white/5 p-2 rounded-lg transition-colors">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h2 id="topTitle" class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-white to-slate-400 hidden sm:block">۱. آپدیت سرور و FSMO Roles</h2>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="bg-brand/10 text-brand-light px-3 py-1 rounded-full text-xs font-semibold border border-brand/20">
+                    اپیزود دوم
+                </span>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 lg:p-12 relative" id="scrollArea">
+            <div class="max-w-4xl mx-auto content-box pb-24">
+                
+                <h2 id="mobileTitle" class="text-2xl font-bold text-white mb-8 sm:hidden">۱. آپدیت سرور و FSMO Roles</h2>
+
+                <div id="section-1" class="section-content section-fade block">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand">
+                        <p class="mb-0 text-white font-medium">این اپیزود به بررسی مفاهیم پیشرفته مدیریت دامین، تفویض اختیار، نقش‌های حیاتی سرور و کالبدشکافی عمیق گروپ پالیسی می‌پردازد.</p>
+                    </div>
+
+                    <h3>ارتقا و آپدیت ویندوز سرور (DC)</h3>
+                    <p>برای آپدیت کردن ویندوز سروری که نقش Domain Controller دارد، دو رویکرد وجود دارد:</p>
+                    <ul>
+                        <li><strong>In-place Upgrade:</strong> آپدیت مستقیم روی همان سرور که به دلیل احتمال بروز خطاهای ساختاری، به هیچ‌وجه پیشنهاد نمی‌شود.</li>
+                        <li><strong>Migration (روش اصولی):</strong> یک سرور جدید با ویندوز آپدیت‌شده بالا می‌آوریم، دیتابیس و رول‌ها را به آن منتقل (Migrate) کرده و سپس سرور قدیمی را از مدار خارج می‌کنیم.</li>
+                    </ul>
+
+                    <h3>نکات حیاتی مدیریت پروفایل‌ها و کنسول‌ها</h3>
+                    <ul>
+                        <li><strong>پروفایل موقت (Temp Logon):</strong> بسیار مهم است که از طریق GPO، لاگین با پروفایل Temp را غیرفعال کنیم. تا اگر ارتباط کلاینتِ دارای «رومینگ پروفایل» با DC قطع شد، ویندوز برای او پروفایل موقت نسازد که باعث از دست رفتن موقتی فایل‌هایش شود.</li>
+                        <li><strong>دسترسی ادمین به پروفایل کاربران:</strong> با فعال‌سازی پالیسی <code>Add the Administrator group to roaming user profiles</code> مشکل عدم دسترسی ادمین به پوشه پروفایل کاربران حل می‌شود و ادمین هم می‌تواند محتوای پروفایل رومینگ آن‌ها را ببیند.</li>
+                        <li><strong>محدودسازی MMC برای Help Desk:</strong> می‌توانیم برای نیروهای پشتیبانی، کنسول MMC سفارشی بسازیم و Author Mode آن را روی حالت <strong>Limited</strong> قرار دهیم تا نتوانند اسنپ‌این (Snap-in) جدیدی اضافه کنند.</li>
+                        <li><strong>نرم‌افزار UserLock:</strong> یک ابزار جانبی فوق‌العاده قدرتمند برای کنترل دقیق لاگین‌ها، مانیتورینگ نشست‌ها و اعمال محدودیت‌های پیشرفته در اکتیودایرکتوری است.</li>
+                        <li><strong>غیرفعال‌سازی محدودیت مرورگر:</strong> در Server Manager، باید قابلیت <code>IE Enhanced Security Configuration</code> را غیرفعال کنیم تا سرور هنگام باز کردن فایل‌های HTML ارور ندهد.</li>
+                    </ul>
+
+                    <div class="glass-card p-6 mt-8 border border-white/10 bg-gradient-to-br from-indigo-900/20 to-transparent">
+                        <h4 class="text-xl font-bold text-white mb-4"><i class="fa-solid fa-crown text-amber-400 ml-2"></i>معماری FSMO Roles (Operation Masters)</h4>
+                        <p class="text-sm text-slate-300 mb-4">در اکتیودایرکتوری ۵ نقش کلیدی و منحصر‌به‌فرد وجود دارد که بین سرورهای DC تقسیم می‌شوند:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-dark-800/50 p-4 rounded-lg border border-white/5">
+                                <h5 class="text-brand-light font-bold mb-1">1. Domain Naming Master</h5>
+                                <p class="text-xs text-slate-400">مسئول تخصیص نام به دامین‌های جدید و جلوگیری از تکراری شدن نام‌ها.</p>
+                            </div>
+                            <div class="bg-brand/10 p-4 rounded-lg border border-brand/30 relative overflow-hidden">
+                                <div class="absolute -left-2 -bottom-2 text-brand/20 text-4xl"><i class="fa-solid fa-star"></i></div>
+                                <h5 class="text-white font-bold mb-1 relative z-10">2. PDC Emulator Master</h5>
+                                <p class="text-xs text-brand-light relative z-10">بسیار مهم! وظیفه اصلی آن دریافت متمرکز گروپ‌پالیسی‌ها و اعمال/همگام‌سازی آن‌ها به تمام DCهای دیگر است.</p>
+                            </div>
+                            <div class="bg-dark-800/50 p-4 rounded-lg border border-white/5">
+                                <h5 class="text-brand-light font-bold mb-1">3. Schema Master</h5>
+                                <p class="text-xs text-slate-400">تنها سروری که اجازه تغییر در ساختار و شاسی اکتیودایرکتوری (اسکیما) را دارد.</p>
+                            </div>
+                            <div class="bg-dark-800/50 p-4 rounded-lg border border-white/5">
+                                <h5 class="text-brand-light font-bold mb-1">4. Infrastructure Master</h5>
+                                <p class="text-xs text-slate-400">مسئول به‌روزرسانی رفرنس‌های اشیاء بین دامین‌های مختلف.</p>
+                            </div>
+                            <div class="bg-dark-800/50 p-4 rounded-lg border border-white/5 md:col-span-2">
+                                <h5 class="text-brand-light font-bold mb-1">5. RID Master</h5>
+                                <p class="text-xs text-slate-400">مسئول تخصیص بلوک‌های شناسه امنیتی (SID) به DCها برای ساخت موجودیت‌های جدید.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="section-2" class="section-content hidden">
+                    <h3>مکانیزم و سطوح Group Policy</h3>
+                    <p>گروپ‌پالیسی در اکتیودایرکتوری به ۳ سطح اصلی اعمال می‌شود (مدل LSDOU): <strong>Site</strong>، <strong>Domain</strong> و <strong>OU</strong>. توجه داشته باشید که پالیسی <strong>مستقیماً به کانتینر (مثل کانتینر پیش‌فرض Computers) اعمال نمی‌شود</strong>.</p>
+                    <ul>
+                        <li><strong>اولویت‌بندی (Precedence):</strong> پالیسی اعمال شده به دامین، به تمام OUها ارث می‌رسد. اما اگر در سطح یک OU قانونی متضاد با قانون دامین قرار دهیم، اولویت با نزدیک‌ترین پالیسی (پالیسی OU) است و قانون دامین Override نمی‌شود.</li>
+                        <li><strong>موجودیت‌ها:</strong> گروپ‌پالیسی‌ها در نهایت همیشه به دو موجودیت اعمال می‌شوند: یا <strong>User</strong> یا <strong>Computer</strong>.</li>
+                        <li><strong>بررسی تنظیمات:</strong> از طریق تب <code>Settings</code> می‌توانیم بفهمیم که در یک پالیسی خاص چه مواردی اعمال شده است.</li>
+                        <li><strong>Default Domain Policy:</strong> پالیسی پیش‌فرض دامین است که شامل سیاست‌های بنیادین (مثل پسورد پالیسی) می‌شود.</li>
+                    </ul>
+
+                    <h3>پاسخ به جستجوهای کلیدی (Search!!!)</h3>
+                    <div class="space-y-4 my-6">
+                        <div class="glass-card p-4 border-r-4 border-brand">
+                            <h4 class="text-white font-bold mb-2"><span class="search-badge"><i class="fa-solid fa-magnifying-glass"></i> Search</span>ADMX چیست؟</h4>
+                            <p class="text-sm text-slate-300">فایل‌های Administrative Templates هستند که تنظیمات رجیستری را مبتنی بر زبان XML به رابط کاربری گرافیکی تبدیل می‌کنند تا ادمین بتواند با چند کلیک آن‌ها را کانفیگ کند. (جایگزین فرمت قدیمی ADM).</p>
+                        </div>
+                        <div class="glass-card p-4 border-r-4 border-emerald-500">
+                            <h4 class="text-white font-bold mb-2"><span class="search-badge"><i class="fa-solid fa-magnifying-glass"></i> Search</span>PSO چیست؟</h4>
+                            <p class="text-sm text-slate-300">مخفف Password Settings Object. چون یک دامین فقط یک سیاست پسورد اصلی دارد، با PSO می‌توانیم برای کاربران یا گروه‌های خاص (مثل مدیران)، پالیسی پسورد مجزا و سخت‌گیرانه‌تری تعریف کنیم.</p>
+                        </div>
+                        <div class="glass-card p-4 border-r-4 border-rose-500">
+                            <h4 class="text-white font-bold mb-2"><span class="search-badge"><i class="fa-solid fa-magnifying-glass"></i> Search</span>Starter GPO چیست؟</h4>
+                            <p class="text-sm text-slate-300">یک الگو یا Template آماده است. اگر تنظیمات استانداردی دارید که باید در تمام GPOهای جدید رعایت شود، یک Starter می‌سازید و پالیسی‌های جدید را از روی آن مشتق می‌کنید.</p>
+                        </div>
+                    </div>
+
+                    <h3>زمان‌بندی و اجبار در آپدیت پالیسی‌ها</h3>
+                    <p>به طور پیش‌فرض، کلاینت‌ها هر <strong>۹۰ دقیقه</strong> یک‌بار گروپ پالیسی را آپدیت می‌کنند.</p>
+                    <div class="bg-dark-800 p-4 rounded-lg border border-white/5 mb-4">
+                        <h4 class="text-brand-light font-bold text-sm mb-1"><i class="fa-solid fa-clock ml-2"></i>تغییر تایم پیش‌فرض (Search)</h4>
+                        <p class="text-sm text-slate-400">برای تغییر این زمان ۹۰ دقیقه‌ای، باید پالیسی <code>Set Group Policy refresh interval for computers</code> را در مسیر System > Group Policy فعال و زمان دلخواه را تنظیم کنید.</p>
+                    </div>
+
+                    <p><strong>تفاوت Block Inheritance و Enforced:</strong></p>
+                    <ul>
+                        <li>با <strong>بلاک کردن Inheritance</strong> روی یک OU، از ورود پالیسی‌های بالادستی (مثلاً دامین) به درون آن جلوگیری می‌کنیم.</li>
+                        <li>اما قابلیت <strong>Enforced</strong> بالاترین قدرت را دارد. اگر یک پالیسی دامین را Enforced کنیم، حتی خطِ Block Inheritance را هم می‌شکند و در هر صورت به صورت اجباری اعمال می‌شود.</li>
+                    </ul>
+                </div>
+
+                <div id="section-3" class="section-content hidden">
+                    <h3>حل تضاد با Link Order</h3>
+                    <p>اگر چندین GPO مختلف با هم Conflict داشته باشند، ویندوز سرور بر اساس عددی به نام <strong>Link Order</strong> در کنار پالیسی‌ها تصمیم‌گیری می‌کند. عدد <strong>۱</strong> بیشترین اولویت را دارد و هرچه پایین‌تر می‌رود اولویت کمتر می‌شود.</p>
+
+                    <h3>مادلینگ و رزالت در گروپ پالیسی</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+                        <div class="glass-card p-5">
+                            <h4 class="text-indigo-400 font-bold mb-2"><i class="fa-solid fa-flask ml-2"></i>Modeling (شبیه‌سازی)</h4>
+                            <p class="text-sm text-slate-300">مادلینگ ابزاری است که شبیه‌سازی می‌کند تا ببینیم اگر یوزری لاگین کند چه اتفاقی می‌افتد. در صورت کانفلیکت، بخش <strong>Winning GPO</strong> مشخص می‌کند کدام پالیسی واقعاً برنده شده. مادلینگ فقط پیش‌بینی سرور است و پشت سیستم تست نمی‌کند، لذا ممکن است با واقعیت فرق کند.</p>
+                        </div>
+                        <div class="glass-card p-5">
+                            <h4 class="text-emerald-400 font-bold mb-2"><i class="fa-solid fa-square-poll-vertical ml-2"></i>Results (واقعیت)</h4>
+                            <p class="text-sm text-slate-300">اگر بخواهیم وضعیت دقیق و فعلی پالیسی‌های اعمال شده روی سیستم کاربر را ببینیم (نه شبیه‌سازی)، از Results استفاده می‌کنیم که مستقیماً لاگ‌ها و واقعیتِ سیستم هدف را بررسی می‌کند.</p>
+                        </div>
+                    </div>
+
+                    <h3>فیلترینگ و استثنائات در GPO</h3>
+                    <ul>
+                        <li><strong>فیلتر WMI <span class="search-badge bg-dark-800 ml-1">Search</span>:</strong> فیلتری شرطی است که اعمال پالیسی را به ویژگی‌های سخت‌افزاری/نرم‌افزاری گره می‌زند (مثلاً اعمال پالیسی فقط روی سیستم‌های ویندوز ۱۱ یا دارای باتری).</li>
+                        <li><strong>Security Filtering:</strong> در تب Scope هر پالیسی، می‌توانیم گروه Authenticated Users را پاک کرده و نام یک کاربر خاص را بنویسیم تا پالیسی استثنائاً فقط به او اعمال شود.</li>
+                        <li><strong>استثنا با Delegation:</strong> اگر بخواهیم یک پالیسی به یک یوزر درون OU اعمال <strong>نشود</strong>، در تب Delegation نام او را وارد کرده و تیک <strong>Deny</strong> را برای <code>Apply Group Policy</code> می‌زنیم.</li>
+                    </ul>
+
+                    <h3>تضاد بین تنظیمات User و Computer</h3>
+                    <div class="glass-card p-5 border-l-4 border-rose-500 mb-6">
+                        <p class="mb-0 text-sm">بخش کوچکی از تنظیمات بین یوزر و کامپیوتر مشترک است. اگر در Computer بگوییم USB بسته باشد، ولی در User بگوییم باز باشد، چون User در مرحله آخر اعمال می‌شود به Computer اصطلاحاً <strong>Override</strong> دارد و در نهایت USB باز می‌ماند.</p>
+                    </div>
+
+                    <h3>پاسخ به جستجوهای کلیدی (Search!!!)</h3>
+                    <div class="space-y-4">
+                        <div class="bg-dark-800 p-4 rounded-lg border border-white/5">
+                            <h4 class="text-brand-light font-bold text-sm mb-2"><i class="fa-solid fa-rotate-left ml-2"></i>Loopback Processing چیست؟</h4>
+                            <p class="text-sm text-slate-300 mb-0">به طور استاندارد تنظیمات User براساس محل قرارگیری یوزر در شبکه اعمال می‌شود. با فعال کردن Loopback به سرور می‌گوییم: «تنظیمات User را بر اساس کامپیوتری که شخص پشت آن نشسته اعمال کن». (بسیار کاربردی برای کیوسک‌ها و RDS).</p>
+                        </div>
+                        <div class="bg-dark-800 p-4 rounded-lg border border-white/5">
+                            <h4 class="text-brand-light font-bold text-sm mb-2"><i class="fa-solid fa-wifi ml-2"></i>ارتباط کند (Slow Network Connection)</h4>
+                            <p class="text-sm text-slate-300 mb-0">اگر سرعت ارتباط از حدی (پیش‌فرض 500kbps) کمتر باشد، ویندوز آن را کند تشخیص می‌دهد. در این حالت پالیسی‌های سنگین کار نمی‌کنند، از جمله: <strong>Folder Redirection</strong>، <strong>Software Installation</strong> و <strong>Roaming Profiles</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="section-4" class="section-content hidden">
+                    <h3>قدرت Group Policy Preferences (GPP)</h3>
+                    <p>قابلیت <strong>Preferences</strong> که در سرور ۲۰۰۸ معرفی شد، یک ابزار فوق‌العاده کاربردی است که در گروپ پالیسی‌های لوکال کلاینت‌ها وجود ندارد. در گذشته برای انجام این کارها روی سیستم کلاینت باید اسکریپت می‌نوشتیم!</p>
+                    
+                    <ul>
+                        <li><strong>مپ درایو (Map Drive):</strong> یکی از قابلیت‌های مهم GPP این است که فولدرهای شیر شده در سرور را مستقیماً به عنوان یک درایو روی My Computer تمامی کلاینت‌ها متصل (Map) می‌کند.</li>
+                        <li><strong>تغییر اکشن (Create vs Delete):</strong> وقتی یک Preference ایجاد می‌کنید اکشن روی Create است. <strong>نکته مهم:</strong> اگر آن را از کنسول دیلیت کنید، از روی سیستم کاربر پاک نمی‌شود! باید اکشن را از Create به <strong>Delete</strong> تغییر دهید و اجازه دهید اعمال شود تا از روی سیستم کاربر حذف گردد.</li>
+                    </ul>
+
+                    <div class="glass-card p-6 my-8 border border-brand/30 bg-gradient-to-br from-brand/5 to-transparent relative overflow-hidden">
+                        <i class="fa-solid fa-bullseye absolute -left-4 -top-4 text-7xl text-brand/10 transform -rotate-12"></i>
+                        <h4 class="text-white font-bold mb-3 relative z-10 text-xl">هدف‌گذاری دقیق (Item-Level Targeting)</h4>
+                        <p class="text-slate-300 relative z-10 text-sm leading-relaxed">
+                            این ویژگی در Preferences به معنای واقعی کلمه «گروپ پالیسیِ شرط‌دار» است. کاندیشن‌ها و شروط آن بسیار کاربردی هستند. مثلاً:
+                        </p>
+                        <ul class="text-sm text-brand-light mt-3 relative z-10">
+                            <li>میتوانیم تنظیم کنیم این پالیسی فقط در ساعات خاصی کار کند.</li>
+                            <li>شرط بگذاریم که پورت USB کاربر فقط زمانی باز باشد که با سیستم اختصاصی خودش لاگین کرده و اگر روی سیستم دیگری رفت USB مسدود شود.</li>
+                        </ul>
+                    </div>
+
+                    <h3>مدیریت و اعمال ترکیبی پالیسی‌ها</h3>
+                    <p>پسورد پالیسی هرگز روی یک OU کار نمی‌کند و باید Default Policy را تغییر داد (مگر استفاده از PSO). اما برای اعمال پالیسی‌های پیچیده:</p>
+                    <div class="bg-dark-800 p-4 rounded-lg border border-white/5 mb-4">
+                        <p class="text-sm text-slate-300 mb-0">وقتی می‌خواهیم پالیسی دو یا چند OU را به یوزری که داخل آن‌ها نیست اعمال کنیم: باید در آن OUها یک گروه (Group) بسازیم، یوزر را عضو آن گروه کنیم تا از هر دو استفاده کند. سپس برای بقیه اعضای OU در تب Security Filter اعمال پالیسی را مستثنی می‌کنیم.</p>
+                    </div>
+                </div>
+
+                <div id="section-5" class="section-content hidden">
+                    <div class="glass-card p-5 border-l-4 border-accent mb-8 bg-accent/5">
+                        <h4 class="text-accent-light font-bold mb-2"><i class="fa-solid fa-triangle-exclamation ml-2"></i>هشدار امنیتی بسیار مهم</h4>
+                        <p class="text-sm text-slate-300 mb-0">هرگز با پالیسی <strong>Default Domain Controllers</strong> بازی نکنید و آن را دستکاری ننمایید. اشتباه در این بخش باعث می‌شود سرورهای DC اصطلاحاً بترکند و از کار بیفتند!</p>
+                    </div>
+
+                    <h3>پاسخ به جستجوهای کلیدی امنیت (Search!!!)</h3>
+                    <div class="space-y-5 my-6">
+                        <div class="bg-dark-800 p-5 rounded-lg border border-white/10">
+                            <h4 class="text-brand-light font-bold mb-2 flex items-center gap-2"><span class="search-badge"><i class="fa-solid fa-key"></i> Search</span>مکانیزم LAPS چیست؟</h4>
+                            <p class="text-sm text-slate-300 mb-0">ابزار Local Administrator Password Solution پسورد ادمین محلی (Local) کلاینت‌ها را به صورت خودکار به رمزهای رندوم، کامپلکس و کاملاً متفاوت از هم تغییر داده و آن‌ها را به صورت امن در دیتابیس اکتیودایرکتوری ذخیره می‌کند تا امنیت شبکه در برابر نفوذ تضمین شود.</p>
+                        </div>
+                        <div class="bg-dark-800 p-5 rounded-lg border border-white/10">
+                            <h4 class="text-brand-light font-bold mb-2 flex items-center gap-2"><span class="search-badge"><i class="fa-solid fa-puzzle-piece"></i> Search</span>پالیسی روی برنامه‌های جانبی</h4>
+                            <p class="text-sm text-slate-300 mb-0">برای اینکه بتوانیم روی مرورگرهایی مثل کروم، فایرفاکس یا ادوبی از طریق سرور پالیسی اعمال کنیم، باید فایل‌های <strong>ADMX</strong> و <strong>ADML</strong> مربوط به آن‌ها را از سایت سازنده دانلود و در پوشه <code>PolicyDefinitions</code> ویندوز یا SYSVOL قرار دهیم تا تنظیماتشان به کنسول گروپ پالیسی اضافه شود.</p>
+                        </div>
+                    </div>
+
+                    <h3>تفویض اختیار (Delegation) و RSAT</h3>
+                    <p>با قابلیت <strong>Delegate Control</strong> می‌توانیم تسک‌های رایج یا سفارشی را به یوزر عادی اختصاص دهیم تا بدون دسترسی ادمین کل، آن کارها را انجام دهد. نکته مهم این است که یوزر عادی نمی‌تواند مستقیماً به DC لاگین کند!</p>
+                    <p>او باید از پشت سیستم کلاینت خودش کار کند. برای این منظور، نرم‌افزار <strong>RSAT (Remote Server Administration Tools)</strong> را روی ویندوز او نصب می‌کنیم تا کنسول‌های اکتیودایرکتوری به سیستمش اضافه شود.</p>
+
+                    <div class="glass-card p-6 mt-8 border border-brand/30 bg-gradient-to-br from-indigo-900/20 to-transparent">
+                        <h4 class="text-white font-bold mb-3 flex items-center gap-2">
+                            <span class="search-badge"><i class="fa-solid fa-lock"></i> Search</span>محدودسازی Snap-in برای کاربران عادی
+                        </h4>
+                        <p class="text-sm text-slate-300 mb-3">برای محدود کردن هلپ‌دسک‌ها در محیط MMC از طریق گروپ پالیسی مسیر زیر را طی می‌کنیم:</p>
+                        <code class="block bg-black/40 p-3 rounded text-xs text-brand-light mb-3 text-left dir-ltr">User Configuration > Administrative Templates > Windows Components > Microsoft Management Console</code>
+                        <ul class="text-sm text-slate-300 space-y-2">
+                            <li><strong>روش اول:</strong> در پوشه <code>Restricted/Permitted snap-ins</code> هر ابزاری که نمی‌خواهیم ببیند را Disabled می‌کنیم.</li>
+                            <li><strong>روش اصولی‌تر (وایت‌لیست):</strong> در همان ریشه MMC، پالیسی <code>Restrict users to the explicitly permitted snap-ins list</code> را فعال می‌کنیم تا تمام دسترسی‌ها مسدود شود، مگر مواردی که خودمان صراحتاً اجازه داده‌ایم.</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+        const topTitle = document.getElementById('topTitle');
+        const mobileTitle = document.getElementById('mobileTitle');
+        const scrollArea = document.getElementById('scrollArea');
+
+        function openSidebar() {
+            sidebar.classList.remove('translate-x-full');
+            overlay.classList.remove('hidden');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('translate-x-full');
+            overlay.classList.add('hidden');
+        }
+
+        function showSection(sectionNumber, btnElement) {
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.classList.remove('block', 'section-fade');
+                el.classList.add('hidden');
+            });
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            const targetSection = document.getElementById('section-' + sectionNumber);
+            targetSection.classList.remove('hidden');
+            void targetSection.offsetWidth; 
+            targetSection.classList.add('block', 'section-fade');
+
+            btnElement.classList.add('active');
+
+            const btnText = btnElement.innerText.trim();
+            topTitle.innerText = btnText;
+            mobileTitle.innerText = btnText;
+
+            scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (window.innerWidth < 1024) {
+                closeSidebar();
+            }
+        }
+    </script>
+</body>
+</html>

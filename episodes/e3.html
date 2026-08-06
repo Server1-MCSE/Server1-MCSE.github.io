@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات دوره ویندوز سرور | اپیزود ۳</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Vazirmatn Font -->
+    <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.0/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Vazirmatn', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B1120', 800: '#1e293b', 700: '#334155' },
+                        brand: { light: '#14b8a6', DEFAULT: '#0d9488', dark: '#0f766e' }, /* Teal color for Ep 3 */
+                        accent: { DEFAULT: '#f59e0b', light: '#fcd34d' }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #0B1120;
+            color: #e2e8f0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .section-fade {
+            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B1120; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        .content-box h3 {
+            color: #f8fafc;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .content-box h3::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background-color: #14b8a6;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #14b8a6;
+        }
+        .content-box p { line-height: 1.9; color: #94a3b8; margin-bottom: 1rem; text-align: justify; }
+        .content-box ul { list-style: none; padding: 0; margin-bottom: 1.5rem; }
+        .content-box ul li { position: relative; padding-right: 1.5rem; margin-bottom: 0.75rem; line-height: 1.8; color: #cbd5e1; }
+        .content-box ul li::before {
+            content: '\f104';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            color: #14b8a6;
+            font-size: 0.9rem;
+        }
+        .content-box strong { color: #e2e8f0; background: rgba(255,255,255,0.05); padding: 0 4px; border-radius: 4px; }
+
+        .nav-btn.active {
+            background: linear-gradient(90deg, rgba(20,184,166,0.15) 0%, transparent 100%);
+            border-right: 4px solid #14b8a6;
+            color: #ccfbf1;
+        }
+        .nav-btn { border-right: 4px solid transparent; }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+        }
+        
+        .search-badge {
+            background: rgba(20, 184, 166, 0.2);
+            color: #5eead4;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-right: 8px;
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .highlight-code {
+            display: inline-block;
+            background: #0f172a;
+            color: #5eead4;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid #1e293b;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Mobile Overlay -->
+    <div id="mobileOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity" onclick="closeSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed inset-y-0 right-0 w-72 bg-dark-800/95 backdrop-blur-xl border-l border-white/10 flex flex-col z-50 transform translate-x-full lg:translate-x-0 transition-transform duration-300 shadow-2xl lg:static lg:shadow-none">
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-brand-dark flex items-center justify-center shadow-lg shadow-brand/20 ml-3">
+                <i class="fa-solid fa-server text-white text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-white font-black text-lg">ویندوز سرور</h1>
+                <p class="text-brand-light text-xs font-medium">اپیزود ۳ | Core & Management</p>
+            </div>
+            <button onclick="closeSidebar()" class="lg:hidden mr-auto text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+            <button onclick="showSection(1, this)" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-chart-line w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۱. مانیتورینگ و Slow Link
+            </button>
+            <button onclick="showSection(2, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-layer-group w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۲. GPO پیشرفته و ADMX
+            </button>
+            <button onclick="showSection(3, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-brands fa-windows w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۳. ویندوز سرور Core
+            </button>
+            <button onclick="showSection(4, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-network-wired w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۴. مدیریت از راه دور و WAC
+            </button>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
+        <header class="h-20 bg-dark-900/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6 sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <button onclick="openSidebar()" class="lg:hidden text-slate-300 hover:text-white bg-white/5 p-2 rounded-lg transition-colors">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h2 id="topTitle" class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-white to-slate-400 hidden sm:block">۱. مانیتورینگ و Slow Link</h2>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="bg-brand/10 text-brand-light px-3 py-1 rounded-full text-xs font-semibold border border-brand/20">
+                    اپیزود سوم
+                </span>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 lg:p-12 relative" id="scrollArea">
+            <div class="max-w-4xl mx-auto content-box pb-24">
+                
+                <h2 id="mobileTitle" class="text-2xl font-bold text-white mb-8 sm:hidden">۱. مانیتورینگ و Slow Link</h2>
+
+                <!-- SECTION 1 -->
+                <div id="section-1" class="section-content section-fade block">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand flex items-start gap-4">
+                        <i class="fa-solid fa-gauge-high text-3xl text-brand-light mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-1">ابزار RSOP (Resultant Set of Policy)</h4>
+                            <p class="mb-0 text-slate-300 text-sm">با اجرای دستور <span class="highlight-code">rsop.msc</span> در کادر Run یک سیستم کلاینت، محیطی شبیه به کنسول گروپ پالیسی باز می‌شود که به ما دقیقاً نشان می‌دهد چه پالیسی‌هایی و با چه تنظیماتی در حال حاضر روی این کامپیوتر و یوزر اعمال شده‌اند.</p>
+                        </div>
+                    </div>
+
+                    <h3>ارتباط کند (Slow Link Connection)</h3>
+                    <p>یکی از مفاهیم حیاتی در مدیریت پهنای باند کلاینت‌ها، کنترل شرایط در شبکه‌های ضعیف است:</p>
+                    <ul>
+                        <li><strong>نحوه تشخیص:</strong> وقتی سرعت ارتباط شبکه بین کلاینت و سرور DC زیر <strong>۵۰۰ کیلوبیت بر ثانیه</strong> باشد، ویندوز آن را به عنوان ارتباط کند (Slow Link) شناسایی می‌کند. سرور با استفاده از مکانیزم پینگ (ICMP) این سرعت را ارزیابی می‌کند.</li>
+                        <li><strong>مدیریت از طریق GPO:</strong> مقدار پیش‌فرض ۵۰۰ کیلوبیت، از طریق گروپ پالیسی قابل تغییر است. <strong>نکته مهم:</strong> اگر این مقدار را روی صفر (0) تنظیم کنیم، سیستم دیگر سرعت شبکه را چک نمی‌کند و عملاً مکانیزم Slow Link خاموش می‌شود.</li>
+                    </ul>
+
+                    <div class="bg-dark-800 p-6 rounded-xl border border-white/5 mt-6">
+                        <h4 class="text-accent font-bold mb-4"><i class="fa-solid fa-ban ml-2"></i>استثنائات در ارتباط کند</h4>
+                        <p class="text-sm text-slate-300 mb-4">برای جلوگیری از قفل شدن کلاینت و اشغال شدن همان پهنای باند محدود، اگر سیستم Slow Link تشخیص داده شود، پالیسی‌های سنگینِ زیر <strong>اعمال نمی‌شوند</strong>:</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                            <div class="bg-dark-900/50 p-3 rounded flex items-center gap-2 text-slate-300 border border-white/5">
+                                <i class="fa-solid fa-xmark text-rose-500"></i> Disk Quota (سهمیه‌بندی دیسک)
+                            </div>
+                            <div class="bg-dark-900/50 p-3 rounded flex items-center gap-2 text-slate-300 border border-white/5">
+                                <i class="fa-solid fa-xmark text-rose-500"></i> Scripts (استارتاپ/لاگین)
+                            </div>
+                            <div class="bg-dark-900/50 p-3 rounded flex items-center gap-2 text-slate-300 border border-white/5">
+                                <i class="fa-solid fa-xmark text-rose-500"></i> Folder Redirection
+                            </div>
+                            <div class="bg-dark-900/50 p-3 rounded flex items-center gap-2 text-slate-300 border border-white/5">
+                                <i class="fa-solid fa-xmark text-rose-500"></i> Software Installation
+                            </div>
+                            <div class="bg-dark-900/50 p-3 rounded flex items-center gap-2 text-slate-300 border border-white/5">
+                                <i class="fa-solid fa-xmark text-rose-500"></i> Wireless Network (802.11)
+                            </div>
+                            <div class="bg-dark-900/50 p-3 rounded flex items-center gap-2 text-slate-300 border border-white/5">
+                                <i class="fa-solid fa-xmark text-rose-500"></i> Wired Network (802.3)
+                            </div>
+                            <div class="bg-dark-900/50 p-3 rounded flex items-center gap-2 text-slate-300 border border-white/5 sm:col-span-2">
+                                <i class="fa-solid fa-xmark text-rose-500"></i> Internet Explorer Maintenance Extension
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 2 -->
+                <div id="section-2" class="section-content hidden">
+                    <h3>شخصی‌سازی و الگوها در GPO</h3>
+                    <ul>
+                        <li><strong>الگوهای پایه (Starter GPO):</strong> استارتر گروپ پالیسی مانند یک قالبِ آماده (Template) عمل می‌کند. ما مجموعه‌ای از تنظیماتِ مشترک سازمان را در یک Starter GPO تیک زده و ذخیره می‌کنیم. زمانِ ساخت هر GPO جدید، این استارتر را به عنوان بیس انتخاب می‌کنیم و فقط تنظیمات مجزا را به آن اضافه می‌کنیم.</li>
+                        <li><strong>Active Desktop (بک‌گراند یکپارچه):</strong> با این قابلیت می‌توانیم Wallpaper تمام کامپیوترها را یکسان‌سازی کنیم. علاوه بر عکس، می‌توانیم یک فایل <strong>HTML</strong> قرار دهیم تا کاربر بتواند روی لینک‌های روی دسکتاپ کلیک کند. 
+                            <br><span class="text-accent text-sm"><i class="fa-solid fa-triangle-exclamation ml-1 mt-2"></i><strong>قانون مهم:</strong> فایل عکس یا HTML حتماً باید شیر شده باشد و آدرس آن در GPO به صورت <strong>UNC Path</strong> وارد شود.</span>
+                        </li>
+                    </ul>
+
+                    <div class="glass-card p-6 my-8 border border-brand/30 bg-gradient-to-br from-brand/5 to-transparent">
+                        <h4 class="text-white font-bold mb-4 text-lg">تفاوت WMI Filter و Item-Level Targeting</h4>
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <div class="flex-1 bg-dark-800/80 p-4 rounded-lg border border-white/5">
+                                <h5 class="text-emerald-400 font-bold mb-2 text-sm"><i class="fa-solid fa-crosshairs ml-2"></i>Item-Level Targeting</h5>
+                                <p class="text-xs text-slate-300 leading-relaxed mb-0">شروط را به صورت گرافیکی اعمال می‌کند اما <strong>فقط و فقط در بخش Preferences</strong> وجود دارد.</p>
+                            </div>
+                            <div class="flex-1 bg-dark-800/80 p-4 rounded-lg border border-white/5">
+                                <h5 class="text-blue-400 font-bold mb-2 text-sm"><i class="fa-solid fa-code ml-2"></i>WMI Filter</h5>
+                                <p class="text-xs text-slate-300 leading-relaxed mb-0">با زبان کوئری‌نویسی کار می‌کند (مثلاً فقط روی ویندوز ۱۰ها) و در <strong>تمامی بخش‌های گروپ پالیسی</strong> قابل استفاده است.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>زمان‌بندی و مدیریت فایل‌های ADMX</h3>
+                    <p><strong>زمان‌بندی آپدیت GPO:</strong> با فعال‌سازی پالیسی <code>Set Group Policy Refresh Interval For Computers</code> می‌توانیم زمان پیش‌فرض آپدیت پالیسی‌ها (۹۰ دقیقه) را تغییر دهیم. <br>
+                    <span class="text-rose-400 text-sm bg-rose-500/10 px-2 py-1 rounded inline-block mt-2"><strong>هشدار:</strong> اگر این زمان روی صفر قرار گیرد، سیستم هر ۷ ثانیه درخواست می‌فرستد که شبکه را نابود می‌کند!</span></p>
+                    
+                    <div class="mt-6 border-r-4 border-brand-light pr-4">
+                        <h4 class="text-white font-bold mb-2"><span class="search-badge"><i class="fa-solid fa-folder-open"></i> کالبدشکافی</span> ADMX چیست و کجاست؟</h4>
+                        <p class="text-sm text-slate-300 mb-2">برای اعمال گروپ پالیسی روی نرم‌افزارهای غیرمایکروسافتی، فایل‌های دارای پسوند <strong>.admx</strong> را دانلود کرده و دقیقاً در مسیر زیر قرار می‌دهیم:</p>
+                        <code class="block bg-black/40 p-3 rounded text-xs text-brand-light mb-3 text-left dir-ltr">SystemRoot\PolicyDefinitions</code>
+                        <p class="text-sm text-slate-300 mb-0">سپس فایل‌های زبان آن‌ها (پسوند .adml یا .adm) را در پوشه زبان (مثلاً en-US) می‌گذاریم تا تنظیمات در Administrative Templates ظاهر شوند.</p>
+                    </div>
+                </div>
+
+                <!-- SECTION 3 -->
+                <div id="section-3" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand flex flex-col md:flex-row items-center gap-6">
+                        <div class="text-5xl text-brand/30">
+                            <i class="fa-brands fa-windows"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-xl mb-2">معماری Windows Server Core</h4>
+                            <p class="mb-0 text-slate-300 text-sm leading-relaxed">پیشنهاد مایکروسافت و بهترین رویکرد در شبکه‌های سازمانی این است که تمامی سرورها به صورت <strong>Core (بدون رابط گرافیکی)</strong> نصب شوند و تنها یک سرور GUI برای مدیریت داشته باشیم. مزایای این کار: پرفورمنس بسیار بالاتر، مصرف منابع (RAM/CPU) بسیار کمتر و امنیت فوق‌العاده بیشتر.</p>
+                        </div>
+                    </div>
+
+                    <h3>تنظیمات پایه و پیش‌نیازها</h3>
+                    <ul>
+                        <li><strong>دستور جادویی Sconfig:</strong> در محیط خط فرمان Core، با تایپ دستور <span class="highlight-code">sconfig</span> یک منوی متنی و جامع باز می‌شود که تنظیمات اولیه (نام کامپیوتر، IP، جوین به دامین، آپدیت و Remote Desktop) را فراهم می‌کند.</li>
+                        <li><strong>اهمیت NET Framework.:</strong> پیش‌نیازهای نرم‌افزاری به صورت پیش‌فرض روی Core نصب نیستند. برای اجرای بسیاری از ابزارها، نصب پکیج‌های NET Framework. کاملاً الزامی است.</li>
+                    </ul>
+
+                    <h3>نصب از سورس و محدودیت‌های Core</h3>
+                    <div class="bg-dark-800 p-5 rounded-xl border border-white/5 mb-6">
+                        <h4 class="text-brand-light font-bold mb-2 text-sm"><i class="fa-solid fa-compact-disc ml-2"></i>نصب فیچرها از مسیر SXS</h4>
+                        <p class="text-sm text-slate-300 mb-2">در سرور، فایل‌های نصبی برخی فیچرها روی هارد نیستند. در Server Manager باید روی <code>Specify an alternate source path</code> کلیک کرده و مسیر پوشه <strong>sxs</strong> موجود در فایل ISO ویندوز را بدهیم.</p>
+                        <code class="block bg-black/40 p-2 rounded text-xs text-white text-left dir-ltr">e:\sources\sxs</code>
+                    </div>
+
+                    <div class="bg-rose-900/10 p-5 rounded-xl border border-rose-500/20">
+                        <h4 class="text-rose-400 font-bold mb-3 text-sm"><i class="fa-solid fa-triangle-exclamation ml-2"></i>رول‌های پشتیبانی‌نشده در Server Core</h4>
+                        <p class="text-sm text-slate-300 mb-3">با وجود تمام مزایا، سرور Core از این ۴ رول پشتیبانی نمی‌کند:</p>
+                        <div class="grid grid-cols-2 gap-2 text-sm">
+                            <span class="bg-black/30 px-3 py-2 rounded text-slate-400 text-center">1. Fax Server</span>
+                            <span class="bg-black/30 px-3 py-2 rounded text-slate-400 text-center">2. WDS</span>
+                            <span class="bg-black/30 px-3 py-2 rounded text-slate-400 text-center">3. NPAS</span>
+                            <span class="bg-black/30 px-3 py-2 rounded text-slate-400 text-center">4. MultiPoint Services</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 4 -->
+                <div id="section-4" class="section-content hidden">
+                    <h3>مدیریت از راه دور و پلتفرم WAC</h3>
+                    <p>پلتفرم <strong>Windows Admin Center (WAC)</strong> مدیریت سرورها را متحول کرده است. پس از نصب WAC، آدرس IP آن سیستم را در مرورگر وارد کرده، با یوزر دامین لاگین می‌کنیم و سرورهای Core را به کنسول تحت وب اضافه می‌کنیم.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+                        <div class="glass-card p-5 border-t-2 border-brand">
+                            <h4 class="text-white font-bold mb-2 text-sm">Core عضو Domain</h4>
+                            <p class="text-sm text-slate-300 mb-0">اگر سرور Core به عضویت دامین درآمده باشد، مدیریت آن با WAC و اضافه کردن آن به پنل بسیار ساده و بدون نیاز به کانفیگ پیچیده است.</p>
+                        </div>
+                        <div class="glass-card p-5 border-t-2 border-accent">
+                            <h4 class="text-white font-bold mb-2 text-sm">Core حالت Stand-Alone</h4>
+                            <p class="text-sm text-slate-300 mb-0">اگر عضو دامین نباشد، مدیریت با Server Manager نیازمند اعمال Group Policyهای دستی است. اما WAC در این سناریو به شدت کار را راحت‌تر می‌کند.</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-slate-400"><i class="fa-solid fa-circle-info text-brand-light ml-1"></i> <strong>نکته فایروال:</strong> برای برقراری ارتباطات اولیه مدیریت از راه دور، گاهی لازم است موقتاً با کامند، فایروال سرور Core را غیرفعال کنیم.</p>
+
+                    <hr class="border-white/10 my-8">
+
+                    <h3>کاربرد عملی RSAT (سناریوهای مدیریتی)</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-dark-800 p-5 rounded-lg border border-white/5 relative overflow-hidden">
+                            <div class="absolute left-0 top-0 h-full w-1 bg-brand"></div>
+                            <h4 class="text-brand-light font-bold mb-2 text-sm">سناریوی ۱: مدیریت DHCP روی Core</h4>
+                            <p class="text-sm text-slate-300 mb-2">اگر رول DHCP روی Core نصب است و می‌خواهیم از روی یک سرور GUI آن را مدیریت کنیم، <strong>نباید</strong> رول DHCP را روی سرور GUI نصب کنیم!</p>
+                            <p class="text-sm text-slate-300 mb-0"><strong>روش صحیح:</strong> در ویزارد Add Roles and Features، به بخش <strong>Features</strong> رفته و از زیرمجموعه <strong>RSAT</strong> گزینه <strong>DHCP Server Tools</strong> را نصب می‌کنیم. سپس در کنسول مدیریت، IP سرور Core را Add می‌کنیم.</p>
+                        </div>
+
+                        <div class="bg-dark-800 p-5 rounded-lg border border-white/5 relative overflow-hidden">
+                            <div class="absolute left-0 top-0 h-full w-1 bg-emerald-500"></div>
+                            <h4 class="text-emerald-400 font-bold mb-2 text-sm">سناریوی ۲: Help Desk و Delegation</h4>
+                            <p class="text-sm text-slate-300 mb-2">با نصب <strong>RSAT</strong> روی ویندوز کلاینت (سیستم پشتیبان)، کنسول‌هایی مثل AD UC به سیستم او اضافه می‌شود.</p>
+                            <p class="text-sm text-slate-300 mb-0">با قابلیت <strong>Delegate Control</strong>، دسترسی محدودی (مثلاً فقط ساخت یوزر) به او می‌دهیم. در نتیجه، هلپ‌دسک بدون نیاز به لاگین در سرور DC، وظایفش را به صورت کنترل‌شده از پشت سیستم خودش انجام می‌دهد.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+        const topTitle = document.getElementById('topTitle');
+        const mobileTitle = document.getElementById('mobileTitle');
+        const scrollArea = document.getElementById('scrollArea');
+
+        function openSidebar() {
+            sidebar.classList.remove('translate-x-full');
+            overlay.classList.remove('hidden');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('translate-x-full');
+            overlay.classList.add('hidden');
+        }
+
+        function showSection(sectionNumber, btnElement) {
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.classList.remove('block', 'section-fade');
+                el.classList.add('hidden');
+            });
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            const targetSection = document.getElementById('section-' + sectionNumber);
+            targetSection.classList.remove('hidden');
+            void targetSection.offsetWidth; 
+            targetSection.classList.add('block', 'section-fade');
+
+            btnElement.classList.add('active');
+
+            const btnText = btnElement.innerText.trim();
+            topTitle.innerText = btnText;
+            mobileTitle.innerText = btnText;
+
+            scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (window.innerWidth < 1024) {
+                closeSidebar();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات دوره ویندوز سرور | اپیزود ۷</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Vazirmatn Font -->
+    <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.0/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Vazirmatn', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B1120', 800: '#1e293b', 700: '#334155' },
+                        brand: { light: '#7dd3fc', DEFAULT: '#0ea5e9', dark: '#0284c7' }, /* Sky Blue theme for Ep 7 */
+                        accent: { DEFAULT: '#8b5cf6', light: '#c4b5fd' } /* Violet accent */
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #0B1120;
+            color: #e2e8f0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .section-fade {
+            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B1120; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        .content-box h3 {
+            color: #f8fafc;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .content-box h3::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background-color: #0ea5e9;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #0ea5e9;
+        }
+        .content-box p { line-height: 1.9; color: #94a3b8; margin-bottom: 1rem; text-align: justify; }
+        .content-box ul { list-style: none; padding: 0; margin-bottom: 1.5rem; }
+        .content-box ul li { position: relative; padding-right: 1.5rem; margin-bottom: 0.75rem; line-height: 1.8; color: #cbd5e1; }
+        .content-box ul li::before {
+            content: '\f104';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            color: #0ea5e9;
+            font-size: 0.9rem;
+        }
+        .content-box strong { color: #e2e8f0; background: rgba(255,255,255,0.05); padding: 0 4px; border-radius: 4px; }
+
+        .nav-btn.active {
+            background: linear-gradient(90deg, rgba(14,165,233,0.15) 0%, transparent 100%);
+            border-right: 4px solid #0ea5e9;
+            color: #7dd3fc;
+        }
+        .nav-btn { border-right: 4px solid transparent; }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+        }
+
+        .search-badge {
+            background: rgba(14, 165, 233, 0.2);
+            color: #7dd3fc;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-right: 8px;
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .highlight-code {
+            display: inline-block;
+            background: #0f172a;
+            color: #7dd3fc;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid #1e293b;
+        }
+        .dir-ltr { direction: ltr; text-align: left; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Mobile Overlay -->
+    <div id="mobileOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity" onclick="closeSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed inset-y-0 right-0 w-72 bg-dark-800/95 backdrop-blur-xl border-l border-white/10 flex flex-col z-50 transform translate-x-full lg:translate-x-0 transition-transform duration-300 shadow-2xl lg:static lg:shadow-none">
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-brand-dark flex items-center justify-center shadow-lg shadow-brand/20 ml-3">
+                <i class="fa-solid fa-globe text-white text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-white font-black text-lg">ویندوز سرور</h1>
+                <p class="text-brand-light text-xs font-medium">اپیزود ۷ | DNS & Resolution</p>
+            </div>
+            <button onclick="closeSidebar()" class="lg:hidden mr-auto text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+            <button onclick="showSection(1, this)" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-satellite-dish w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۱. مبانی Name Resolution
+            </button>
+            <button onclick="showSection(2, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-server w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۲. فایل Hosts و NetBIOS
+            </button>
+            <button onclick="showSection(3, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-network-wired w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۳. معماری DNS و Zoneها
+            </button>
+            <button onclick="showSection(4, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-database w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۴. کالبدشکافی رکوردهای DNS
+            </button>
+            <button onclick="showSection(5, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-shield-halved w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۵. فرآیندهای پیشرفته DNS
+            </button>
+        </nav>
+        
+        <div class="p-5 border-t border-white/5 bg-black/20">
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+                <i class="fa-solid fa-circle-check text-brand"></i>
+                پاسخ تمامی Search ها اعمال شد
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
+        <header class="h-20 bg-dark-900/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6 sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <button onclick="openSidebar()" class="lg:hidden text-slate-300 hover:text-white bg-white/5 p-2 rounded-lg transition-colors">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h2 id="topTitle" class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-white to-slate-400 hidden sm:block">۱. مبانی Name Resolution</h2>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="bg-brand/10 text-brand-light px-3 py-1 rounded-full text-xs font-semibold border border-brand/20">
+                    اپیزود هفتم
+                </span>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 lg:p-12 relative" id="scrollArea">
+            <div class="max-w-4xl mx-auto content-box pb-24">
+                
+                <h2 id="mobileTitle" class="text-2xl font-bold text-white mb-8 sm:hidden">۱. مبانی Name Resolution</h2>
+
+                <!-- SECTION 1 -->
+                <div id="section-1" class="section-content section-fade block">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand flex items-start gap-4">
+                        <i class="fa-solid fa-satellite-dish text-3xl text-brand-light mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-1">فلسفه Name Resolution چیست؟</h4>
+                            <p class="mb-0 text-slate-300 text-sm leading-relaxed">هیچ‌کدام از لایه‌های زیرین شبکه (مثل لایه ۲ و ۳) فیلدی به نام Destination Name (نام مقصد) ندارند؛ آن‌ها فقط با MAC و IP کار می‌کنند. بنابراین نامِ سیستم باید توسط روش‌ها و سرویس‌هایی به IP تبدیل شود تا کامپیوترها بتوانند با هم ارتباط بگیرند.</p>
+                        </div>
+                    </div>
+
+                    <h3>سرویس‌ها و پروتکل‌های تبدیل نام</h3>
+                    <p>فرآیند تبدیل نام در دو بستر انجام می‌شود: بستر <strong>داخلی شبکه (LAN)</strong> و بستر <strong>اینترنت (WAN)</strong>. این کار توسط دو ابزار کلی صورت می‌گیرد:</p>
+                    <ul class="mb-6">
+                        <li><strong>توسط سرورهای تخصصی:</strong> مانند DNS، WINS (برای ویندوزهای قدیمی) و BIND (برای لینوکس).</li>
+                        <li><strong>توسط پروتکل‌های محلی:</strong> در شبکه‌هایی که سرور ندارند از طریق پیام‌های Broadcast و پروتکل LLMNR انجام می‌شود.</li>
+                    </ul>
+
+                    <h3>کالبدشکافی پروتکل LLMNR</h3>
+                    <p>پروتکل <strong>LLMNR</strong> (Link-Local Multicast Name Resolution) زمانی کار می‌کند که دو سیستم در <strong>یک Subnet</strong> باشند. این پروتکل مختص تجهیزات مایکروسافتی است و برای کار کردن به روشن بودن قابلیت Network Discovery متکی است. ارتباطات LLMNR بر پایه شبکه‌های IPv6 و روی آدرس مولتی‌کست <span class="highlight-code text-xs">FF02::1:3</span> انجام می‌شود.</p>
+
+                    <div class="bg-dark-800 p-5 rounded-lg border border-white/5 relative overflow-hidden mt-6 border-r-4 border-brand">
+                        <h4 class="text-brand-light font-bold mb-2"><span class="search-badge"><i class="fa-solid fa-power-off"></i> Search</span> غیرفعال‌سازی اصولی LLMNR</h4>
+                        <p class="text-sm text-slate-300 mb-3">پروتکل LLMNR یک حفره امنیتی بزرگ برای حملات Man-in-the-Middle است (هکرها با ابزاری مثل Responder به درخواست‌های LLMNR پاسخ جعلی می‌دهند). برای غیرفعال کردن آن در کل شبکه باید از گروپ‌پالیسی استفاده کنیم:</p>
+                        <code class="block bg-black/40 p-3 rounded text-xs text-brand-light text-left dir-ltr leading-relaxed">
+                            Computer Configuration > Administrative Templates > Network > DNS Client<br>
+                            => Policy: "Turn off multicast name resolution" => <strong>Enabled</strong>
+                        </code>
+                    </div>
+
+                    <h3 class="mt-8">Host Name و تفاوت ساختار نام‌ها</h3>
+                    <p>نام کامپیوترها در شبکه‌های ویندوزی به دو شکل می‌تواند باشد:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="glass-card p-4">
+                            <h4 class="text-white font-bold mb-1 text-sm"><i class="fa-solid fa-minus text-brand-light ml-2"></i>ساختار مسطح (Flat)</h4>
+                            <p class="text-sm text-slate-400 mb-0">در شبکه‌های Workgroup، کامپیوترها یک نامِ تک‌قسمتی و مسطح (مثل <code>PC-Ali</code>) دارند.</p>
+                        </div>
+                        <div class="glass-card p-4">
+                            <h4 class="text-white font-bold mb-1 text-sm"><i class="fa-solid fa-sitemap text-brand-light ml-2"></i>ساختار سلسله‌مراتبی (FQDN)</h4>
+                            <p class="text-sm text-slate-400 mb-0">در دامین‌ها، نام‌ها بخش‌بندی می‌شوند (مانند <code>PC-Ali.company.local</code>) که درک مسیر را برای DNS راحت‌تر می‌کند.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 2 -->
+                <div id="section-2" class="section-content hidden">
+                    <h3>معماری باستانی NetBIOS</h3>
+                    <p>قبل از ویندوز ۲۰۰۰، شبکه‌های مایکروسافتی بر پایه <strong>NetBIOS</strong> (Network Basic Input/Output System) کار می‌کردند. در این ساختار، طول نام حداکثر ۱۶ کاراکتر بود که ۱۵ کاراکتر اول برای نام کامپیوتر و <strong>۱۶امین کاراکتر (به صورت هگزا‌دسیمال)</strong> نشان‌دهنده نوع سرویسِ آن سیستم (مثل Workstation یا Server) بود.</p>
+                    <p class="text-sm text-slate-400"><i class="fa-solid fa-circle-info text-brand-light ml-1"></i> <strong>Workstation Service:</strong> سرویسی است که باعث می‌شود شما (به عنوان کلاینت) بتوانید به فایل‌های شیر شده‌ی دیگران متصل شوید.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+                        <div class="bg-dark-800 p-5 rounded-xl border border-white/5">
+                            <h4 class="text-brand-light font-bold mb-3"><span class="search-badge"><i class="fa-solid fa-ban"></i> Search</span> خاموش کردن NetBIOS</h4>
+                            <p class="text-sm text-slate-300 mb-2">NetBIOS در شبکه‌های مدرن کاربردی ندارد و خاموش کردن آن امنیت را بالا می‌برد. روش‌ها:</p>
+                            <ul class="text-sm text-slate-300 space-y-1 mb-0">
+                                <li><strong>دستی:</strong> کارت شبکه > IPv4 > Advanced > تب WINS > انتخاب Disable NetBIOS over TCP/IP</li>
+                                <li><strong>متمرکز:</strong> از طریق Option شماره 43 در تنظیمات سرور DHCP</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-dark-800 p-5 rounded-xl border border-white/5">
+                            <h4 class="text-brand-light font-bold mb-3"><span class="search-badge"><i class="fa-solid fa-network-wired"></i> Search</span> انواع Node Type</h4>
+                            <p class="text-sm text-slate-300 mb-2">کلاینت‌های NetBIOS برای پیدا کردن هم ۴ رفتار (Node Type) داشتند که از طریق DHCP (Option 46) یا رجیستری قابل تغییر است:</p>
+                            <ul class="text-sm text-slate-300 space-y-1 mb-0">
+                                <li><strong>B-Node:</strong> فقط از طریق Broadcast</li>
+                                <li><strong>P-Node:</strong> مستقیم می‌پرسید از سرور WINS (Peer-to-Peer)</li>
+                                <li><strong>M-Node:</strong> اول Broadcast، بعد WINS</li>
+                                <li><strong>H-Node:</strong> (Hybrid) اول WINS، بعد Broadcast</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>اولویت و مراحل نیم‌رزولوشن در ویندوز</h3>
+                    <p>وقتی در مرورگر یا CMD یک آدرس تایپ می‌کنید، ویندوز به ترتیب زیر برای پیدا کردن آی‌پی تلاش می‌کند (اگر در یک مرحله جواب بگیرد، به مراحل بعدی نمی‌رود):</p>
+                    <div class="flex flex-wrap gap-2 text-sm text-brand-light font-bold my-4 dir-ltr">
+                        <span class="bg-brand/10 px-3 py-1 rounded border border-brand/20">1. Client Cache</span> ➔
+                        <span class="bg-brand/10 px-3 py-1 rounded border border-brand/20">2. Hosts File</span> ➔
+                        <span class="bg-brand/10 px-3 py-1 rounded border border-brand/20">3. DNS</span> ➔
+                        <span class="bg-brand/10 px-3 py-1 rounded border border-brand/20">4. LLMNR</span> ➔
+                        <span class="bg-brand/10 px-3 py-1 rounded border border-brand/20">5. NetBIOS Cache</span> ➔
+                        <span class="bg-brand/10 px-3 py-1 rounded border border-brand/20">6. WINS Server</span> ➔
+                        <span class="bg-brand/10 px-3 py-1 rounded border border-brand/20">7. Broadcast</span> ➔
+                        <span class="bg-brand/10 px-3 py-1 rounded border border-brand/20">8. LmHost File</span>
+                    </div>
+
+                    <div class="glass-card p-6 mt-8 border-l-4 border-rose-500">
+                        <h4 class="text-rose-400 font-bold mb-2"><span class="search-badge bg-rose-500/20 text-rose-300 border-rose-500/30"><i class="fa-solid fa-file-lines"></i> Search</span> فایل Hosts چیست و چگونه هک می‌شود؟</h4>
+                        <p class="text-sm text-slate-300 mb-3">فایل Hosts یک دفترچه تلفن متنی و بدون پسوند در مسیر <code class="bg-black/30 px-1 rounded dir-ltr text-xs text-slate-400">C:\Windows\System32\drivers\etc\hosts</code> است. ویندوز قبل از ارسال ریکوئست به DNS سرور، همیشه اول داخل این فایل را نگاه می‌کند و <strong>اطلاعات داخل آن تا ابد در حافظه سیستم (Cache) باقی می‌ماند!</strong></p>
+                        <p class="text-sm text-slate-300 mb-0"><strong>سناریوی نفوذ (Pharming / DNS Spoofing):</strong> هکر با نفوذ به سیستم (مثلاً از طریق یک بدافزار)، فایل Hosts را ادیت می‌کند. او می‌نویسد: <code>10.0.0.99  www.bank.com</code>. در نتیجه وقتی کاربر آدرس بانک را می‌زند، ویندوز اصلاً به سرورهای جهانیِ DNS مراجعه نمی‌کند و کاربر را مستقیماً به صفحه فیشینگ هکر (آی‌پی 10.0.0.99) هدایت می‌کند!</p>
+                    </div>
+                </div>
+
+                <!-- SECTION 3 -->
+                <div id="section-3" class="section-content hidden">
+                    <h3>معماری DNS در برابر WINS</h3>
+                    <p>سرور <strong>WINS</strong> صرفاً برای تبدیل نام‌های مسطحِ NetBIOS به آی‌پی استفاده می‌شد. اما سیستم جهانی <strong>DNS</strong> که در سال ۱۹۸۴ معرفی شد، برای تبدیل نام‌های سلسله‌مراتبی (FQDN) به آی‌پی طراحی شده است.</p>
+                    <ul>
+                        <li>هر دامینِ راه‌اندازی شده، <strong>حتماً حداقل یک Zone (محدوده)</strong> در DNS نیاز دارد.</li>
+                        <li>سیستم‌هایی که به دامین Join می‌شوند، نام و آی‌پی خود را به صورت خودکار در Zone ثبت می‌کنند.</li>
+                        <li>وقتی کلاینت عضو دامین نیست (Workgroup است)، برای اینکه DNS به او جواب بدهد حتماً باید درخواست خود را به صورت <strong>FQDN</strong> (کامل) بفرستد.</li>
+                    </ul>
+
+                    <div class="glass-card p-6 my-8 border border-white/10 bg-gradient-to-br from-brand/10 to-transparent">
+                        <h4 class="text-white font-bold mb-4 text-lg">Authoritative در برابر Non-Authoritative</h4>
+                        <p class="text-sm text-slate-300 mb-4">وقتی با دستور <code>nslookup</code> از یک سرور DNS سؤالی می‌پرسیم، دو نوع جواب ممکن است بگیریم:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-dark-800/80 p-4 rounded-lg border-l-4 border-emerald-500">
+                                <h5 class="text-emerald-400 font-bold mb-1 text-sm">Authoritative Answer (معتبر / صاحب‌خانه)</h5>
+                                <p class="text-xs text-slate-300 mb-0">سروری که این جواب را داده، خودش مالک اصلی آن Zone است و فایل‌ها دست خودش است (جواب قطعی و مستند).</p>
+                            </div>
+                            <div class="bg-dark-800/80 p-4 rounded-lg border-l-4 border-amber-500">
+                                <h5 class="text-amber-400 font-bold mb-1 text-sm">Non-Authoritative Answer (غیرمستقیم)</h5>
+                                <p class="text-xs text-slate-300 mb-0">سرور خودش مالک آن Zone نیست، بلکه جواب را از سرورِ دیگری پرسیده یا از Cache خودش خوانده و به شما داده است.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>مسیردهی درخواست‌ها در DNS (مکانیسم پرسش)</h3>
+                    <p>اگر سرور DNS ما نتواند جواب را در Zoneهای خودش پیدا کند (Non-Authoritative باشد)، به ترتیب سراغ سه مکانیسم می‌رود:</p>
+                    
+                    <ol class="list-decimal list-inside text-slate-300 space-y-4 mb-8">
+                        <li><strong>کاندیشنال فورواردر (Conditional Forwarder):</strong> به DNS سرور می‌گوییم: "اگر کسی دامنه <code>google.com</code> را خواست، <em>فقط و فقط</em> از فلان آی‌پی بپرس". (شرطی است).</li>
+                        <li><strong>فورواردر اصلی (Forwarder):</strong> اگر کاندیشنال جواب ندهد یا آدرسی که کاربر زده اصلاً در لیست کاندیشنال نباشد، همه‌چیز به صورت فله‌ای روی سروری که در بخش Forwarder تنظیم کردیم (مثلاً DNS اینترنتِ مخابرات یا گوگل 8.8.8.8) فوروارد می‌شود.</li>
+                        <li><strong>روت هینت (Root Hints):</strong> اگر Forwarder هم جوابی نداشته باشد (یا تنظیم نشده باشد)، سرور DNS مستقیماً سراغ ۱۳ سرور اصلی و ریشه‌ی اینترنت در جهان (Root Servers) می‌رود تا آدرس را پیدا کند.</li>
+                    </ol>
+
+                    <h3 class="mt-8 mb-4">انواع Zone در دی‌ان‌اس (DNS Zone Types)</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                        <div class="bg-dark-900/50 p-4 rounded-xl border border-white/5">
+                            <h4 class="text-brand-light font-bold mb-1">1. Primary Zone</h4>
+                            <p class="text-slate-400 mb-0 text-xs">زونِ اصلی و مادر است. فایل دیتابیسِ آن قابل خواندن و <strong>نوشتن (Read/Write)</strong> است.</p>
+                        </div>
+                        <div class="bg-dark-900/50 p-4 rounded-xl border border-white/5">
+                            <h4 class="text-brand-light font-bold mb-1">2. Secondary Zone</h4>
+                            <p class="text-slate-400 mb-0 text-xs">کپیِ پشتیبانِ زون پرایمری است که در سرور دیگر ساخته می‌شود. فقط قابل خواندن <strong>(Read-Only)</strong> است.</p>
+                        </div>
+                        <div class="bg-dark-900/50 p-4 rounded-xl border border-white/5">
+                            <h4 class="text-brand-light font-bold mb-1">3. Stub Zone</h4>
+                            <p class="text-slate-400 mb-0 text-xs">نسخه‌ای بسیار سبک از زون است که کلاینت‌های داخلش را کپی نمی‌کند، بلکه فقط رکوردهای SOA، NS و Aیِ مربوط به نامِ خودِ سرورها را نگه می‌دارد.</p>
+                        </div>
+                        <div class="bg-dark-900/50 p-4 rounded-xl border border-brand/30">
+                            <h4 class="text-brand-light font-bold mb-1">4. ADI Zone</h4>
+                            <p class="text-slate-400 mb-0 text-xs">زونی است که اطلاعاتش را داخل خودِ <strong>دیتابیس اکتیودایرکتوری</strong> ذخیره می‌کند. در نتیجه تمام DCها می‌توانند روی آن بنویسند (Multi-Master) و بسیار امن‌تر است.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 4 -->
+                <div id="section-4" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand">
+                        <h4 class="text-white font-bold text-lg mb-2">کالبدشکافی رکوردهای DNS (صفر تا صد)</h4>
+                        <p class="text-sm text-slate-300 mb-0">رکوردهای DNS اطلاعاتِ حیاتیِ زون را در خود نگه می‌دارند. در ادامه مهم‌ترین آن‌ها را بررسی می‌کنیم.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="bg-dark-800 p-5 rounded-lg border border-white/5">
+                            <h4 class="text-brand-light font-bold mb-1"><i class="fa-solid fa-a text-slate-500 ml-2"></i> رکورد A و AAAA</h4>
+                            <p class="text-sm text-slate-300 mb-0">رکورد A نام (Name) را به آی‌پی نسخه ۴ تبدیل می‌کند. رکورد AAAA نام را به آی‌پی نسخه ۶ تبدیل می‌کند. <br>
+                            <span class="text-xs text-accent-light block mt-2"><strong>ترفند Same as parent folder:</strong> اگر موقع ساخت رکورد A، کادر نام (FQDN) را خالی بگذارید، رکوردی به نام <code>(same as parent folder)</code> ساخته می‌شود. این یعنی اگر کسی در شبکه فقط اسمِ خودِ دامین (مثلاً <code>ping mcs.local</code>) را تایپ کند، مستقیماً به آی‌پی سروری که در این رکورد ست شده می‌رسد.</span></p>
+                        </div>
+
+                        <div class="bg-dark-800 p-5 rounded-lg border border-white/5">
+                            <h4 class="text-brand-light font-bold mb-1"><i class="fa-solid fa-link text-slate-500 ml-2"></i> رکورد CNAME (Aliases)</h4>
+                            <p class="text-sm text-slate-300 mb-0">برای نام‌گذاری مستعار استفاده می‌شود؛ یعنی یک نام را به یک نامِ دیگر (به‌جای آی‌پی) متصل می‌کند. مثلاً <code>www.site.com</code> در واقع CNAMEای به سمت <code>site.com</code> است.</p>
+                        </div>
+
+                        <div class="bg-dark-800 p-5 rounded-lg border border-white/5">
+                            <h4 class="text-brand-light font-bold mb-1"><i class="fa-solid fa-server text-slate-500 ml-2"></i> رکورد NS (Name Server)</h4>
+                            <p class="text-sm text-slate-300 mb-0">این رکورد اعلام می‌کند که چه سروری یا سرورهایی وظیفه‌ی ارائه و مدیریت این Zone را برعهده دارند.</p>
+                        </div>
+
+                        <div class="bg-dark-800 p-5 rounded-lg border-l-4 border-accent bg-accent/5">
+                            <h4 class="text-accent-light font-bold mb-2"><i class="fa-solid fa-envelope text-slate-400 ml-2"></i> رکورد MX (Mail Exchanger)</h4>
+                            <p class="text-sm text-slate-300 mb-2">نشان‌دهنده آدرس سرورِ ایمیل (Mail Server) آن سازمان است. وقتی ایمیلی ارسال می‌کنید، DNS با چک کردن رکورد MX می‌فهمد که بسته را باید تحویلِ کدام سرورِ سازمانِ مقصد بدهد.</p>
+                            <div class="bg-black/40 p-3 rounded mt-2 border border-accent/20">
+                                <h5 class="text-accent font-bold text-xs mb-1"><span class="search-badge"><i class="fa-solid fa-terminal"></i> Search</span> پیدا کردن رکورد MX با NSLOOKUP</h5>
+                                <p class="text-xs text-slate-400 mb-2">برای پیدا کردن آدرس میل‌سرور سازمان‌ها (مثلاً گوگل)، CMD را باز کرده و می‌نویسیم:</p>
+                                <code class="block text-accent-light dir-ltr text-xs">> nslookup<br>> set type=mx<br>> google.com</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="mt-10">تبدیل آی‌پی به نام</h3>
+                    <p>تمام رکوردهایی که گفتیم در <strong>Forward Lookup Zone</strong> ساخته می‌شوند. اما اگر آی‌پی را داشته باشیم و بخواهیم بفهمیم نامِ آن سیستم چیست، باید رکورد <strong>PTR</strong> بسازیم. رکوردهای PTR منحصراً داخل <strong>Reverse Lookup Zone</strong> قرار می‌گیرند.</p>
+
+                    <div class="glass-card p-6 mt-8 border-t-4 border-brand">
+                        <h4 class="text-white font-bold mb-4 text-lg">رکورد قطورِ SOA (Start of Authority)</h4>
+                        <p class="text-sm text-slate-300 mb-4">رکورد SOA شناسنامه و قلب تپنده‌ی هر زون است و مشخصاتِ اصلی مالکیت آن را در خود دارد. در تنظیمات این رکورد، اطلاعات حیاتیِ ارتباطی بین Primary Server و Secondary Server تعریف می‌شود:</p>
+                        <ul class="text-sm text-slate-300 space-y-2 mb-0">
+                            <li><strong>Primary Server:</strong> نام سرور پرایمری که این زون را ساخته است.</li>
+                            <li><strong>Responsible Person:</strong> آدرس ایمیل مدیر سرور (به جای @ از نقطه استفاده می‌شود).</li>
+                            <li><strong>Serial Number:</strong> یک عدد است که با هر تغییر در دیتابیس زون بالا می‌رود. سرور Secondary همیشه این عدد را چک می‌کند؛ اگر بالاتر رفته باشد، می‌فهمد که باید آپدیت‌ها را بگیرد (Zone Transfer).</li>
+                            <li><strong>Refresh / Retry / Expire:</strong> تایمرهایی هستند که به سرور Secondary می‌گویند: "هر چند دقیقه برای دریافت آپدیت‌ها مراجعه کن"، "اگر پرایمری قطع بود چند دقیقه بعد دوباره تلاش کن" و "تا چه مدت اگر پرایمری برنگشت، اطلاعات را منقضی کن".</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- SECTION 5 -->
+                <div id="section-5" class="section-content hidden">
+                    <h3>فناوری Netmask Ordering</h3>
+                    <p><strong>Netmask Ordering</strong> قابلیتی هوشمند در ویندوز سرور است. فرض کنید یک دامنه (مثل <code>fileserver.local</code>) روی دو آی‌پیِ مختلف تنظیم شده است. وقتی کلاینت آدرسِ این دامنه را از DNS می‌پرسد، DNS به صورت هوشمند نگاه می‌کند ببیند آی‌پیِ خودِ کلاینت در چه رنجی (Subnet) است، و از بین آن دو آی‌پی، آدرسی را اول به او برمی‌گرداند که از نظر فیزیکی و شبکه‌ای به کلاینت <strong>نزدیک‌تر (هم‌ساب‌نت)</strong> باشد.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+                        <div class="bg-dark-800 p-5 rounded-xl border-r-4 border-brand">
+                            <h4 class="text-brand-light font-bold mb-3"><span class="search-badge"><i class="fa-solid fa-broom"></i> Search</span> مکانیزم Aging & Scavenging</h4>
+                            <p class="text-sm text-slate-300 mb-2">وقتی سیستمی از شبکه خارج می‌شود، رکورد DNS آن تا ابد باقی می‌ماند و شبکه پر از رکوردهای مرده می‌شود. این مکانیزم برای <strong>پاکسازی خودکار رکوردهای قدیمی</strong> است.</p>
+                            <p class="text-sm text-slate-300 mb-0">در این حالت، به هر رکورد یک <strong>Timestamp</strong> (برچسب زمانی) می‌خورد. دو بازه زمانی داریم:<br>
+                            ۱. <code>No-refresh interval</code>: بازه‌ای که سرور به سیستم اجازه نمی‌دهد Timestamp خود را الکی آپدیت کند.<br>
+                            ۲. <code>Refresh interval</code>: بازه‌ای که سیستم فرصت دارد به سرور بگوید "من هنوز زنده‌ام". اگر این زمان بگذرد، رکورد Stale (کهنه) محسوب شده و توسط پروسه Scavenging پاک می‌شود.</p>
+                        </div>
+                        
+                        <div class="bg-dark-800 p-5 rounded-xl border-r-4 border-accent">
+                            <h4 class="text-accent-light font-bold mb-3"><span class="search-badge"><i class="fa-solid fa-shield-cat"></i> Search</span> Trust Point چیست؟</h4>
+                            <p class="text-sm text-slate-300 mb-2">این مفهوم در سیستم امنیتی <strong>DNSSEC</strong> استفاده می‌شود. در DNS عادی هکرها می‌توانند بسته‌های DNS را در میانه راه تغییر دهند (Spoofing).</p>
+                            <p class="text-sm text-slate-300 mb-0">با DNSSEC، سرور پاسخ‌ها را رمزنگاری (Sign) می‌کند. <strong>Trust Point</strong> در واقع لنگرگاهِ اعتماد است و شامل کلید عمومیِ (Public Key) زون‌های معتبر است که کلاینت‌ها و سرورهای دیگر از طریق آن بررسی می‌کنند تا مطمئن شوند پاسخی که از سمت سرور DNS آمده، در میانه راه توسط هکر دستکاری نشده باشد.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+        const topTitle = document.getElementById('topTitle');
+        const mobileTitle = document.getElementById('mobileTitle');
+        const scrollArea = document.getElementById('scrollArea');
+
+        function openSidebar() {
+            sidebar.classList.remove('translate-x-full');
+            overlay.classList.remove('hidden');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('translate-x-full');
+            overlay.classList.add('hidden');
+        }
+
+        function showSection(sectionNumber, btnElement) {
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.classList.remove('block', 'section-fade');
+                el.classList.add('hidden');
+            });
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            const targetSection = document.getElementById('section-' + sectionNumber);
+            targetSection.classList.remove('hidden');
+            void targetSection.offsetWidth; 
+            targetSection.classList.add('block', 'section-fade');
+
+            btnElement.classList.add('active');
+
+            const btnText = btnElement.innerText.trim();
+            topTitle.innerText = btnText;
+            mobileTitle.innerText = btnText;
+
+            scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (window.innerWidth < 1024) {
+                closeSidebar();
+            }
+        }
+    </script>
+</body>
+</html>

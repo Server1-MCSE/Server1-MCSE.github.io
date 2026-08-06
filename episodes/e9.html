@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات دوره ویندوز سرور | اپیزود ۹</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Vazirmatn Font -->
+    <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.0/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Vazirmatn', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B1120', 800: '#1e293b', 700: '#334155' },
+                        brand: { light: '#fda4af', DEFAULT: '#e11d48', dark: '#be123c' }, /* Crimson Theme */
+                        accent: { DEFAULT: '#f59e0b', light: '#fcd34d' }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #0B1120;
+            color: #e2e8f0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .section-fade {
+            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B1120; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        .content-box h3 {
+            color: #f8fafc;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .content-box h3::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background-color: #e11d48;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #e11d48;
+        }
+        .content-box p { line-height: 1.9; color: #94a3b8; margin-bottom: 1rem; text-align: justify; }
+        .content-box ul { list-style: none; padding: 0; margin-bottom: 1.5rem; }
+        .content-box ul li { position: relative; padding-right: 1.5rem; margin-bottom: 0.75rem; line-height: 1.8; color: #cbd5e1; }
+        .content-box ul li::before {
+            content: '\f104';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            color: #e11d48;
+            font-size: 0.9rem;
+        }
+        .content-box strong { color: #e2e8f0; background: rgba(255,255,255,0.05); padding: 0 4px; border-radius: 4px; }
+
+        .nav-btn.active {
+            background: linear-gradient(90deg, rgba(225,29,72,0.15) 0%, transparent 100%);
+            border-right: 4px solid #e11d48;
+            color: #fda4af;
+        }
+        .nav-btn { border-right: 4px solid transparent; }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+        }
+        
+        .search-badge {
+            background: rgba(225, 29, 72, 0.2);
+            color: #fda4af;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-right: 8px;
+            border: 1px solid rgba(225, 29, 72, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .highlight-code {
+            display: inline-block;
+            background: #0f172a;
+            color: #fda4af;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid #1e293b;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Mobile Overlay -->
+    <div id="mobileOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity" onclick="closeSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed inset-y-0 right-0 w-72 bg-dark-800/95 backdrop-blur-xl border-l border-white/10 flex flex-col z-50 transform translate-x-full lg:translate-x-0 transition-transform duration-300 shadow-2xl lg:static lg:shadow-none">
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-brand-dark flex items-center justify-center shadow-lg shadow-brand/20 ml-3">
+                <i class="fa-solid fa-network-wired text-white text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-white font-black text-lg">ویندوز سرور</h1>
+                <p class="text-brand-light text-xs font-medium">اپیزود ۹ | DNS & Print Server</p>
+            </div>
+            <button onclick="closeSidebar()" class="lg:hidden mr-auto text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+            <button onclick="showSection(1, this)" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-star w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۱. نکات طلایی DNS
+            </button>
+            <button onclick="showSection(2, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-shield-cat w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۲. مفاهیم پیشرفته DNS
+            </button>
+            <button onclick="showSection(3, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-print w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۳. مدیریت Print Server
+            </button>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
+        <header class="h-20 bg-dark-900/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6 sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <button onclick="openSidebar()" class="lg:hidden text-slate-300 hover:text-white bg-white/5 p-2 rounded-lg transition-colors">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h2 id="topTitle" class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-white to-slate-400 hidden sm:block">۱. نکات طلایی DNS</h2>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="bg-brand/10 text-brand-light px-3 py-1 rounded-full text-xs font-semibold border border-brand/20">
+                    اپیزود نهم
+                </span>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 lg:p-12 relative" id="scrollArea">
+            <div class="max-w-4xl mx-auto content-box pb-24">
+                
+                <h2 id="mobileTitle" class="text-2xl font-bold text-white mb-8 sm:hidden">۱. نکات طلایی DNS</h2>
+
+                <!-- SECTION 1 -->
+                <div id="section-1" class="section-content section-fade block">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand flex items-start gap-4">
+                        <i class="fa-solid fa-envelope-open-text text-3xl text-brand-light mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-1">قانون Same as parent در رکورد MX و A</h4>
+                            <p class="mb-0 text-slate-300 text-sm leading-relaxed">برای هدایت صحیح ترافیک اصلی دامین (مثل دریافت ایمیل‌ها روی خودِ نام دامین، یا باز شدن سایت بدون پیشوند www)، باید فیلد Name در رکورد خالی بماند.</p>
+                        </div>
+                    </div>
+
+                    <h3>جزئیات رکوردها</h3>
+                    <ul>
+                        <li><strong>رکورد MX (Mail Exchanger):</strong> وقتی کسی به <code class="highlight-code text-xs">user@shoma.com</code> ایمیل می‌زند، DNS مستقیماً روی دامین اصلی دنبال رکورد MX می‌گردد. اگر نام رکورد را مثلاً <code class="highlight-code text-xs">mail</code> بگذارید، رکورد شما در مسیر <code class="highlight-code text-xs">mail.shoma.com</code> ثبت می‌شود و ایمیل‌ها به مقصد نمی‌رسند. بنابراین فیلد Name باید کاملاً <strong>خالی</strong> (Same as parent) باشد.</li>
+                        <li><strong>رکورد A برای دامین Flat:</strong> اگر بخواهیم کاربران با تایپ <code class="highlight-code text-xs">gam.net</code> (بدون www) وارد سایت شوند، دقیقاً به همین روش یک رکورد A با نامِ خالی ایجاد می‌کنیم تا مستقیماً به آی‌پی وب‌سرور اشاره کند.</li>
+                    </ul>
+
+                    <div class="bg-dark-800 p-6 rounded-xl border border-white/5 mt-6">
+                        <h4 class="text-brand-light font-bold mb-3"><span class="search-badge text-xs"><i class="fa-solid fa-terminal"></i> Command</span> مهندسی معکوس با NSLOOKUP</h4>
+                        <p class="text-sm text-slate-300 mb-4">در محیط خط فرمان (CMD)، با اجرای دستور <code class="highlight-code text-xs">nslookup</code> وارد ابزار می‌شویم. برای فیلتر کردن رکوردهای خاص از دستور <strong>set type</strong> استفاده می‌کنیم:</p>
+                        <div class="bg-black/50 p-4 rounded text-emerald-400 font-mono text-sm border border-white/5 dir-ltr text-left space-y-2">
+                            <div>> set q=mx</div>
+                            <div>> google.com</div>
+                            <div class="text-slate-500 text-xs mt-2">Server:  UnKnown<br>Address:  192.168.1.1<br><br>Non-authoritative answer:<br>google.com      MX preference = 10, mail exchanger = smtp.google.com</div>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-3 mb-0">نکته: با زدن <code class="highlight-code text-xs">set q=ns</code> می‌توانیم رکوردهای Name Server را ببینیم، و با <code class="highlight-code text-xs">set q=any</code> تمام رکوردهای قابل نمایشِ دامین را استخراج کنیم.</p>
+                    </div>
+                </div>
+
+                <!-- SECTION 2 -->
+                <div id="section-2" class="section-content hidden">
+                    <h3>کالبدشکافی مفاهیم پیشرفته DNS</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+                        <div class="glass-card p-5 border-t-2 border-brand relative overflow-hidden">
+                            <div class="absolute -right-4 -bottom-4 text-7xl text-brand/5"><i class="fa-solid fa-code-branch"></i></div>
+                            <h4 class="text-white font-bold mb-2 text-sm relative z-10"><i class="fa-solid fa-location-arrow text-brand-light ml-1"></i> Conditional Forwarder</h4>
+                            <p class="text-sm text-slate-300 mb-0 relative z-10">یک مسیردهی <strong>استاتیک</strong> است. به سرور می‌گوییم "اگر کسی آدرس دامین X را خواست، درخواست را به آی‌پی Y بفرست". <br><span class="text-rose-400 text-xs">عیب: اگر آی‌پی سرور دامین X تغییر کند، باید به صورت دستی در شبکه خودمان آن را آپدیت کنیم.</span></p>
+                        </div>
+                        <div class="glass-card p-5 border-t-2 border-emerald-500 relative overflow-hidden">
+                            <div class="absolute -right-4 -bottom-4 text-7xl text-emerald-500/5"><i class="fa-solid fa-database"></i></div>
+                            <h4 class="text-white font-bold mb-2 text-sm relative z-10"><i class="fa-solid fa-sync text-emerald-400 ml-1"></i> Stub Zone</h4>
+                            <p class="text-sm text-slate-300 mb-0 relative z-10">یک کپی <strong>داینامیک و Read-Only</strong> از یک زون است که فقط ۳ رکورد حیاتی (SOA, NS, A) را در خود نگه می‌دارد. <br><span class="text-emerald-400 text-xs">مزیت: اگر آی‌پی سرورهای مقصد تغییر کند، به صورت اتوماتیک آپدیت می‌شود و ارتباط قطع نمی‌شود.</span></p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6 mt-8">
+                        <div class="bg-dark-800 p-5 rounded-lg border border-white/5">
+                            <h4 class="text-brand-light font-bold mb-2"><i class="fa-solid fa-sitemap ml-2"></i>تفویض اختیار (DNS Delegation)</h4>
+                            <p class="text-sm text-slate-300 mb-0">دقیقاً مثل سپردن مدیریت یک شعبه به مدیری جدید است. وقتی یک Subdomain (مثل <code class="highlight-code text-xs">tehran.shoma.com</code>) ایجاد می‌کنیم، به جای اینکه سرور مرکزی مدیریت آن را به دوش بکشد، یک سرور DNS در تهران می‌گذاریم و دامین tehran را به آن Delegate (تفویض) می‌کنیم. با این کار یک رکورد NS در سرور اصلی ساخته می‌شود که درخواست‌ها را به سرور تهران هدایت می‌کند.</p>
+                        </div>
+
+                        <div class="bg-indigo-900/20 p-5 rounded-lg border border-indigo-500/30">
+                            <h4 class="text-indigo-400 font-bold mb-2"><i class="fa-solid fa-shield-halved ml-2"></i>پروتکل DNSSEC (به زبان ساده)</h4>
+                            <p class="text-sm text-slate-300 mb-2"><strong>مشکل:</strong> هکرها با تکنیک Cache Poisoning (مسموم‌سازی کش)، آی‌پی سایت جعلیِ خود را به جای سایت اصلی (مثل بانک) به سرور DNS شما می‌فرستند.</p>
+                            <p class="text-sm text-slate-300 mb-0"><strong>راه‌حل:</strong> DNS Security Extensions. این پروتکل پاسخ‌های DNS را رمزنگاری (مخفی) نمی‌کند، بلکه روی آن‌ها یک <strong>امضای دیجیتال (مُهر و موم رمزنگاری شده)</strong> می‌زند. وقتی کلاینت پاسخ را دریافت می‌کند، امضا را بررسی می‌کند؛ اگر مهر و موم دست‌نخورده باشد، یعنی جواب مستقیماً از سرور اصلی آمده و در طول مسیر توسط هکر دستکاری نشده است.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 3 -->
+                <div id="section-3" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-accent flex items-start gap-4">
+                        <i class="fa-solid fa-print text-3xl text-accent-light mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-1">مدیریت متمرکز پرینترها (Print Server)</h4>
+                            <p class="mb-0 text-slate-300 text-sm leading-relaxed">انتقال از سیستم سنتی اشتراک‌گذاری به زیرساختِ متمرکز، امن و قابل مانیتورینگِ چاپ در سازمان‌ها.</p>
+                        </div>
+                    </div>
+
+                    <h3>روش‌های اشتراک‌گذاری پرینتر</h3>
+                    <ul>
+                        <li><strong>Traditional Sharing (سنتی):</strong> پرینتر با کابل USB به کامپیوتر یک کاربر متصل شده و در شبکه Share می‌شود. <strong>مشکل اساسی:</strong> ویندوزهای کلاینت دارای محدودیتی به نام <code class="highlight-code text-xs">SMB Connection Limit</code> هستند و هم‌زمان <strong>بیشتر از ۲۰ نفر</strong> نمی‌توانند به آن متصل شوند.</li>
+                        <li><strong>Print Server Role:</strong> با نصب این رول روی ویندوز سرور، محدودیت تعداد کاربران برداشته می‌شود و ادمین می‌تواند تمام صف‌های چاپ (Queues)، درایورها و پرمیشن‌های پرینترهای سازمان را از یک نقطه مدیریت کند.</li>
+                    </ul>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-6">
+                        <div class="bg-dark-800 p-4 rounded-xl border border-white/5">
+                            <strong class="text-brand-light block mb-2 text-sm"><i class="fa-solid fa-network-wired ml-1"></i> Network Printer</strong>
+                            <p class="text-xs text-slate-400 mb-0">پرینترهایی که کارت شبکه داخلی دارند و با اتصال مستقیم به کابل LAN، آی‌پی می‌گیرند و وارد شبکه می‌شوند.</p>
+                        </div>
+                        <div class="bg-dark-800 p-4 rounded-xl border border-white/5">
+                            <strong class="text-brand-light block mb-2 text-sm"><i class="fa-solid fa-usb ml-1"></i> Print Server Device</strong>
+                            <p class="text-xs text-slate-400 mb-0">یک قطعه سخت‌افزاری کوچک برای پرینترهای قدیمی. یک سمت آن USB (به پرینتر) و سمت دیگر آن کابل LAN (به شبکه) می‌خورد تا پرینتر قدیمی را تحت شبکه کند.</p>
+                        </div>
+                    </div>
+
+                    <h3>مدیریت پیشرفته چاپ</h3>
+                    
+                    <div class="bg-dark-900/50 p-5 rounded-lg border-l-2 border-accent mb-6">
+                        <h4 class="text-accent-light font-bold mb-2 text-sm"><i class="fa-solid fa-leaf ml-2"></i>نرم‌افزار PaperCut</h4>
+                        <p class="text-sm text-slate-300 mb-0">یک نرم‌افزار قدرتمند جانبی برای مدیریت پرینت. امکاناتی نظیر: تعیین سهمیه برای هر کاربر (مثلاً ۱۰۰ برگ در ماه)، مانیتورینگ دقیق گزارشات چاپ، و قابلیت Find-Me (کاربر پرینت را می‌فرستد، سپس پای هر پرینتری در طبقات کارت بکشد، همانجا برگه چاپ می‌شود) را فراهم می‌کند.</p>
+                    </div>
+
+                    <div class="bg-dark-800 p-5 rounded-lg border border-white/5">
+                        <h4 class="text-white font-bold mb-2 text-sm"><i class="fa-brands fa-windows text-brand-light ml-2"></i>نصب خودکار پرینتر با GPO</h4>
+                        <p class="text-sm text-slate-300 mb-2">برای اینکه پرینترها بدون نیاز به دسترسی ادمین روی سیستم کاربران نصب شوند، از بخش قدرتمند <strong>GPO Preferences</strong> استفاده می‌کنیم.</p>
+                        <code class="block bg-black/40 p-3 rounded text-xs text-brand-light mb-0 text-left dir-ltr border border-white/10">User Configuration > Preferences > Control Panel Settings > Printers</code>
+                        <p class="text-sm text-slate-400 mt-2 mb-0">با اضافه کردن پرینترِ شیرشده در این بخش، به محض لاگین کردن کاربر در دامین، پرینتر به صورت خودکار به لیست ویندوز او اضافه می‌شود.</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+        const topTitle = document.getElementById('topTitle');
+        const mobileTitle = document.getElementById('mobileTitle');
+        const scrollArea = document.getElementById('scrollArea');
+
+        function openSidebar() { sidebar.classList.remove('translate-x-full'); overlay.classList.remove('hidden'); }
+        function closeSidebar() { sidebar.classList.add('translate-x-full'); overlay.classList.add('hidden'); }
+
+        function showSection(sectionNumber, btnElement) {
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.classList.remove('block', 'section-fade');
+                el.classList.add('hidden');
+            });
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+            const targetSection = document.getElementById('section-' + sectionNumber);
+            targetSection.classList.remove('hidden');
+            void targetSection.offsetWidth; 
+            targetSection.classList.add('block', 'section-fade');
+
+            btnElement.classList.add('active');
+            const btnText = btnElement.innerText.trim();
+            topTitle.innerText = btnText;
+            mobileTitle.innerText = btnText;
+            scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (window.innerWidth < 1024) closeSidebar();
+        }
+    </script>
+</body>
+</html>

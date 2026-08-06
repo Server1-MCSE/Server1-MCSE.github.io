@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات دوره ویندوز سرور | اپیزود ۴</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Vazirmatn Font -->
+    <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.0/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Vazirmatn', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B1120', 800: '#1e293b', 700: '#334155' },
+                        brand: { light: '#c4b5fd', DEFAULT: '#8b5cf6', dark: '#6d28d9' }, /* Violet theme for Ep 4 */
+                        accent: { DEFAULT: '#ec4899', light: '#f9a8d4' } /* Pink accent */
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #0B1120;
+            color: #e2e8f0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .section-fade {
+            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B1120; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        .content-box h3 {
+            color: #f8fafc;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .content-box h3::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background-color: #8b5cf6;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #8b5cf6;
+        }
+        .content-box p { line-height: 1.9; color: #94a3b8; margin-bottom: 1rem; text-align: justify; }
+        .content-box ul { list-style: none; padding: 0; margin-bottom: 1.5rem; }
+        .content-box ul li { position: relative; padding-right: 1.5rem; margin-bottom: 0.75rem; line-height: 1.8; color: #cbd5e1; }
+        .content-box ul li::before {
+            content: '\f104';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            color: #8b5cf6;
+            font-size: 0.9rem;
+        }
+        .content-box strong { color: #e2e8f0; background: rgba(255,255,255,0.05); padding: 0 4px; border-radius: 4px; }
+
+        .nav-btn.active {
+            background: linear-gradient(90deg, rgba(139,92,246,0.15) 0%, transparent 100%);
+            border-right: 4px solid #8b5cf6;
+            color: #c4b5fd;
+        }
+        .nav-btn { border-right: 4px solid transparent; }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+        }
+        
+        .search-badge {
+            background: rgba(139, 92, 246, 0.2);
+            color: #c4b5fd;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-right: 8px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .highlight-code {
+            display: inline-block;
+            background: #0f172a;
+            color: #c4b5fd;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid #1e293b;
+        }
+
+        .dora-step {
+            position: relative;
+            padding-right: 2rem;
+            padding-bottom: 1.5rem;
+            border-right: 2px dashed rgba(139, 92, 246, 0.3);
+            margin-right: 1rem;
+        }
+        .dora-step:last-child {
+            border-right: none;
+            padding-bottom: 0;
+        }
+        .dora-step::before {
+            content: '';
+            position: absolute;
+            right: -0.4rem;
+            top: 0.3rem;
+            width: 12px;
+            height: 12px;
+            background: #8b5cf6;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Mobile Overlay -->
+    <div id="mobileOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity" onclick="closeSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed inset-y-0 right-0 w-72 bg-dark-800/95 backdrop-blur-xl border-l border-white/10 flex flex-col z-50 transform translate-x-full lg:translate-x-0 transition-transform duration-300 shadow-2xl lg:static lg:shadow-none">
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-brand-dark flex items-center justify-center shadow-lg shadow-brand/20 ml-3">
+                <i class="fa-solid fa-shield-halved text-white text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-white font-black text-lg">ویندوز سرور</h1>
+                <p class="text-brand-light text-xs font-medium">اپیزود ۴ | Security & DHCP</p>
+            </div>
+            <button onclick="closeSidebar()" class="lg:hidden mr-auto text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+            <button onclick="showSection(1, this)" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-lock w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۱. امنیت و Hardening
+            </button>
+            <button onclick="showSection(2, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-network-wired w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۲. استراتژی‌های Domain Join
+            </button>
+            <button onclick="showSection(3, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-server w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۳. کالبدشکافی DHCP
+            </button>
+            <button onclick="showSection(4, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-sliders w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۴. تنظیمات پیشرفته DHCP
+            </button>
+        </nav>
+        
+        <div class="p-5 border-t border-white/5 bg-black/20">
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+                <i class="fa-solid fa-bolt text-brand"></i>
+                همراه با چرخه کامل DORA
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
+        <header class="h-20 bg-dark-900/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6 sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <button onclick="openSidebar()" class="lg:hidden text-slate-300 hover:text-white bg-white/5 p-2 rounded-lg transition-colors">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h2 id="topTitle" class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-white to-slate-400 hidden sm:block">۱. امنیت و Hardening</h2>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="bg-brand/10 text-brand-light px-3 py-1 rounded-full text-xs font-semibold border border-brand/20">
+                    اپیزود چهارم
+                </span>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 lg:p-12 relative" id="scrollArea">
+            <div class="max-w-4xl mx-auto content-box pb-24">
+                
+                <h2 id="mobileTitle" class="text-2xl font-bold text-white mb-8 sm:hidden">۱. امنیت و Hardening</h2>
+
+                <!-- SECTION 1 -->
+                <div id="section-1" class="section-content section-fade block">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand flex items-start gap-4">
+                        <i class="fa-solid fa-shield-virus text-3xl text-brand-light mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-1">امن‌سازی زیرساخت (Hardening)</h4>
+                            <p class="mb-0 text-slate-300 text-sm leading-relaxed">این بخش شامل پیاده‌سازی مکانیزم‌های امنیتی پیشرفته برای جلوگیری از نفوذ، محدودسازی دسترسی‌ها و محافظت از سرویس‌های حیاتی دامین است.</p>
+                        </div>
+                    </div>
+
+                    <h3>مفاهیم پایه و دسترسی‌ها</h3>
+                    <ul>
+                        <li><strong>رکورد SRV Resource:</strong> این رکورد (Service Record) در DNS حیاتی است؛ زیرا به کلاینت‌ها نشان می‌دهد که سرور ارائه‌دهنده سرویس‌های خاص (مثل LDAP یا Kerberos که همان DC است) دقیقاً در چه آی‌پی و پورتی قرار دارد.</li>
+                        <li><strong>جلوگیری از لاگین هم‌زمان:</strong> اکتیودایرکتوری به طور پیش‌فرض گزینه‌ای برای این کار ندارد. راه‌حل استفاده از ابزارهای جانبی (مثل UserLock) یا نوشتن اسکریپت‌های پیچیده (مثل LimitLogin) است.</li>
+                        <li><strong>پنهان کردن OUها:</strong> اگر بخواهیم یوزری (مثل هلپ‌دسک) برخی OUها را نبیند، روی OU راست‌کلیک کرده (Advanced Features باید روشن باشد)، به تب Security می‌رویم و پرمیشن <code>List object</code> یا <code>Read</code> را برای او <strong>Deny</strong> می‌کنیم.</li>
+                    </ul>
+
+                    <h3>مدیریت دسترسی محلی (Restricted Groups)</h3>
+                    <p>برای اینکه گروه Help Desk را ادمین لوکال تمام کلاینت‌ها کنیم، از <strong>Restricted Groups</strong> استفاده می‌کنیم. دو حالت داریم:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-dark-800 p-4 rounded-lg border border-emerald-500/30">
+                            <h4 class="text-emerald-400 font-bold mb-2 text-sm"><i class="fa-solid fa-check ml-2"></i>حالت امن (This group is a member of)</h4>
+                            <p class="text-xs text-slate-300">گروه هلپ‌دسک را اضافه کرده و می‌گوییم "عضوِ" گروه Administrators لوکال شود. (بدون تخریب بقیه ادمین‌ها).</p>
+                        </div>
+                        <div class="bg-dark-800 p-4 rounded-lg border border-rose-500/30">
+                            <h4 class="text-rose-400 font-bold mb-2 text-sm"><i class="fa-solid fa-triangle-exclamation ml-2"></i>حالت خطرناک (Members of this group)</h4>
+                            <p class="text-xs text-slate-300">گروه Administrators را انتخاب و اعضای آن را فقط هلپ‌دسک می‌گذاریم. این کار <strong>Overwrite</strong> می‌کند و بقیه ادمین‌های لوکال را پاک می‌کند!</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 my-8 border border-white/10 bg-gradient-to-br from-indigo-900/20 to-transparent">
+                        <h4 class="text-white font-bold mb-4 text-lg border-b border-white/10 pb-2">پالیسی‌های طلایی هاردنینگ سرور</h4>
+                        <ul class="text-sm space-y-3 mb-0">
+                            <li><strong>پیاده‌سازی LAPS:</strong> تغییر خودکار و رندوم رمز ادمین لوکال کلاینت‌ها و ذخیره امن آن در AD برای جلوگیری از Lateral Movement.</li>
+                            <li><strong>غیرفعال‌سازی NTLM:</strong> استفاده از پالیسی <code>Network security: Restrict NTLM</code> برای اجبار به استفاده از Kerberos.</li>
+                            <li><strong>امضای دیجیتال (SMB Signing):</strong> فعال‌سازی <code>Digitally sign communications (always)</code> برای جلوگیری از حملات Man-in-the-Middle در فایل‌شیرینگ.</li>
+                            <li><strong>تغییر نام پیش‌فرض:</strong> پالیسی <code>Rename administrator account</code> برای خنثی‌سازی حملات Brute-force روی یوزرهای دیفالت.</li>
+                            <li><strong>مسدودسازی WDigest:</strong> جلوگیری از کش شدن پسوردها به صورت Clear-text در RAM (مقابله با ابزارهایی مثل Mimikatz).</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <!-- SECTION 2 -->
+                <div id="section-2" class="section-content hidden">
+                    <h3>ترفندهای پیشرفته Join به دامین</h3>
+                    <p>مدیریت فرآیند اتصال کلاینت‌ها به شبکه دامین یکی از وظایف مهم ادمین است که سناریوهای مختلفی دارد:</p>
+                    
+                    <ul>
+                        <li><strong>رفع محدودیت ۱۰ کامپیوتر:</strong> یوزر عادی ذاتاً بیشتر از ۱۰ سیستم نمی‌تواند جوین کند (به خاطر <code>ms-DS-MachineAccountQuota</code>). برای رفع آن بدون ادمین کردن شخص، روی OU راست‌کلیک کرده، با Delegate Control فقط پرمیشن <strong>Create Computer objects</strong> را به او می‌دهیم.</li>
+                        <li><strong>جوین گروهی (Bulk Join):</strong> برای جوین هم‌زمان ۵۰ کلاینت، از اسکریپت‌های PowerShell (دستور <code>Add-Computer</code>) یا سرویس WDS با فایل‌های پاسخگوی Unattended XML استفاده می‌شود.</li>
+                    </ul>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+                        <div class="glass-card p-5 border-t-4 border-brand-light relative overflow-hidden">
+                            <i class="fa-solid fa-plane-slash absolute -left-4 -bottom-4 text-7xl text-brand/10"></i>
+                            <h4 class="text-brand-light font-bold mb-3 relative z-10"><span class="search-badge text-xs">Search</span> Offline Join</h4>
+                            <p class="text-sm text-slate-300 relative z-10">برای زمانی که کلاینت ارتباط شبکه‌ای با DC ندارد (مثل DMZ):<br>
+                            ۱. در سرور با <span class="highlight-code text-xs">djoin.exe /provision</span> فایل Blob می‌سازیم.<br>
+                            ۲. فایل را با فلش به کلاینت برده و با <span class="highlight-code text-xs">djoin.exe /requestodj</span> آن را جوین می‌کنیم!</p>
+                        </div>
+                        
+                        <div class="glass-card p-5 border-t-4 border-accent-light relative overflow-hidden">
+                            <i class="fa-solid fa-user-astronaut absolute -left-4 -bottom-4 text-7xl text-accent/10"></i>
+                            <h4 class="text-accent-light font-bold mb-3 relative z-10"><span class="search-badge text-xs">Search</span> قابلیت Pre-stage</h4>
+                            <p class="text-sm text-slate-300 relative z-10">به‌جای اینکه کلاینت خودش آبجکتش را در Computers بسازد، ادمین از قبل و دستی، آبجکت کامپیوتر را در OU دلخواه ایجاد کرده و تعیین می‌کند فقط فلان کاربر خاص حق دارد این سیستم را روشن و جوین کند (امنیت بسیار بالا).</p>
+                        </div>
+                    </div>
+
+                    <h3>پالیسی‌های احراز هویت شبکه (802.x)</h3>
+                    <p>این پالیسی‌ها در Security Settings هستند و برای ارتباط با سرورهای RADIUS/NPS استفاده می‌شوند:</p>
+                    <div class="bg-dark-800 p-4 rounded-lg border border-white/5 space-y-3">
+                        <div>
+                            <strong class="text-brand-light text-sm">802.3 (Wired):</strong> <span class="text-sm text-slate-300">مربوط به تنظیمات امنیت و احراز هویت شبکه‌های کابلی (LAN).</span>
+                        </div>
+                        <div>
+                            <strong class="text-brand-light text-sm">802.11 (Wireless):</strong> <span class="text-sm text-slate-300">مربوط به وای‌فای سازمانی (WLAN). مثلاً کاری می‌کنیم کلاینت‌ها بدون وارد کردن رمز، از طریق سرتیفیکیت دامین به طور خودکار به وای‌فای وصل شوند.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 3 -->
+                <div id="section-3" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 flex flex-col md:flex-row items-center justify-between gap-6 bg-gradient-to-l from-brand/10 to-transparent">
+                        <div>
+                            <h4 class="text-white font-bold text-xl mb-2">معماری و اهمیت سرویس DHCP</h4>
+                            <p class="mb-0 text-slate-300 text-sm">این سرویس از نظر اهمیت نمره <strong>۴ از ۵</strong> می‌گیرد. برخلاف برخی سرویس‌ها، نصب DHCP <strong>الزامی به عضویت سرور در دامین ندارد</strong> (اما اگر در دامین باشد، برای جلوگیری از سرورهای غیرمجاز (Rogue)، باید در AD اصطلاحاً Authorize شود).</p>
+                        </div>
+                        <div class="text-center shrink-0">
+                            <i class="fa-solid fa-network-wired text-5xl text-brand mb-2"></i>
+                            <div class="text-xs text-brand-light font-bold">Dynamic Host Config</div>
+                        </div>
+                    </div>
+
+                    <h3>وظایف فراتر از IP</h3>
+                    <p>DHCP فقط آی‌پی نمی‌دهد، بلکه پارامترهای حیاتی دیگری به نام <strong>Options</strong> (مثل Default Gateway، DNS سرور، و تایم سرور) را تزریق می‌کند و وظیفه اصلی آن جلوگیری از <strong>IP Conflict</strong> (آی‌پی تکراری) است.</p>
+
+                    <h3 class="mt-10 mb-6">مراحل دریافت آی‌پی (فرآیند DORA)</h3>
+                    <div class="bg-dark-900/50 p-6 rounded-xl border border-white/5">
+                        <div class="dora-step">
+                            <h4 class="text-brand-light font-bold text-lg mb-1">۱. Discover (جستجو)</h4>
+                            <p class="text-sm text-slate-300">کلاینت یک پیام برادکست می‌فرستد: "آیا سرور DHCP در شبکه هست؟"</p>
+                        </div>
+                        <div class="dora-step">
+                            <h4 class="text-emerald-400 font-bold text-lg mb-1">۲. Offer (پیشنهاد)</h4>
+                            <p class="text-sm text-slate-300">سرورهای DHCP پیام را شنیده و یک پیشنهاد (آی‌پی آزاد) ارسال می‌کنند.</p>
+                        </div>
+                        <div class="dora-step">
+                            <h4 class="text-blue-400 font-bold text-lg mb-1">۳. Request (درخواست)</h4>
+                            <p class="text-sm text-slate-300">کلاینت اولین پیشنهاد را انتخاب کرده و برادکست می‌کند: "من پیشنهاد سرور X را پذیرفتم".</p>
+                        </div>
+                        <div class="dora-step border-none pb-0">
+                            <h4 class="text-accent-light font-bold text-lg mb-1">۴. Acknowledge (تایید نهایی)</h4>
+                            <p class="text-sm text-slate-300">سرور تاییدیه (ACK) را همراه با Options می‌فرستد. (اگر آی‌پی در این حین اشغال شده باشد NACK می‌دهد).</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-5 mt-6 border-r-4 border-rose-500">
+                        <h4 class="text-rose-400 font-bold mb-2"><i class="fa-solid fa-user-secret ml-2"></i>مرحله پنجم پنهان (DHCP Decline)</h4>
+                        <p class="text-sm text-slate-300 mb-0">کلاینت قبل از ست کردن آی‌پی، یک بسته به نام <strong>Gratuitous ARP</strong> در شبکه می‌فرستد. اگر کسی به این پیام جواب دهد (یعنی آی‌پی دست شخص دیگری باشد)، کلاینت پیام Decline به DHCP می‌فرستد تا آی‌پی را باطل کرده و فرآیند را از اول شروع کند.</p>
+                    </div>
+
+                    <h3 class="mt-10">چرخه حیات آی‌پی (Lease Generation)</h3>
+                    <p>آی‌پی فروخته نمی‌شود، بلکه اجاره (Lease) داده می‌شود (پیش‌فرض مایکروسافت: <strong>۸ روز</strong>).</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                        <div class="bg-dark-800 p-4 rounded-lg border-t-2 border-brand-light text-center">
+                            <div class="text-2xl mb-2 text-brand-light"><i class="fa-solid fa-battery-half"></i></div>
+                            <h5 class="text-white font-bold text-sm mb-2">تمدید اول (۵۰٪ زمان)</h5>
+                            <p class="text-xs text-slate-400">پس از ۴ روز، کلاینت مستقیماً (Unicast) به سرور درخواست تمدید می‌دهد تا تایمر صفر شود.</p>
+                        </div>
+                        <div class="bg-dark-800 p-4 rounded-lg border-t-2 border-accent text-center">
+                            <div class="text-2xl mb-2 text-accent"><i class="fa-solid fa-battery-quarter"></i></div>
+                            <h5 class="text-white font-bold text-sm mb-2">تمدید دوم (۸۷.۵٪ زمان)</h5>
+                            <p class="text-xs text-slate-400">اگر سرور در مرحله قبل جواب ندهد، در روز هفتم کلاینت برادکست می‌کند تا هر سرور دیگری آی‌پی را تمدید کند.</p>
+                        </div>
+                        <div class="bg-dark-800 p-4 rounded-lg border-t-2 border-rose-500 text-center">
+                            <div class="text-2xl mb-2 text-rose-500"><i class="fa-solid fa-battery-empty"></i></div>
+                            <h5 class="text-white font-bold text-sm mb-2">انقضا و APIPA</h5>
+                            <p class="text-xs text-slate-400">اگر ۸ روز تمام شود و سروری نباشد، آی‌پی رها شده و کلاینت یک آی‌پی 169.254.x.x (APIPA) می‌گیرد.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SECTION 4 -->
+                <div id="section-4" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand flex items-start gap-4">
+                        <i class="fa-solid fa-gears text-3xl text-brand-light mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-1">تنظیمات پیشرفته و ترفندهای DHCP</h4>
+                            <p class="mb-0 text-slate-300 text-sm leading-relaxed">بررسی رفتار کلاینت‌ها، مدیریت افزونگی (HA)، امنیت و سلسله‌مراتب اعمال تنظیمات در سرویس DHCP.</p>
+                        </div>
+                    </div>
+
+                    <h3>رفتار کلاینت در شرایط خاص</h3>
+                    <ul>
+                        <li><strong>ری‌استارت سیستم یا کارت شبکه:</strong> کلاینت پس از ری‌استارت، فرآیند را از صفر (Discover) شروع نمی‌کند؛ بلکه مستقیماً پیام <strong>DHCP Request</strong> می‌فرستد تا همان آی‌پی قبلی را درخواست کند.</li>
+                        <li><strong>پیام NACK چه زمانی صادر می‌شود؟</strong> زمانی که کلاینت آی‌پی قبلی خود را درخواست کند اما آن آی‌پی دیگر معتبر نباشد (مثلاً زمان Lease تمام شده و به شخص دیگری داده شده است). سرور با پیام NACK می‌گوید: "این آی‌پی دیگر معتبر نیست، از اول Discover کن!"</li>
+                        <li><strong>ترفند اعمال فوری آی‌پی رزرو شده:</strong> اگر آی‌پی خاصی رزرو کرده‌اید اما کلاینت هنوز از آی‌پی قبلی استفاده می‌کند، سریع‌ترین راه فیزیکی، <strong>خاموش و روشن کردن پورت سوییچ</strong> (Shut/No Shut) است تا کلاینت مجبور به درخواست مجدد شود.</li>
+                    </ul>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+                        <div class="bg-dark-800 p-5 rounded-xl border border-brand/20">
+                            <h4 class="text-brand-light font-bold mb-3 text-sm"><i class="fa-solid fa-certificate ml-2"></i>DHCP Authorize چیست؟</h4>
+                            <p class="text-sm text-slate-300 mb-0">در اکتیودایرکتوری، برای جلوگیری از فعالیت سرورهای غیرمجاز (Rogue DHCP)، هر سرور DHCP عضو دامین حتماً باید توسط ادمین دامین <strong>Authorize</strong> شود، وگرنه متوقف می‌ماند. (در شبکه‌های Workgroup الزامی به این کار نیست).</p>
+                        </div>
+                        <div class="bg-dark-800 p-5 rounded-xl border border-accent/20">
+                            <h4 class="text-accent-light font-bold mb-3 text-sm"><i class="fa-solid fa-users-gear ml-2"></i>گروه‌های امنیتی در DHCP</h4>
+                            <p class="text-sm text-slate-300 mb-0">هنگام نصب این رول، دو گروه لوکال <code class="text-xs text-accent">DHCP Administrators</code> و <code class="text-xs text-accent">DHCP Users</code> ساخته می‌شود. با این کار، نیروی Help Desk می‌تواند بدون داشتن دسترسی Domain Admin، اسکوپ‌ها را مدیریت کند.</p>
+                        </div>
+                    </div>
+
+                    <h3>افزونگی (HA) و سلسله‌مراتب Options</h3>
+                    
+                    <div class="glass-card p-5 border-r-4 border-emerald-500 mb-6">
+                        <h4 class="text-emerald-400 font-bold mb-2"><i class="fa-solid fa-stopwatch ml-2"></i>مدیریت افزونگی با Subnet Delay</h4>
+                        <p class="text-sm text-slate-300 mb-0">در شبکه‌های دارای چند سرور DHCP (برای High Availability)، روی سرور بک‌آپ مقداری تأخیر (Subnet Delay in Milliseconds) تنظیم می‌کنیم تا سرور اصلی همیشه زودتر به پیام Discover کلاینت‌ها پاسخ دهد و آی‌پی بدهد.</p>
+                    </div>
+
+                    <p class="mb-3">آپشن‌های DHCP (مثل Gateway یا DNS) در ۳ سطح اعمال می‌شوند:</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="bg-dark-900/50 p-3 rounded border border-white/5 flex items-center justify-between">
+                            <span class="text-slate-200 font-bold text-sm">۱. سطح Server Options</span>
+                            <span class="text-xs text-slate-400">اعمال به تمام اسکوپ‌های سرور</span>
+                        </div>
+                        <div class="bg-dark-900/50 p-3 rounded border border-white/5 flex items-center justify-between">
+                            <span class="text-slate-200 font-bold text-sm">۲. سطح Scope Options</span>
+                            <span class="text-xs text-slate-400">اعمال فقط به رنجِ همان اسکوپ</span>
+                        </div>
+                        <div class="bg-dark-900/50 p-3 rounded border border-white/5 flex items-center justify-between">
+                            <span class="text-slate-200 font-bold text-sm">۳. سطح DHCP Policy / Class</span>
+                            <span class="text-xs text-slate-400">اعمال محدود بر اساس شرایط خاص (مثل مک‌آدرس)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-brand/10 p-4 rounded-lg border border-brand/30 text-center">
+                        <strong class="text-brand-light block mb-1">قانون حل تضاد (Conflict Resolution)</strong>
+                        <p class="text-sm text-slate-300 mb-0">در صورت تضاد بین سطوح بالا، <strong>تنظیماتِ محدودتر و نزدیک‌تر برنده است!</strong> یعنی Policy بر Scope، و Scope بر Server پیروز می‌شود.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+        const topTitle = document.getElementById('topTitle');
+        const mobileTitle = document.getElementById('mobileTitle');
+        const scrollArea = document.getElementById('scrollArea');
+
+        function openSidebar() {
+            sidebar.classList.remove('translate-x-full');
+            overlay.classList.remove('hidden');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('translate-x-full');
+            overlay.classList.add('hidden');
+        }
+
+        function showSection(sectionNumber, btnElement) {
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.classList.remove('block', 'section-fade');
+                el.classList.add('hidden');
+            });
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            const targetSection = document.getElementById('section-' + sectionNumber);
+            targetSection.classList.remove('hidden');
+            void targetSection.offsetWidth; 
+            targetSection.classList.add('block', 'section-fade');
+
+            btnElement.classList.add('active');
+
+            const btnText = btnElement.innerText.trim();
+            topTitle.innerText = btnText;
+            mobileTitle.innerText = btnText;
+
+            scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (window.innerWidth < 1024) {
+                closeSidebar();
+            }
+        }
+    </script>
+</body>
+</html>

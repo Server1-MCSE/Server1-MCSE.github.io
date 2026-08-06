@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات دوره ویندوز سرور | اپیزود ۵</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Vazirmatn Font -->
+    <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.0/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Vazirmatn', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B1120', 800: '#1e293b', 700: '#334155' },
+                        brand: { light: '#93c5fd', DEFAULT: '#3b82f6', dark: '#2563eb' }, /* Blue theme for Ep 5 */
+                        accent: { DEFAULT: '#10b981', light: '#6ee7b7' } /* Emerald accent */
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #0B1120;
+            color: #e2e8f0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .section-fade {
+            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B1120; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        .content-box h3 {
+            color: #f8fafc;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .content-box h3::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background-color: #3b82f6;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #3b82f6;
+        }
+        .content-box p { line-height: 1.9; color: #94a3b8; margin-bottom: 1rem; text-align: justify; }
+        .content-box ul { list-style: none; padding: 0; margin-bottom: 1.5rem; }
+        .content-box ul li { position: relative; padding-right: 1.5rem; margin-bottom: 0.75rem; line-height: 1.8; color: #cbd5e1; }
+        .content-box ul li::before {
+            content: '\f104';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            color: #3b82f6;
+            font-size: 0.9rem;
+        }
+        .content-box strong { color: #e2e8f0; background: rgba(255,255,255,0.05); padding: 0 4px; border-radius: 4px; }
+
+        .nav-btn.active {
+            background: linear-gradient(90deg, rgba(59,130,246,0.15) 0%, transparent 100%);
+            border-right: 4px solid #3b82f6;
+            color: #bfdbfe;
+        }
+        .nav-btn { border-right: 4px solid transparent; }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+        }
+        
+        .search-badge {
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-right: 8px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .highlight-code {
+            display: inline-block;
+            background: #0f172a;
+            color: #93c5fd;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid #1e293b;
+        }
+    </style>
+</head>
+
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Mobile Overlay -->
+    <div id="mobileOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity" onclick="closeSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed inset-y-0 right-0 w-72 bg-dark-800/95 backdrop-blur-xl border-l border-white/10 flex flex-col z-50 transform translate-x-full lg:translate-x-0 transition-transform duration-300 shadow-2xl lg:static lg:shadow-none">
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-brand-dark flex items-center justify-center shadow-lg shadow-brand/20 ml-3">
+                <i class="fa-solid fa-tower-broadcast text-white text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-white font-black text-lg">ویندوز سرور</h1>
+                <p class="text-brand-light text-xs font-medium">اپیزود ۵ | HA & DHCP Sec</p>
+            </div>
+            <button onclick="closeSidebar()" class="lg:hidden mr-auto text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+            <button onclick="showSection(1, this)" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-users-slash w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۱. محدودیت کلاینت و LAPS
+            </button>
+            <button onclick="showSection(2, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-folder-tree w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۲. پروفایل و همگام‌سازی
+            </button>
+            <button onclick="showSection(3, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-shield-halved w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۳. امنیت پیشرفته DHCP
+            </button>
+            <button onclick="showSection(4, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-server w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۴. افزونگی و کلاسترینگ
+            </button>
+            <button onclick="showSection(5, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-globe w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۵. ارتباطات دورکار
+            </button>
+        </nav>
+        
+        <div class="p-5 border-t border-white/5 bg-black/20">
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+                <i class="fa-solid fa-gem text-brand"></i>
+                مباحث فوق‌پیشرفته دیتاسنتر
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
+        <header class="h-20 bg-dark-900/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6 sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <button onclick="openSidebar()" class="lg:hidden text-slate-300 hover:text-white bg-white/5 p-2 rounded-lg transition-colors">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h2 id="topTitle" class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-white to-slate-400 hidden sm:block">۱. محدودیت کلاینت و LAPS</h2>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="bg-brand/10 text-brand-light px-3 py-1 rounded-full text-xs font-semibold border border-brand/20">
+                    اپیزود پنجم
+                </span>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 lg:p-12 relative" id="scrollArea">
+            <div class="max-w-4xl mx-auto content-box pb-24">
+                
+                <h2 id="mobileTitle" class="text-2xl font-bold text-white mb-8 sm:hidden">۱. محدودیت کلاینت و LAPS</h2>
+
+                <!-- SECTION 1 -->
+                <div id="section-1" class="section-content section-fade block">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand flex items-start gap-4">
+                        <i class="fa-solid fa-users-gear text-3xl text-brand-light mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-1">مدیریت دسترسی کلاینت‌ها</h4>
+                            <p class="mb-0 text-slate-300 text-sm leading-relaxed">این بخش بر روی کنترل دسترسی یوزرهای عادی به فرآیندهای حیاتی دامین مثل Join کردن و مدیریت پسورد ادمین‌های لوکال تمرکز دارد.</p>
+                        </div>
+                    </div>
+
+                    <h3>ابزار LAPS (مدیریت متمرکز پسورد لوکال)</h3>
+                    <p>زمانی که بخواهیم پسورد حساب <strong>Administrator لوکال</strong> تمام کلاینت‌ها را به صورت متمرکز ریست و مدیریت کنیم، از LAPS استفاده می‌کنیم.</p>
+                    <div class="bg-dark-800 p-4 rounded-lg border border-white/5 mb-6">
+                        <p class="text-sm text-slate-300 mb-0">این ابزار هم روی سرور (برای ساختار AD) و هم روی کلاینت نصب می‌شود. LAPS به طور اتوماتیک رمزهای بسیار پیچیده می‌سازد و آن‌ها را درون Attributeهای امن دیتابیس اکتیودایرکتوری ذخیره می‌کند تا فقط ادمین‌های مجاز بتوانند آن را ببینند.</p>
+                    </div>
+
+                    <h3>محدودسازی کامل Join به دامین</h3>
+                    <p>به صورت پیش‌فرض یوزرهای عادی می‌توانند کلاینت‌ها را به دامین جوین کنند. برای جلوگیری از این کار و انحصاری کردن آن برای ادمین، دو گام برمیداریم:</p>
+                    
+                    <ol class="list-decimal list-inside text-slate-300 space-y-4 mb-6 mt-4">
+                        <li class="bg-dark-900/50 p-4 rounded border border-white/5">
+                            <strong class="text-brand-light">گروپ پالیسی:</strong> در GPO (بهتر است روی <code>Default Domain Controllers Policy</code> باشد)، پالیسی <span class="highlight-code">Add Workstation to domain</span> را کانفیگ کرده و یوزرهای عادی را از آن حذف می‌کنیم.
+                        </li>
+                        <li class="bg-dark-900/50 p-4 rounded border border-white/5 relative overflow-hidden">
+                            <div class="absolute left-0 top-0 h-full w-1 bg-accent"></div>
+                            <strong class="text-accent-light">تغییر سهمیه با ADSI Edit:</strong> به طور پیش‌فرض هر یوزر می‌تواند <strong>۱۰ سیستم</strong> را جوین کند. از طریق ابزار <strong>ADSI Edit</strong> به دیتابیس DC متصل می‌شویم و مقدار صفت <code class="text-accent-light">ms-DS-MachineAccountQuota</code> را به صفر (یا تعداد دلخواه) تغییر می‌دهیم.
+                        </li>
+                    </ol>
+                </div>
+
+                <!-- SECTION 2 -->
+                <div id="section-2" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand flex items-center justify-between">
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-2">مدیریت فایل‌های کاربران</h4>
+                            <p class="mb-0 text-slate-300 text-sm">تفاوت استراتژیک بین Roaming Profile و Folder Redirection در مدیریت پهنای باند و فضای ذخیره‌سازی.</p>
+                        </div>
+                        <i class="fa-regular fa-folder-open text-4xl text-brand/50"></i>
+                    </div>
+
+                    <h3>تفاوت کلیدی (Redirection در برابر Roaming)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-dark-800 p-5 rounded-lg border border-white/5">
+                            <h4 class="text-white font-bold mb-2 text-sm"><i class="fa-solid fa-suitcase-rolling text-slate-400 ml-2"></i>Roaming Profile</h4>
+                            <p class="text-xs text-slate-300 mb-0">در این حالت <strong>کل پروفایل</strong> کاربر جابجا می‌شود که می‌تواند حجم بسیار بالایی داشته باشد و هنگام لاگین/لاگ‌آف شبکه را به شدت کند کند.</p>
+                        </div>
+                        <div class="bg-dark-800 p-5 rounded-lg border border-brand/30">
+                            <h4 class="text-brand-light font-bold mb-2 text-sm"><i class="fa-solid fa-share-nodes text-brand-light ml-2"></i>Folder Redirection</h4>
+                            <p class="text-xs text-slate-300 mb-0">ما فقط مسیرِ <strong>پوشه‌های خاص</strong> (مثل Desktop یا Documents) را به سمت File Server تغییر مسیر (Redirect) می‌دهیم و سیستم بسیار سبک‌تر کار می‌کند.</p>
+                        </div>
+                    </div>
+
+                    <h3 class="flex items-center gap-2"><i class="fa-solid fa-rotate text-emerald-400"></i> مکانیزم Sync Center (Offline Files)</h3>
+                    <div class="glass-card p-5 border-r-4 border-emerald-500 bg-emerald-500/5">
+                        <p class="text-sm text-slate-300 mb-3">در حالت عادی، فایلی که Redirect شده روی هارد لوکال ذخیره نمی‌شود و مستقیم روی سرور می‌نشیند. <strong>اما...</strong></p>
+                        <p class="text-sm text-slate-300 mb-0">اگر قابلیت <strong>Sync Center</strong> در ویندوز فعال باشد، یک کپی (Cache) از آن فایل‌ها روی سیستم لوکال ذخیره می‌شود تا در صورت قطعی شبکه، کاربر بتواند به کارش ادامه دهد. به محض اتصال، فایل‌ها Sync می‌شوند. اگر Sync Center خاموش باشد، با قطع شبکه دسترسی کاربر فوراً قطع می‌شود.</p>
+                    </div>
+                </div>
+
+                <!-- SECTION 3 -->
+                <div id="section-3" class="section-content hidden">
+                    <h3>امنیت و ساختار شبکه DHCP</h3>
+                    
+                    <div class="mb-8">
+                        <h4 class="text-brand-light font-bold mb-3"><span class="search-badge text-xs"><i class="fa-solid fa-shield-halved"></i> Security</span> مکانیزم DHCP Authorize و Rogue DHCP</h4>
+                        <p class="text-sm text-slate-300 mb-3">اگر یک سرور DHCP مایکروسافتیِ غیرمجاز در شبکه روشن شود، بسته‌ای به نام <span class="highlight-code text-xs">DHCPINFORM</span> می‌فرستد. سرورهای مجاز (Authorize شده) جواب می‌دهند و سرور جدید می‌فهمد که مجاز نیست و متوقف می‌شود.</p>
+                        <div class="bg-rose-900/20 p-4 rounded-lg border border-rose-500/30">
+                            <h5 class="text-rose-400 font-bold text-sm mb-2">نقص این روش و راه‌حل قطعی</h5>
+                            <p class="text-xs text-slate-300 mb-0">این روش فقط در برابر سرورهای <strong>مایکروسافتی</strong> کار می‌کند! اگر مهاجم با کالی‌لینوکس یا میکروتیک سرور غیرمجاز (Rogue DHCP) بالا بیاورد، شبکه بهم می‌ریزد. برای امنیت ۱۰۰٪ باید از <strong>DHCP Snooping</strong> در سوییچ‌های شبکه (سیسکو) استفاده کرد و فقط پورتِ سرور اصلی را Trust کرد.</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 border-t border-brand/30">
+                        <h4 class="text-white font-bold mb-3 text-lg"><i class="fa-solid fa-route text-brand-light ml-2"></i>DHCP Relay Agent (عبور از روتر)</h4>
+                        <p class="text-sm text-slate-300 mb-3">پیام‌های Discover برادکست هستند و از روتر عبور نمی‌کنند. برای اینکه کلاینت‌های یک ساب‌نتِ دیگر از سرور مرکزی آی‌پی بگیرند:</p>
+                        <ol class="list-decimal list-inside text-sm text-slate-300 space-y-2 mb-4">
+                            <li>روی روتر آن شبکه، قابلیت <strong>DHCP Relay Agent</strong> (یا <span class="highlight-code text-xs">ip helper-address</span> در سیسکو) را فعال می‌کنیم.</li>
+                            <li>روتر بسته برادکست را می‌گیرد، تبدیل به <strong>Unicast</strong> کرده و مستقیم به سرور می‌فرستد.</li>
+                            <li>سرور با نگاه به آی‌پی روتر، می‌فهمد کلاینت در کدام شبکه است و از اسکوپ مربوطه آی‌پی می‌دهد.</li>
+                        </ol>
+                        <div class="bg-black/30 p-2 rounded text-xs text-center border border-white/5">
+                            <i class="fa-solid fa-triangle-exclamation text-amber-500 ml-1"></i> قانون: برای هر ساب‌نت فیزیکی فقط و فقط می‌توان <strong>یک اسکوپ</strong> ساخت.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 4 -->
+                <div id="section-4" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 bg-gradient-to-br from-brand/10 to-transparent">
+                        <h4 class="text-white font-bold text-xl mb-2">افزونگی و معماری پیشرفته DHCP</h4>
+                        <p class="mb-0 text-slate-300 text-sm">بررسی پروتکل‌های قدیمی، کلاسترینگ و راهکارهای High Availability.</p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="bg-dark-800 p-5 rounded-xl border border-white/5">
+                            <h4 class="text-brand-light font-bold mb-2 flex items-center gap-2"><span class="search-badge"><i class="fa-solid fa-timeline"></i> Search</span>پروتکل BOOTP چیست؟</h4>
+                            <p class="text-sm text-slate-300 mb-0">پدربزرگ DHCP است! برای کامپیوترهای بدون هارد (Diskless) استفاده می‌شد تا آی‌پی و مسیر سیستم‌عامل را بگیرند. <strong>تفاوت اصلی:</strong> BOOTP آی‌پی را <em>برای همیشه</em> به مک‌آدرس می‌داد، اما DHCP مفهوم <strong>Lease (اجاره زمان‌دار)</strong> را معرفی کرد تا آی‌پی‌ها هدر نروند.</p>
+                        </div>
+
+                        <div class="bg-dark-800 p-5 rounded-xl border border-white/5">
+                            <h4 class="text-brand-light font-bold mb-2 flex items-center gap-2"><span class="search-badge"><i class="fa-solid fa-layer-group"></i> Search</span>سوپراسکوپ (Superscope) چیست؟</h4>
+                            <p class="text-sm text-slate-300 mb-0">پوشه‌ای منطقی است که چند اسکوپ را درون خود گروه‌بندی می‌کند. زمانی کاربرد دارد که ظرفیت آی‌پی‌های یک اسکوپ تمام شده، ساب‌نت قابل تغییر نیست، و شما یک اسکوپ جدید می‌سازید و هر دو را در یک Superscope قرار می‌دهید تا به یک شبکه فیزیکی از دو رنجِ مختلف آی‌پی بدهید (Multinetting).</p>
+                        </div>
+                    </div>
+
+                    <h3 class="mt-8">راهکارهای پایداری (High Availability)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+                        <div class="bg-dark-900/50 p-4 rounded-lg border-l-2 border-slate-500">
+                            <h5 class="text-white font-bold text-sm mb-1">1. Backup & Recovery</h5>
+                            <p class="text-xs text-slate-400 mb-0">روش سنتی. بک‌آپ از دیتابیس و ریستور روی سرور جدید در زمان خرابی (دارای Downtime).</p>
+                        </div>
+                        <div class="bg-dark-900/50 p-4 rounded-lg border-l-2 border-brand-light">
+                            <h5 class="text-white font-bold text-sm mb-1">2. Failover Cluster</h5>
+                            <p class="text-xs text-slate-400 mb-0">تکنولوژی سنگین کلاسترینگ ویندوز نیازمند هارد مشترک (SAN). (دیگر برای DHCP پیشنهاد نمی‌شود).</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-5 border border-brand mb-4 relative overflow-hidden">
+                        <div class="absolute -left-2 -top-2 text-brand/20 text-5xl"><i class="fa-solid fa-star"></i></div>
+                        <h4 class="text-brand-light font-bold mb-2 relative z-10">3. DHCP Failover (روش مدرن ۲۰۱۲ به بعد)</h4>
+                        <p class="text-sm text-slate-300 relative z-10 mb-2">بدون نیاز به هارد مشترک، دو سرور دیتابیس را سینک می‌کنند. دو حالت دارد:</p>
+                        <ul class="text-xs text-slate-300 relative z-10 space-y-1 mb-0">
+                            <li><strong>Load Balance:</strong> پخش بار (Active/Active). هر کدام درصدی از آی‌پی‌ها را می‌دهند.</li>
+                            <li><strong>Hot Standby:</strong> آماده‌به‌کار (Active/Passive). سرور دوم فقط منتظر خرابی سرور اول است.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-dark-800 p-5 rounded-xl border border-accent/30">
+                        <h4 class="text-accent-light font-bold mb-2 flex items-center gap-2"><span class="search-badge border-accent/50 text-accent-light"><i class="fa-solid fa-scissors"></i> Search</span>اسپلیت اسکوپ (Split Scope)</h4>
+                        <p class="text-sm text-slate-300 mb-0">خرد کردن یک اسکوپ بین دو سرور مجزا (قانون ۸۰/۲۰). ۸۰٪ آی‌پی‌ها را سرور اصلی و ۲۰٪ را سرور بک‌آپ می‌دهد. بهترین روش سنتی برای <strong>آپگرید سرور DHCP بدون قطعی (Zero Downtime)</strong> است.</p>
+                    </div>
+                </div>
+
+                <!-- SECTION 5 -->
+                <div id="section-5" class="section-content hidden">
+                    <div class="glass-card p-8 text-center bg-gradient-to-b from-dark-800 to-dark-900">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand/10 mb-4">
+                            <i class="fa-solid fa-globe text-3xl text-brand"></i>
+                        </div>
+                        <h3 class="text-white font-bold text-2xl mb-2 mt-0 border-none justify-center">تکنولوژی DirectAccess</h3>
+                        <div class="max-w-2xl mx-auto">
+                            <p class="text-slate-300 leading-relaxed mb-4 text-justify">
+                                دایرکت‌اکسس یک تکنولوژی ابداعی مایکروسافت شبیه به VPN بود، اما با یک تفاوتِ شگفت‌انگیز: <strong>کاملاً نامرئی و اتوماتیک کار می‌کرد!</strong>
+                            </p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-right mb-6">
+                                <div class="bg-dark-800/80 p-4 rounded-lg border border-white/5">
+                                    <h4 class="text-rose-400 font-bold text-sm mb-1"><i class="fa-solid fa-network-wired ml-1"></i>VPN سنتی</h4>
+                                    <p class="text-xs text-slate-400 mb-0">کاربر باید نرم‌افزار را باز کرده و دکمه Connect را به صورت دستی بزند.</p>
+                                </div>
+                                <div class="bg-dark-800/80 p-4 rounded-lg border border-brand/30">
+                                    <h4 class="text-brand-light font-bold text-sm mb-1"><i class="fa-solid fa-bolt ml-1"></i>DirectAccess</h4>
+                                    <p class="text-xs text-slate-400 mb-0">به محض اتصال لپ‌تاپ به هر اینترنتی، در پس‌زمینه یک تونل امن (IPsec) به شرکت می‌زند و کلاینت همیشه در دامین است.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-amber-900/20 p-4 rounded-lg border border-amber-500/20 inline-block text-right">
+                                <h5 class="text-amber-500 font-bold text-sm mb-1"><i class="fa-solid fa-circle-info ml-1"></i>وضعیت فعلی تکنولوژی</h5>
+                                <p class="text-xs text-slate-300 mb-0">
+                                    مایکروسافت این تکنولوژی را به دلیل پیچیدگی‌های پیاده‌سازیِ زیرساختِ IPv6 منسوخ (Deprecated) کرده است. امروزه جایگزین مدرن و استانداردِ آن، تکنولوژی <strong>Always On VPN</strong> می‌باشد.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+        const topTitle = document.getElementById('topTitle');
+        const mobileTitle = document.getElementById('mobileTitle');
+        const scrollArea = document.getElementById('scrollArea');
+
+        function openSidebar() {
+            sidebar.classList.remove('translate-x-full');
+            overlay.classList.remove('hidden');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('translate-x-full');
+            overlay.classList.add('hidden');
+        }
+
+        function showSection(sectionNumber, btnElement) {
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.classList.remove('block', 'section-fade');
+                el.classList.add('hidden');
+            });
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            const targetSection = document.getElementById('section-' + sectionNumber);
+            targetSection.classList.remove('hidden');
+            void targetSection.offsetWidth; 
+            targetSection.classList.add('block', 'section-fade');
+
+            btnElement.classList.add('active');
+
+            const btnText = btnElement.innerText.trim();
+            topTitle.innerText = btnText;
+            mobileTitle.innerText = btnText;
+
+            scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (window.innerWidth < 1024) {
+                closeSidebar();
+            }
+        }
+    </script>
+</body>
+</html>

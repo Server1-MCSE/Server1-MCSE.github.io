@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات دوره ویندوز سرور | اپیزود ۱۲</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Vazirmatn Font -->
+    <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.0/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Config with Teal Theme -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Vazirmatn', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B1120', 800: '#1e293b', 700: '#334155' },
+                        brand: { light: '#5eead4', DEFAULT: '#14b8a6', dark: '#0f766e' }, /* Teal Theme */
+                        accent: { DEFAULT: '#f43f5e', light: '#fda4af' } /* Rose accent */
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #0B1120;
+            color: #e2e8f0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .section-fade { animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B1120; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        .content-box h3 {
+            color: #f8fafc;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .content-box h3::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background-color: #14b8a6;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #14b8a6;
+        }
+        .content-box p { line-height: 1.9; color: #94a3b8; margin-bottom: 1rem; text-align: justify; }
+        .content-box ul { list-style: none; padding: 0; margin-bottom: 1.5rem; }
+        .content-box ul li { position: relative; padding-right: 1.5rem; margin-bottom: 0.75rem; line-height: 1.8; color: #cbd5e1; }
+        .content-box ul li::before {
+            content: '\f104';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            color: #14b8a6;
+            font-size: 0.9rem;
+        }
+        .content-box strong { color: #e2e8f0; background: rgba(255,255,255,0.05); padding: 0 4px; border-radius: 4px; }
+
+        .nav-btn.active {
+            background: linear-gradient(90deg, rgba(20,184,166,0.15) 0%, transparent 100%);
+            border-right: 4px solid #14b8a6;
+            color: #5eead4;
+        }
+        .nav-btn { border-right: 4px solid transparent; }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+        }
+
+        .highlight-code {
+            display: inline-block;
+            background: #0f172a;
+            color: #5eead4;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid #1e293b;
+            direction: ltr;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <div id="mobileOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity" onclick="closeSidebar()"></div>
+
+    <aside id="sidebar" class="fixed inset-y-0 right-0 w-72 bg-dark-800/95 backdrop-blur-xl border-l border-white/10 flex flex-col z-50 transform translate-x-full lg:translate-x-0 transition-transform duration-300 shadow-2xl lg:static lg:shadow-none">
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-brand-dark flex items-center justify-center shadow-lg shadow-brand/20 ml-3">
+                <i class="fa-solid fa-layer-group text-white text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-white font-black text-lg">ویندوز سرور</h1>
+                <p class="text-brand-light text-xs font-medium">اپیزود ۱۲ | ESXi & Veeam Backup</p>
+            </div>
+            <button onclick="closeSidebar()" class="lg:hidden mr-auto text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+            <button onclick="showSection(1, this)" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-brands fa-vmware w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۱. مبانی ESXi و استوریج
+            </button>
+            <button onclick="showSection(2, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-microchip w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۲. منابع سخت‌افزاری VM
+            </button>
+            <button onclick="showSection(3, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-network-wired w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۳. شبکه در محیط ESXi
+            </button>
+            <button onclick="showSection(4, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-shield-halved w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۴. سیستم Veeam Backup
+            </button>
+            <button onclick="showSection(5, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-sitemap w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۵. معماری LDAP در دامین
+            </button>
+        </nav>
+        
+        <div class="p-5 border-t border-white/5 bg-black/20">
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+                <i class="fa-solid fa-circle-check text-brand"></i>
+                ورود به زیرساخت Enterprise
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
+        <header class="h-20 bg-dark-900/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6 sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <button onclick="openSidebar()" class="lg:hidden text-slate-300 hover:text-white bg-white/5 p-2 rounded-lg transition-colors">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h2 id="topTitle" class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-white to-slate-400 hidden sm:block">۱. مبانی ESXi و استوریج</h2>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="bg-brand/10 text-brand-light px-3 py-1 rounded-full text-xs font-semibold border border-brand/20">
+                    اپیزود دوازدهم
+                </span>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 lg:p-12 relative" id="scrollArea">
+            <div class="max-w-4xl mx-auto content-box pb-24">
+                
+                <h2 id="mobileTitle" class="text-2xl font-bold text-white mb-8 sm:hidden">۱. مبانی ESXi و استوریج</h2>
+
+                <div id="section-1" class="section-content section-fade block">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand flex items-start gap-4">
+                        <i class="fa-brands fa-vmware text-3xl text-brand-light mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-1">مقدمه‌ای بر VMware ESXi</h4>
+                            <p class="mb-0 text-slate-300 text-sm leading-relaxed">هایپروایزر ESXi یک سیستم‌عامل نوع Bare-Metal (Type 1) است که مستقیماً روی سخت‌افزار سرور نصب می‌شود تا تمام منابع پردازشی را به ماشین‌های مجازی (VM) اختصاص دهد. این سیستم، پلتفرم اصلی در محیط‌های شبکه‌های بزرگ (Enterprise) است.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                        <div class="bg-dark-800/80 p-5 rounded-lg border border-white/5">
+                            <h4 class="text-brand-light font-bold mb-2 text-sm"><i class="fa-solid fa-hard-drive ml-2"></i>معادلِ پارتیشن و درایو</h4>
+                            <p class="text-xs text-slate-300 leading-relaxed mb-2"><strong>VMFS (Virtual Machine File System):</strong> نام سیستم‌فایلِ اختصاصی و کلاسترشده‌ی VMware است که درایوها با این فرمت قالب‌بندی می‌شوند.</p>
+                            <p class="text-xs text-slate-300 leading-relaxed mb-0"><strong>Datastore (دیتااستور):</strong> معادلِ منطقیِ یک درایو (مثل درایو C یا D در ویندوز) است که فایل‌های ماشین‌های مجازی، هاردها و لاگ‌ها در آن ذخیره می‌شوند.</p>
+                        </div>
+                        
+                        <div class="bg-dark-800/80 p-5 rounded-lg border border-white/5">
+                            <h4 class="text-brand-light font-bold mb-2 text-sm"><i class="fa-solid fa-compact-disc ml-2"></i>پیش‌نیاز نصب ماشین (ISO)</h4>
+                            <p class="text-xs text-slate-300 leading-relaxed mb-0">برای اینکه بتوانید روی یک VM جدید ویندوز یا لینوکس نصب کنید، نمی‌توانید مستقیماً CD را وارد کامپیوتر خودتان کنید. ابتدا باید فایلِ ISOِ سیستم‌عامل را از طریق محیط وبِ ESXi، در یکی از <strong>Datastore</strong> ها آپلود کنید تا ماشین مجازی بتواند آن را به عنوان CD-ROM بخواند.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-dark-900/50 p-5 rounded-lg border-r-2 border-brand mt-6">
+                        <h4 class="text-white font-bold mb-2 text-sm"><i class="fa-solid fa-power-off text-brand-light ml-2"></i>قابلیت Autostart (روشن شدن خودکار)</h4>
+                        <p class="text-sm text-slate-300 mb-0">اگر سرور فیزیکی به دلیل قطعی برق خاموش شود و سپس روشن شود، ماشین‌های مجازیِ مهم (مثل دامین کنترلرها) خود‌به‌خود روشن نمی‌شوند! در ESXi بخشی به نام Autostart وجود دارد که به شما اجازه می‌دهد تعیین کنید کدام VMها، با چه ترتیبی و با چند ثانیه تأخیر نسبت به یکدیگر به صورت خودکار روشن شوند.</p>
+                    </div>
+                </div>
+
+                <div id="section-2" class="section-content hidden">
+                    <h3>تخصیص فضا: Thick در برابر Thin</h3>
+                    <p>هنگام ساختن ماشین مجازی جدید و اختصاص هارد دیسک، باید نوع Provisioning (تأمین فضا) را مشخص کنید:</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div class="glass-card p-5 border-t-2 border-emerald-500">
+                            <h4 class="text-emerald-400 font-bold mb-2">Thick Provision</h4>
+                            <p class="text-sm text-slate-300 mb-0">کل فضای هارد از همان روز اول در Datastore رزرو و اشغال می‌شود. اگر هارد ۱۰۰ گیگ بسازید، ۱۰۰ گیگ از فضای سرور رسماً کسر می‌شود. این روش برای دیتابیس‌ها و سرورهای حساس به سرعت، بهترین گزینه است. (دو حالت Lazy Zeroed و Eager Zeroed دارد).</p>
+                        </div>
+                        <div class="glass-card p-5 border-t-2 border-amber-500">
+                            <h4 class="text-amber-400 font-bold mb-2">Thin Provision</h4>
+                            <p class="text-sm text-slate-300 mb-0">فضای هارد مجازی فقط به اندازه‌ی دیتای واقعیِ درون آن روی سرور فضا اشغال می‌کند! اگر هارد ۱۰۰ گیگ بسازید ولی فقط ۱۰ گیگ فایل داخلش باشد، فقط ۱۰ گیگ از سرور اشغال می‌شود. با ریختن دیتای جدید، هارد به مرور رشد می‌کند. (عالی برای صرفه‌جویی).</p>
+                        </div>
+                    </div>
+
+                    <h3>قابلیت Memory Hot Plug</h3>
+                    <p>آیا می‌توان در حالی که سرور روشن است به آن رَم اضافه کرد؟ بله! با فعال کردن تیک <code class="highlight-code text-xs">Memory Hot Plug</code> (و در صورت ساپورت سیستم‌عاملِ کلاینت مثل ویندوز سرور)، می‌توانید بدون خاموش کردنِ ماشین مجازی (Zero Downtime)، رمِ آن را افزایش دهید. همین قابلیت برای CPU (Hot Add) نیز وجود دارد.</p>
+
+                    <div class="bg-black/30 p-5 rounded-lg border border-brand/20 mt-6 flex items-center gap-4">
+                        <div class="text-3xl text-brand"><i class="fa-solid fa-desktop"></i></div>
+                        <div>
+                            <h4 class="text-white font-bold mb-1">ابزار VMRC چیست؟</h4>
+                            <p class="text-sm text-slate-300 mb-0">مخفف <strong>VMware Remote Console</strong>. یک نرم‌افزار سبک است که روی سیستم کلاینت (ویندوز شما) نصب می‌شود. به جای اینکه برای دیدن صفحه مانیتورِ سرور مجازی از محیط تحت وب و کُندِ مرورگر استفاده کنید، با زدن دکمه Launch VMRC، صفحه مانیتور سرور با سرعت، کیفیت و روانیِ بالا در یک پنجره مستقل باز می‌شود.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="section-3" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 bg-gradient-to-l from-brand/10 to-transparent">
+                        <h4 class="text-white font-bold text-lg mb-2">شبکه‌بندی در ESXi</h4>
+                        <p class="text-sm text-slate-300 mb-0">در محیط VMware، ما دو مفهوم اصلی برای اتصال ماشین‌ها به شبکه داریم: <strong>Virtual Switch (سوییچ مجازی)</strong> و <strong>Port Group (گروه پورت)</strong>.</p>
+                    </div>
+
+                    <h3>۱. سوییچ مجازی (vSwitch)</h3>
+                    <p>ماشین‌های مجازی مستقیماً به کارت شبکه فیزیکی سرور وصل نمی‌شوند. ESXi در دلِ خود یک یا چند سوییچ مجازی (vSwitch) می‌سازد. کارت شبکه‌های فیزیکی سرور (Uplinkها) به این سوییچ مجازی متصل می‌شوند تا اینترنت و ارتباط خارجی را برای آن تأمین کنند.</p>
+
+                    <h3>۲. پورت گروپ (Port Group) چیست؟</h3>
+                    <p>در سوییچ‌های فیزیکی، ما پورت‌ها را یکی‌یکی تنظیم می‌کنیم (مثلاً پورت ۱ تا ۱۰ برود در VLAN 20). در مجازی‌سازی، ما نمی‌توانیم پورت‌ها را دستی مدیریت کنیم چون ماشین‌ها داینامیک هستند. در نتیجه قابلیتی به نام <strong>Port Group</strong> داریم:</p>
+                    <ul class="text-sm text-slate-300 mt-2 mb-6">
+                        <li>پورت گروپ یک برچسب یا قالبِ تنظیمات است (مثلاً نام آن را می‌گذاریم "تیم مالی").</li>
+                        <li>در تنظیماتِ پورت گروپ مشخص می‌کنیم که مثلاً <code class="highlight-code text-xs">VLAN ID = 20</code> باشد.</li>
+                        <li>حالا کارت شبکه‌ی هر ماشین مجازی که به این Port Group متصل شود، به صورت اتوماتیک تمام آن قوانین و محدودیت‌های شبکه را به ارث می‌برد.</li>
+                    </ul>
+
+                </div>
+
+                <div id="section-4" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 border-r-4 border-r-brand">
+                        <h4 class="text-white font-bold text-lg mb-2"><i class="fa-solid fa-shield-cat text-brand-light ml-2"></i>غول بک‌آپ‌گیری: Veeam Backup & Replication</h4>
+                        <p class="text-sm text-slate-300 mb-0">ویم (Veeam) قدرتمندترین و بی‌رقیب‌ترین نرم‌افزار برای بک‌آپ‌گیری در محیط‌های مجازی‌سازی (VMware و Hyper-V) است. این نرم‌افزار بدون نیاز به نصب هیچ‌گونه ایجنت (Agent) درون ماشین‌ها، مستقیماً از طریق هایپروایزر از کلِ ماشین مجازی بک‌آپ می‌گیرد.</p>
+                    </div>
+
+                    <h3>بهترین فرمت درایو برای Veeam</h3>
+                    <p>اگر هاردی دارید که می‌خواهید فایل‌های بک‌آپ را در آن ذخیره کنید (Backup Repository)، مایکروسافت و Veeam شدیداً توصیه می‌کنند که آن درایو را با سیستم‌فایل <strong>ReFS (Resilient File System)</strong> فرمت کنید. دلیل آن قابلیت <em>Block Cloning</em> در ReFS است که باعث می‌شود عملیاتِ ساخت بک‌آپ‌های ترکیب‌شده (Synthetic Full) در کسری از ثانیه انجام شود و فضای بسیار کمتری اشغال کند.</p>
+
+                    <h3>بک‌آپ هوشمند از اپلیکیشن‌ها (Application-Aware)</h3>
+                    <p>ویم فقط از فایل‌ها کپی نمی‌گیرد! اگر این گزینه را روشن کنید، ویم می‌فهمد که داخل ماشین مجازی، مثلاً اکتیودایرکتوری، SQL Server یا Exchange نصب است. او با کمک پروتکل VSS ویندوز، دیتابیس این برنامه‌ها را موقتاً در حالت یکپارچه قرار می‌دهد و بک‌آپ می‌گیرد. <br>
+                    <strong>قابلیت استثنایی:</strong> در زمان بازگردانی (Restore)، به جای اینکه کل ویندوز را برگردانید، می‌توانید ابزار Veeam Explorer for Active Directory را باز کنید، و فقط <strong>یک یوزرِ پاک‌شده</strong> را مستقیماً به داخل اکتیودایرکتوریِ روشن برگردانید!</p>
+
+                    <h3 class="mt-8">انواع ریستور کامل (Full VM Restore Modes)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-dark-800 p-4 rounded-xl border border-white/5">
+                            <strong class="text-brand-light block mb-2 text-sm">Restore to Original Location</strong>
+                            <p class="text-xs text-slate-300 mb-0">ماشین مجازی را دقیقاً با همان نام، همان مک‌آدرس و در همان Datastore قبلی برمی‌گرداند. (معمولاً ماشین فعلیِ خراب را قبلش پاک می‌کند).</p>
+                        </div>
+                        <div class="bg-dark-800 p-4 rounded-xl border border-white/5">
+                            <strong class="text-brand-light block mb-2 text-sm">Restore to a New Location</strong>
+                            <p class="text-xs text-slate-300 mb-0">ماشین را با نام جدید، در یک هاستِ جدید یا استوریج متفاوت بازگردانی می‌کند. مک‌آدرسِ جدیدی هم به آن می‌دهد تا در شبکه تداخل آی‌پی پیش نیاید.</p>
+                        </div>
+                    </div>
+
+                    <h3>بک‌آپ کپی و بک‌آپِ خودِ ویم!</h3>
+                    <ul class="space-y-4">
+                        <li class="bg-black/30 p-4 rounded border-r-2 border-brand">
+                            <strong class="text-white block mb-1">Backup Copy Job (بک‌آپ کپی):</strong>
+                            <p class="text-sm text-slate-400 mb-0">پیروی از قانون 3-2-1! ما نباید فقط یک بک‌آپ داشته باشیم. با این Job، ویم یک کپی از بک‌آپ‌های گرفته‌شده را به صورت اتوماتیک به یک استوریج دیگر (یا هارد اکسترنال یا کلود) می‌فرستد تا اگر کل سایت اول نابود شد، بک‌آپ‌ها زنده بمانند.</p>
+                        </li>
+                        <li class="bg-black/30 p-4 rounded border-r-2 border-emerald-500">
+                            <strong class="text-white block mb-1">Configuration Backup (تنظیمات خود ویم):</strong>
+                            <p class="text-sm text-slate-400 mb-0">ویم تمام تنظیمات، پسوردها و Jobهای خودش را در یک دیتابیس (SQL یا PostgreSQL) نگه می‌دارد. اگر سرور بک‌آپ بسوزد چطور بک‌آپ‌ها را برگردانیم؟ با این قابلیت، ویم هر روز از دیتابیس خودش بک‌آپ می‌گیرد (یک فایلِ کوچک <code class="highlight-code text-xs">.bco</code>). با نصب ویمِ خام روی یک سرور جدید و ایمپورتِ این فایل، سرورِ بک‌آپِ شما در ۳ دقیقه برمی‌گردد!</p>
+                        </li>
+                    </ul>
+
+                </div>
+
+                <div id="section-5" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8">
+                        <h4 class="text-white font-bold text-lg mb-2">معماری اطلاعات اکتیودایرکتوری (LDAP)</h4>
+                        <p class="text-sm text-slate-300 mb-4">اکتیودایرکتوری دیتابیسی است که بر پایه ساختار سلسله‌مراتبی و پروتکل <strong>LDAP (Lightweight Directory Access Protocol)</strong> کار می‌کند. هر چیزی (یوزر، گروه، کامپیوتر) در این دیتابیس آدرسِ مختص به خود را دارد.</p>
+                        
+                        <div class="bg-dark-900/80 p-5 rounded-lg border border-white/5 font-mono text-sm text-left dir-ltr">
+                            <div class="text-brand-light mb-2">مثال یک آدرس کامل در شبکه:</div>
+                            <code class="text-emerald-400 block break-all">CN=Ali Rezaei, OU=IT Department, DC=corp, DC=local</code>
+                        </div>
+                    </div>
+
+                    <h3>مفاهیم آدرس‌دهی</h3>
+                    <ul class="space-y-4">
+                        <li class="bg-dark-800 p-4 rounded">
+                            <strong class="text-brand-light block mb-1">DC (Domain Component):</strong>
+                            <p class="text-sm text-slate-300 mb-0">نشان‌دهنده نام دامین است. برای دامین <code class="highlight-code text-xs">corp.local</code> دو بخش <code class="highlight-code text-xs">DC=corp</code> و <code class="highlight-code text-xs">DC=local</code> خواهیم داشت.</p>
+                        </li>
+                        <li class="bg-dark-800 p-4 rounded">
+                            <strong class="text-brand-light block mb-1">OU (Organizational Unit):</strong>
+                            <p class="text-sm text-slate-300 mb-0">همان پوشه‌ها یا واحدهای سازمانی هستند که برای دسته‌بندی استفاده می‌شوند.</p>
+                        </li>
+                        <li class="bg-dark-800 p-4 rounded">
+                            <strong class="text-brand-light block mb-1">CN (Common Name):</strong>
+                            <p class="text-sm text-slate-300 mb-0">نام آبجکت اصلی (مثل اسم یوزر، اسم گروه یا کامپیوتر) است. جالب است بدانید کانتینرهای پیش‌فرضِ اکتیو (مثل پوشه Users) از نوع OU نیستند و CN محسوب می‌شوند.</p>
+                        </li>
+                    </ul>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                        <div class="glass-card p-5 border-t-2 border-brand">
+                            <h4 class="text-white font-bold mb-2 text-sm">DN (Distinguished Name)</h4>
+                            <p class="text-xs text-slate-300 mb-0">آدرس <strong>مطلق و کاملِ</strong> یک شیء از پایین‌ترین سطح تا رسیدن به ریشه (Root) دامین است. این آدرس کاملاً یکتاست. <br><span class="text-brand-light">مثال: CN=Ali, OU=HR, DC=shoma, DC=com</span></p>
+                        </div>
+                        <div class="glass-card p-5 border-t-2 border-accent">
+                            <h4 class="text-white font-bold mb-2 text-sm">RDN (Relative Distinguished Name)</h4>
+                            <p class="text-xs text-slate-300 mb-0">آدرس <strong>نِسبی و محلیِ</strong> یک شیء است. یعنی فقط بخش نهایی آدرس را نشان می‌دهد (مثل نام فایل بدون آدرس پوشه‌های قبلی). <br><span class="text-accent-light">مثال: CN=Ali</span></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+        const topTitle = document.getElementById('topTitle');
+        const mobileTitle = document.getElementById('mobileTitle');
+        const scrollArea = document.getElementById('scrollArea');
+
+        function openSidebar() { sidebar.classList.remove('translate-x-full'); overlay.classList.remove('hidden'); }
+        function closeSidebar() { sidebar.classList.add('translate-x-full'); overlay.classList.add('hidden'); }
+
+        function showSection(sectionNumber, btnElement) {
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.classList.remove('block', 'section-fade');
+                el.classList.add('hidden');
+            });
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+            const targetSection = document.getElementById('section-' + sectionNumber);
+            targetSection.classList.remove('hidden');
+            void targetSection.offsetWidth; 
+            targetSection.classList.add('block', 'section-fade');
+
+            btnElement.classList.add('active');
+            const btnText = btnElement.innerText.trim();
+            topTitle.innerText = btnText;
+            mobileTitle.innerText = btnText;
+            scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (window.innerWidth < 1024) closeSidebar();
+        }
+    </script>
+</body>
+</html>

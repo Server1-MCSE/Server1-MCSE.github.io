@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات دوره ویندوز سرور | اپیزود ۸</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Vazirmatn Font -->
+    <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.0/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Vazirmatn', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B1120', 800: '#1e293b', 700: '#334155' },
+                        brand: { light: '#6ee7b7', DEFAULT: '#10b981', dark: '#047857' }, /* Emerald Theme */
+                        accent: { DEFAULT: '#f59e0b', light: '#fcd34d' }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #0B1120;
+            color: #e2e8f0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .section-fade {
+            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B1120; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        .content-box h3 {
+            color: #f8fafc;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .content-box h3::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #10b981;
+        }
+        .content-box p { line-height: 1.9; color: #94a3b8; margin-bottom: 1rem; text-align: justify; }
+        .content-box ul { list-style: none; padding: 0; margin-bottom: 1.5rem; }
+        .content-box ul li { position: relative; padding-right: 1.5rem; margin-bottom: 0.75rem; line-height: 1.8; color: #cbd5e1; }
+        .content-box ul li::before {
+            content: '\f104';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            color: #10b981;
+            font-size: 0.9rem;
+        }
+        .content-box strong { color: #e2e8f0; background: rgba(255,255,255,0.05); padding: 0 4px; border-radius: 4px; }
+
+        .nav-btn.active {
+            background: linear-gradient(90deg, rgba(16,185,129,0.15) 0%, transparent 100%);
+            border-right: 4px solid #10b981;
+            color: #6ee7b7;
+        }
+        .nav-btn { border-right: 4px solid transparent; }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+        }
+        
+        .search-badge {
+            background: rgba(16, 185, 129, 0.2);
+            color: #6ee7b7;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-right: 8px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .highlight-code {
+            display: inline-block;
+            background: #0f172a;
+            color: #6ee7b7;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid #1e293b;
+        }
+
+        /* Steps Timeline for DNS Resolution */
+        .dns-step {
+            position: relative;
+            padding-right: 2.5rem;
+            padding-bottom: 2rem;
+            border-right: 2px solid rgba(16, 185, 129, 0.3);
+            margin-right: 1.25rem;
+        }
+        .dns-step:last-child {
+            border-right: none;
+            padding-bottom: 0;
+        }
+        .dns-step-icon {
+            position: absolute;
+            right: -1rem;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: #0B1120;
+            border: 2px solid #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6ee7b7;
+            font-size: 0.9rem;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Mobile Overlay -->
+    <div id="mobileOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity" onclick="closeSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed inset-y-0 right-0 w-72 bg-dark-800/95 backdrop-blur-xl border-l border-white/10 flex flex-col z-50 transform translate-x-full lg:translate-x-0 transition-transform duration-300 shadow-2xl lg:static lg:shadow-none">
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-brand-dark flex items-center justify-center shadow-lg shadow-brand/20 ml-3">
+                <i class="fa-solid fa-server text-white text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-white font-black text-lg">ویندوز سرور</h1>
+                <p class="text-brand-light text-xs font-medium">اپیزود ۸ | ADI Zone & Resolution</p>
+            </div>
+            <button onclick="closeSidebar()" class="lg:hidden mr-auto text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+            <button onclick="showSection(1, this)" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-brands fa-microsoft w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۱. معماری ADI Zone
+            </button>
+            <button onclick="showSection(2, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-magnifying-glass-chart w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۲. ترفندهای جستجو و Suffix
+            </button>
+            <button onclick="showSection(3, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-globe w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۳. سفر یک کوئری (Resolution)
+            </button>
+        </nav>
+        
+        <div class="p-5 border-t border-white/5 bg-black/20">
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+                <i class="fa-solid fa-check-double text-brand"></i>
+                تشریح کامل Root Hints
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
+        <header class="h-20 bg-dark-900/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6 sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <button onclick="openSidebar()" class="lg:hidden text-slate-300 hover:text-white bg-white/5 p-2 rounded-lg transition-colors">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h2 id="topTitle" class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-white to-slate-400 hidden sm:block">۱. معماری ADI Zone</h2>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="bg-brand/10 text-brand-light px-3 py-1 rounded-full text-xs font-semibold border border-brand/20">
+                    اپیزود هشتم
+                </span>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 lg:p-12 relative" id="scrollArea">
+            <div class="max-w-4xl mx-auto content-box pb-24">
+                
+                <h2 id="mobileTitle" class="text-2xl font-bold text-white mb-8 sm:hidden">۱. معماری ADI Zone</h2>
+
+                <!-- SECTION 1 -->
+                <div id="section-1" class="section-content section-fade block">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand flex items-start gap-4">
+                        <i class="fa-brands fa-windows text-3xl text-brand-light mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-1">زون یکپارچه (Active Directory-Integrated)</h4>
+                            <p class="mb-0 text-slate-300 text-sm leading-relaxed">اگر هنگام ساخت زون Primary روی یک دامین‌کنترلر، تیکِ <code>Store the zone in Active Directory</code> را بزنیم، زون ما تبدیل به یک ADI Zone می‌شود. این کار معماری و امنیت DNS را کاملاً متحول می‌کند.</p>
+                        </div>
+                    </div>
+
+                    <h3>چهار ویژگی جادوییِ ADI Zone</h3>
+                    <p>وقتی زون شما با دیتابیس AD گره می‌خورد، این ۴ قابلیت فوق‌العاده فعال می‌شوند:</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                        <!-- Feature 1 -->
+                        <div class="bg-dark-800/80 p-5 rounded-lg border border-white/5 relative overflow-hidden group hover:border-brand/50 transition-colors">
+                            <div class="absolute -right-4 -top-4 text-6xl text-brand/5 group-hover:text-brand/10 transition-colors"><i class="fa-solid fa-server"></i></div>
+                            <h4 class="text-brand-light font-bold mb-2 text-sm relative z-10"><i class="fa-solid fa-network-wired ml-2"></i>۱. Multi Master</h4>
+                            <p class="text-xs text-slate-300 leading-relaxed relative z-10">در DNS سنتی، فقط سرور پرایمری قابل نوشتن (Read/Write) بود. اما در ADI، چون دیتابیس AD ذاتا Multi-Master است، هر DC در دامین می‌تواند مستقیماً رکوردهای DNS را آپدیت کند!</p>
+                        </div>
+                        
+                        <!-- Feature 2 -->
+                        <div class="bg-dark-800/80 p-5 rounded-lg border border-white/5 relative overflow-hidden group hover:border-brand/50 transition-colors">
+                            <div class="absolute -right-4 -top-4 text-6xl text-brand/5 group-hover:text-brand/10 transition-colors"><i class="fa-solid fa-rotate"></i></div>
+                            <h4 class="text-brand-light font-bold mb-2 text-sm relative z-10"><i class="fa-solid fa-sync ml-2"></i>۲. Zone Replicate</h4>
+                            <p class="text-xs text-slate-300 leading-relaxed relative z-10">دیگر نیازی به مکانیزم‌های قدیمی Zone Transfer (مثل AXFR) نیست! اطلاعات DNS مثل بقیه آبجکت‌ها از طریق شبکه پرسرعت و بهینه‌ی KCC و RPC بین دامین‌کنترلرها همگام (Replicate) می‌شود.</p>
+                        </div>
+
+                        <!-- Feature 3 -->
+                        <div class="bg-dark-800/80 p-5 rounded-lg border border-white/5 relative overflow-hidden group hover:border-brand/50 transition-colors">
+                            <div class="absolute -right-4 -top-4 text-6xl text-brand/5 group-hover:text-brand/10 transition-colors"><i class="fa-solid fa-shield-halved"></i></div>
+                            <h4 class="text-brand-light font-bold mb-2 text-sm relative z-10"><i class="fa-solid fa-lock ml-2"></i>۳. Dynamic Secure Update</h4>
+                            <p class="text-xs text-slate-300 leading-relaxed relative z-10">در این حالت، فقط کلاینت‌هایی که <strong>عضو دامین</strong> هستند و احراز هویت شده‌اند حق دارند رکورد IP خود را در سرور ثبت کنند. این کار جلوی حملات IP Spoofing (جعل آی‌پی توسط مهاجم) را می‌گیرد.</p>
+                        </div>
+
+                        <!-- Feature 4 -->
+                        <div class="bg-dark-800/80 p-5 rounded-lg border border-white/5 relative overflow-hidden group hover:border-brand/50 transition-colors">
+                            <div class="absolute -right-4 -top-4 text-6xl text-brand/5 group-hover:text-brand/10 transition-colors"><i class="fa-solid fa-key"></i></div>
+                            <h4 class="text-brand-light font-bold mb-2 text-sm relative z-10"><i class="fa-solid fa-user-shield ml-2"></i>۴. Security (دسترسی ریزدانه)</h4>
+                            <p class="text-xs text-slate-300 leading-relaxed relative z-10">امنیت تا سطح تک‌تک رکوردها پایین می‌آید. شما می‌توانید روی یک رکورد A (مثلاً سرور مالی) راست‌کلیک کرده و از طریق تب Security (ACL)، دسترسی ویرایش آن را فقط به یک ادمینِ خاص محدود کنید.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 2 -->
+                <div id="section-2" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-accent">
+                        <h4 class="text-white font-bold mb-3 flex items-center gap-2">
+                            <span class="search-badge text-accent bg-accent/10 border-accent/30"><i class="fa-solid fa-magnifying-glass"></i> Search</span>
+                            تفاوت Query گرفتن با Register کردن چیست؟
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-black/30 p-4 rounded text-sm">
+                                <strong class="text-accent-light block mb-2">Query (درخواست وضوح):</strong>
+                                <span class="text-slate-300">وقتی کلاینت می‌خواهد نامی را به آی‌پی تبدیل کند (مثلاً کاربر می‌زند google.com)، کامپیوتر او به پورت ۵۳ سرور پیام می‌فرستد که "آی‌پی این اسم چیست؟"</span>
+                            </div>
+                            <div class="bg-black/30 p-4 rounded text-sm">
+                                <strong class="text-accent-light block mb-2">Register (ثبت‌نام رکورد):</strong>
+                                <span class="text-slate-300">وقتی کلاینت در شبکه روشن می‌شود و آی‌پی می‌گیرد، خودش به سمت سرور می‌رود و می‌گوید: "اسم من PC1 و آی‌پی من این است، مرا در دفترچه‌ات ثبت کن." (با دستور <code>ipconfig /registerdns</code> قابل اجراست).</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>تنظیمات جستجوی پسوندها (Suffix Search)</h3>
+                    
+                    <div class="bg-dark-800 p-6 rounded-xl border border-white/5 relative overflow-hidden">
+                        <h4 class="text-brand-light font-bold mb-3 text-lg"><i class="fa-solid fa-tags ml-2"></i>Append parent suffixes of the primary DNS suffix</h4>
+                        <p class="text-sm text-slate-300 mb-4 leading-relaxed">این گزینه در تنظیمات TCP/IP (تب DNS) کارت شبکه قرار دارد. کاربرد آن برای زمانی است که شما از نام‌های کوتاه (Flat) برای ارتباط استفاده می‌کنید و نام کلاینت را در دامنه‌های تودرتو جستجو می‌کنید.</p>
+                        
+                        <div class="bg-dark-900/80 p-4 rounded border-l-2 border-brand text-sm text-slate-300">
+                            <strong>مثال عملی:</strong> فرض کنید سیستم شما در زیردامنه‌ی <code>tehran.corp.local</code> قرار دارد. شما دستور می‌دهید <code class="text-brand-light bg-black px-1 rounded">ping Server1</code>.
+                            <ul class="mt-2 mb-0 space-y-1">
+                                <li>۱. ابتدا ویندوز پسوند اصلی را می‌چسباند: می‌گردد دنبال <code>Server1.tehran.corp.local</code></li>
+                                <li>۲. اگر این تیک <strong class="text-emerald-400">روشن</strong> باشد و جواب نگیرد: یک سطح بالا می‌رود (Parent) و این بار دنبال <code>Server1.corp.local</code> می‌گردد!</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 3 -->
+                <div id="section-3" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 text-center bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiMxMGI5ODEiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')]">
+                        <i class="fa-solid fa-route text-5xl text-brand mb-3 drop-shadow-[0_0_15px_rgba(16,185,129,0.5)]"></i>
+                        <h3 class="text-white font-bold text-2xl !mt-0 justify-center !before:hidden">سفر شگفت‌انگیز یک Query</h3>
+                        <p class="text-slate-300 text-sm max-w-2xl mx-auto mb-0">وقتی آدرس یک سایت را در مرورگر وارد می‌کنید، DNS سرور داخلی شبکه شما (اگر جواب را در کش خود نداشته باشد)، یک سفر مرحله به مرحله (Iterative Query) را در اینترنت آغاز می‌کند.</p>
+                    </div>
+
+                    <div class="mt-8 relative mr-2">
+                        
+                        <!-- Step 1 -->
+                        <div class="dns-step">
+                            <div class="dns-step-icon"><i class="fa-solid fa-computer"></i></div>
+                            <h4 class="text-brand-light font-bold text-lg mb-1">مرحله ۱: درخواست به DNS داخلی (Recursive)</h4>
+                            <p class="text-sm text-slate-300">کلاینت از سرور DNS لوکال می‌پرسد: "آی‌پی <code>mail.google.com</code> چیست؟ من فقط جواب نهایی را می‌خواهم (Recursive)." سرور داخلی جواب را ندارد، پس به عنوان نماینده وارد عمل می‌شود.</p>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="dns-step">
+                            <div class="dns-step-icon"><i class="fa-solid fa-server"></i></div>
+                            <h4 class="text-emerald-400 font-bold text-lg mb-1">مرحله ۲: مراجعه به سرورهای ریشه (Root Hints)</h4>
+                            <p class="text-sm text-slate-300">سرور داخلی مستقیماً سراغ یکی از ۱۳ سرور اصلی دنیا (Root Servers که با نقطه <code>.</code> شناخته می‌شوند) می‌رود.<br>
+                            <strong class="text-emerald-500">پاسخ Root:</strong> "من آی‌پی دقیق گوگل را ندارم، اما آدرس سرورهایی که دامنه‌های <code>.com</code> (یا همان TLD) را مدیریت می‌کنند به تو می‌دهم. برو از آن‌ها بپرس."</p>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="dns-step">
+                            <div class="dns-step-icon"><i class="fa-solid fa-layer-group"></i></div>
+                            <h4 class="text-emerald-500 font-bold text-lg mb-1">مرحله ۳: مراجعه به سرور دامنه سطح بالا (TLD)</h4>
+                            <p class="text-sm text-slate-300">سرور داخلی ما حالا سراغ سرورهای <code>.com</code> می‌رود.<br>
+                            <strong class="text-emerald-600">پاسخ TLD:</strong> "من آی‌پی دقیق میل‌سرور را ندارم، اما می‌دانم شرکت گوگل خودش DNS سرور اختصاصی دارد (Authoritative NS). آدرسِ سرورِ خودِ گوگل این است، برو از خودش بپرس!"</p>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="dns-step border-none pb-0">
+                            <div class="dns-step-icon"><i class="fa-solid fa-flag-checkered"></i></div>
+                            <h4 class="text-accent font-bold text-lg mb-1">مرحله ۴: مرجع نهایی (Authoritative DNS)</h4>
+                            <p class="text-sm text-slate-300">سرور داخلی بالاخره به سراغ سرور اصلی خودِ گوگل می‌رود. این سرور، مرجع اصلی (Authoritative) است و با افتخار آی‌پی دقیق <code>mail.google.com</code> را تحویل می‌دهد. سرور داخلی این آی‌پی را در حافظه خود Cache کرده و به کلاینت ما تقدیم می‌کند!</p>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+        const topTitle = document.getElementById('topTitle');
+        const mobileTitle = document.getElementById('mobileTitle');
+        const scrollArea = document.getElementById('scrollArea');
+
+        function openSidebar() {
+            sidebar.classList.remove('translate-x-full');
+            overlay.classList.remove('hidden');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('translate-x-full');
+            overlay.classList.add('hidden');
+        }
+
+        function showSection(sectionNumber, btnElement) {
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.classList.remove('block', 'section-fade');
+                el.classList.add('hidden');
+            });
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            const targetSection = document.getElementById('section-' + sectionNumber);
+            targetSection.classList.remove('hidden');
+            void targetSection.offsetWidth; 
+            targetSection.classList.add('block', 'section-fade');
+
+            btnElement.classList.add('active');
+
+            const btnText = btnElement.innerText.trim();
+            topTitle.innerText = btnText;
+            mobileTitle.innerText = btnText;
+
+            scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (window.innerWidth < 1024) {
+                closeSidebar();
+            }
+        }
+    </script>
+</body>
+</html>

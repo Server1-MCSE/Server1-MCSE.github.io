@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات دوره ویندوز سرور | اپیزود ۱۳</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Vazirmatn Font -->
+    <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.0/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Config with Amber Theme -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Vazirmatn', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0B1120', 800: '#1e293b', 700: '#334155' },
+                        brand: { light: '#fde68a', DEFAULT: '#f59e0b', dark: '#d97706' }, /* Amber Theme */
+                        accent: { DEFAULT: '#10b981', light: '#6ee7b7' } /* Emerald accent for success/commands */
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #0B1120;
+            color: #e2e8f0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .section-fade { animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B1120; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        .content-box h3 {
+            color: #f8fafc;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .content-box h3::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background-color: #f59e0b;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #f59e0b;
+        }
+        .content-box p { line-height: 1.9; color: #94a3b8; margin-bottom: 1rem; text-align: justify; }
+        .content-box ul { list-style: none; padding: 0; margin-bottom: 1.5rem; }
+        .content-box ul li { position: relative; padding-right: 1.5rem; margin-bottom: 0.75rem; line-height: 1.8; color: #cbd5e1; }
+        .content-box ul li::before {
+            content: '\f104';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            color: #f59e0b;
+            font-size: 0.9rem;
+        }
+        .content-box strong { color: #e2e8f0; background: rgba(255,255,255,0.05); padding: 0 4px; border-radius: 4px; }
+
+        .nav-btn.active {
+            background: linear-gradient(90deg, rgba(245,158,11,0.15) 0%, transparent 100%);
+            border-right: 4px solid #f59e0b;
+            color: #fde68a;
+        }
+        .nav-btn { border-right: 4px solid transparent; }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+        }
+
+        .highlight-code {
+            display: inline-block;
+            background: #0f172a;
+            color: #fde68a;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid #1e293b;
+            direction: ltr;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <div id="mobileOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity" onclick="closeSidebar()"></div>
+
+    <aside id="sidebar" class="fixed inset-y-0 right-0 w-72 bg-dark-800/95 backdrop-blur-xl border-l border-white/10 flex flex-col z-50 transform translate-x-full lg:translate-x-0 transition-transform duration-300 shadow-2xl lg:static lg:shadow-none">
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-brand-dark flex items-center justify-center shadow-lg shadow-brand/20 ml-3">
+                <i class="fa-solid fa-compact-disc text-white text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-white font-black text-lg">ویندوز سرور</h1>
+                <p class="text-brand-light text-xs font-medium">اپیزود ۱۳ | WDS & Deployment</p>
+            </div>
+            <button onclick="closeSidebar()" class="lg:hidden mr-auto text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+            <button onclick="showSection(1, this)" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-folder-tree w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۱. سازماندهی کامپیوترها
+            </button>
+            <button onclick="showSection(2, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-server w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۲. معرفی و پیش‌نیازهای WDS
+            </button>
+            <button onclick="showSection(3, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-network-wired w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۳. مفاهیم PXE و ایمیج‌ها
+            </button>
+            <button onclick="showSection(4, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-clone w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۴. ساخت ایمیج سفارشی (Capture)
+            </button>
+            <button onclick="showSection(5, this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-l-lg transition-all text-right group">
+                <i class="fa-solid fa-robot w-5 text-center text-slate-500 group-hover:text-brand-light transition-colors"></i>
+                ۵. اتوماسیون کلاینت‌ها (Unattend)
+            </button>
+        </nav>
+        
+        <div class="p-5 border-t border-white/5 bg-black/20">
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+                <i class="fa-solid fa-circle-check text-brand"></i>
+                استقرار ویندوز تحت شبکه
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
+        <header class="h-20 bg-dark-900/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6 sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <button onclick="openSidebar()" class="lg:hidden text-slate-300 hover:text-white bg-white/5 p-2 rounded-lg transition-colors">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h2 id="topTitle" class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-white to-slate-400 hidden sm:block">۱. سازماندهی کامپیوترها</h2>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="bg-brand/10 text-brand-light px-3 py-1 rounded-full text-xs font-semibold border border-brand/20">
+                    اپیزود سیزدهم
+                </span>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 lg:p-12 relative" id="scrollArea">
+            <div class="max-w-4xl mx-auto content-box pb-24">
+                
+                <h2 id="mobileTitle" class="text-2xl font-bold text-white mb-8 sm:hidden">۱. سازماندهی کامپیوترها</h2>
+
+                <!-- SECTION 1 -->
+                <div id="section-1" class="section-content section-fade block">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand flex items-start gap-4">
+                        <i class="fa-solid fa-folder-tree text-3xl text-brand-light mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-bold text-lg mb-1">تغییر مسیر پیش‌فرض کامپیوترها (Redircmp)</h4>
+                            <p class="mb-0 text-slate-300 text-sm leading-relaxed">وقتی یک کلاینت جدید عضو دامین می‌شود، به طور پیش‌فرض وارد کانتینری به نام <code>CN=Computers</code> می‌شود. مشکل اینجاست که ما نمی‌توانیم مستقیماً به کانتینرها Group Policy اختصاص دهیم. بنابراین باید این مسیر پیش‌فرض را به یک OU دلخواه تغییر دهیم.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-dark-800 p-6 rounded-xl border border-white/5">
+                        <h4 class="text-accent font-bold mb-3 text-sm"><i class="fa-solid fa-terminal ml-2"></i>نحوه اجرای دستور</h4>
+                        <p class="text-sm text-slate-300 mb-4">برای این کار، محیط CMD یا PowerShell را باز کرده و از دستور <code>redircmp</code> همراه با آدرسِ دقیق (DN) دایرکتوریِ مقصد استفاده می‌کنیم:</p>
+                        <div class="bg-black/50 p-4 rounded border border-white/10 dir-ltr text-left">
+                            <code class="text-brand-light text-sm">redircmp "OU=TargetOU,DC=shoma,DC=local"</code>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-3 mb-0"><strong>نتیجه:</strong> از این لحظه به بعد، هر سیستمی که Join دامین شود، مستقیماً وارد <code>TargetOU</code> شده و بلافاصله پالیسی‌های نصب نرم‌افزار، پرینتر و امنیتی را دریافت می‌کند.</p>
+                    </div>
+                </div>
+
+                <!-- SECTION 2 -->
+                <div id="section-2" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 border-r-4 border-r-brand">
+                        <h4 class="text-white font-bold text-lg mb-2">سرویس WDS چیست؟</h4>
+                        <p class="text-sm text-slate-300 mb-0">سرویس <strong>Windows Deployment Services (WDS)</strong> به ما اجازه می‌دهد ویندوز را به صورت تحت شبکه (بدون نیاز به فلش مموری یا DVD) روی ده‌ها یا صدها کامپیوتر به طور همزمان نصب کنیم.</p>
+                    </div>
+
+                    <h3>الزامات و پیش‌نیازهای WDS</h3>
+                    <ul class="text-sm mb-8">
+                        <li><strong>Active Directory:</strong> سرور WDS باید حتماً عضو دامین باشد (الزاماً نیازی نیست روی خودِ DC نصب شود).</li>
+                        <li><strong>DNS و DHCP:</strong> کلاینتِ خام برای پیدا کردن سرور به آی‌پی و نام نیاز دارد.</li>
+                        <li class="text-brand-light"><strong>درایو مجزا با فرمت NTFS:</strong> ویندوز سرور اجازه نمی‌دهد فایل‌های حجیمِ نصب روی درایو C (درایو سیستم‌عامل سرور) ذخیره شوند. سرور WDS <em>حتماً</em> باید حداقل دو درایو داشته باشد تا پوشه <code>RemoteInstall</code> در درایوی غیر از سیستم‌عامل ساخته شود.</li>
+                    </ul>
+
+                    <h3>همزیستی WDS و DHCP (نکات بسیار مهم)</h3>
+                    <p>زمانی که WDS را کانفیگ می‌کنید، از شما می‌پرسد که آیا DHCP هم روی <em>همین</em> سرور نصب است یا در سرور دیگری است. این تنظیماتِ پورتِ ۶۷ به شدت حیاتی هستند:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div class="bg-dark-800 p-5 rounded-lg border border-white/5">
+                            <h4 class="text-white font-bold mb-2 text-sm">1. Do not listen on DHCP ports</h4>
+                            <p class="text-xs text-slate-300 mb-0">هر دو سرویس DHCP و WDS به طور پیش‌فرض به پورت 67 (پورت درخواست آی‌پی) گوش می‌دهند. <strong>اگر هر دو سرویس روی یک سرور باشند</strong>، تداخل پیش می‌آید. با زدن این تیک، WDS گوش دادن به پورت 67 را متوقف می‌کند و اجازه می‌دهد DHCP کار خودش را بکند.</p>
+                        </div>
+                        <div class="bg-dark-800 p-5 rounded-lg border border-white/5">
+                            <h4 class="text-white font-bold mb-2 text-sm">2. Configure DHCP options for Proxy DHCP</h4>
+                            <p class="text-xs text-slate-300 mb-0">این گزینه <code>Option 60</code> (کلاینت PXE) را در DHCPِ همین سرور فعال می‌کند. این آپشن به کلاینت‌ها می‌فهماند که "این سرورِ DHCP، قابلیتِ دادنِ فایل‌های نصب ویندوز (PXE Server) را هم دارد، پس برای بوت شبکه به جای دیگری نرو."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 3 -->
+                <div id="section-3" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 text-center bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiNmNTllMGIiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')]">
+                        <i class="fa-solid fa-network-wired text-5xl text-brand mb-3 drop-shadow-[0_0_15px_rgba(245,158,11,0.5)]"></i>
+                        <h3 class="text-white font-bold text-2xl !mt-0 justify-center !before:hidden">محیط PXE و فایل‌های WIM</h3>
+                        <p class="text-slate-300 text-sm max-w-2xl mx-auto mb-0">تکنولوژی PXE (Preboot Execution Environment) روی کارت شبکه کلاینت قرار دارد و به سیستمِ بدون ویندوز اجازه می‌دهد از طریق کارت شبکه بوت شده و با سرور WDS ارتباط بگیرد.</p>
+                    </div>
+
+                    <h3>ایمیج‌های حیاتی در کنسول WDS</h3>
+                    <p>وقتی فایل ISO ویندوز (مثلاً ویندوز 10) را در سرور باز می‌کنید (Mount)، در پوشه <code>sources</code> دو فایل با فرمت <strong>.wim (Windows Imaging Format)</strong> وجود دارد که باید در سرور WDS آپلود شوند:</p>
+                    
+                    <div class="space-y-4 mt-4">
+                        <div class="bg-dark-900/80 p-5 rounded-xl border-r-4 border-r-brand">
+                            <h4 class="text-brand-light font-bold mb-1 text-base">Boot Image (فایل boot.wim)</h4>
+                            <p class="text-sm text-slate-300 mb-0">یک سیستم‌عامل مینیاتوری به نام <strong>WinPE</strong> است. وقتی کلاینت تحت شبکه بوت می‌شود، این فایل دانلود و در رمِ کلاینت اجرا می‌شود تا محیط گرافیکی نصب ویندوز (همان پنجره آبی‌رنگِ Next زدن) به کاربر نمایش داده شود.</p>
+                        </div>
+                        <div class="bg-dark-900/80 p-5 rounded-xl border-r-4 border-r-accent">
+                            <h4 class="text-accent-light font-bold mb-1 text-base">Install Image (فایل install.wim)</h4>
+                            <p class="text-sm text-slate-300 mb-0">این فایل، اصلِ جنس و خودِ سیستم‌عامل ویندوز (مثلاً ویندوز 10 پرو) است که حجم بالایی دارد و بعد از پارتیشن‌بندی، روی هارد دیسکِ کلاینت ریخته و نصب می‌شود.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 4 -->
+                <div id="section-4" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 border-l-4 border-l-brand">
+                        <h4 class="text-white font-bold text-lg mb-2">سناریوی نصب ویندوز همراه با نرم‌افزار (Capture Image)</h4>
+                        <p class="text-sm text-slate-300 mb-0">نصب ویندوزِ خام به تنهایی کافی نیست. در سازمان‌ها، ما می‌خواهیم ویندوز همراه با آفیس، کروم و تنظیمات سازمانی به صورت یکجا روی کلاینت‌ها نصب شود. برای این کار باید از سیستمِ آماده‌شده یک ایمیج سفارشی (Capture) بگیریم.</p>
+                    </div>
+
+                    <h3>مراحل طلایی ساخت ایمیج سفارشی</h3>
+                    <ol class="list-decimal list-inside text-slate-300 space-y-4 text-sm mt-4">
+                        <li class="bg-dark-800 p-4 rounded border border-white/5">
+                            <strong class="text-white">آماده‌سازی سیستم مرجع (Reference PC):</strong> یک ویندوز نصب می‌کنیم، تمام نرم‌افزارها (آفیس و ...) را روی آن نصب کرده و تنظیمات دلخواه را انجام می‌دهیم.
+                        </li>
+                        <li class="bg-rose-900/30 p-4 rounded border border-rose-500/30 border-l-4 border-l-rose-500">
+                            <strong class="text-rose-400 block mb-1"><i class="fa-solid fa-triangle-exclamation"></i> اجرای Sysprep (بسیار مهم):</strong>
+                            <p class="mb-0 text-slate-300">نمی‌توانیم مستقیماً از این سیستم کپی بگیریم! چون هر ویندوز یک کد یکتا به نام <strong>SID</strong> دارد. اگر این ایمیج روی ۵۰ سیستم نصب شود، در شبکه تداخل فاجعه‌باری رخ می‌دهد. ابزار <strong>Sysprep</strong> (با تنظیمات <code class="text-rose-300">Generalize</code> و <code class="text-rose-300">Shutdown</code>) تمام شناسه‌های یکتا، درایورها و نام سیستم را پاک می‌کند و کامپیوتر را خاموش می‌کند.</p>
+                        </li>
+                        <li class="bg-dark-800 p-4 rounded border border-white/5">
+                            <strong class="text-white">ساخت Capture Image در سرور:</strong> در کنسول WDS روی یک Boot Image راست‌کلیک کرده و <code>Create Capture Image</code> را می‌زنیم تا یک بوت ایمیجِ مخصوصِ کپی‌برداری ساخته شود.
+                        </li>
+                        <li class="bg-dark-800 p-4 rounded border border-white/5">
+                            <strong class="text-white">عملیات کپی‌برداری (Capture):</strong> سیستم مرجعِ خاموش‌شده را روشن کرده، کلید F12 را می‌زنیم تا وارد محیط شبکه شود. این بار با <strong>Capture Image</strong> بوت می‌شویم. محیطی باز می‌شود که از درایو C (که Sysprep شده) یک خروجی با فرمت <code>install.wim</code> می‌گیرد و مستقیماً به سرور WDS می‌فرستد!
+                        </li>
+                    </ol>
+                </div>
+
+                <!-- SECTION 5 -->
+                <div id="section-5" class="section-content hidden">
+                    <div class="glass-card p-6 mb-8 bg-gradient-to-l from-brand/10 to-transparent">
+                        <h4 class="text-white font-bold text-lg mb-2">سیاست‌ها و اتوماسیون (Automation)</h4>
+                        <p class="text-sm text-slate-300 mb-0">در تب Properties سرور WDS تنظیماتی وجود دارد که نصب ویندوز را کاملاً خودکار، هوشمند و امن می‌کند.</p>
+                    </div>
+
+                    <h3>تنظیمات PXE Response</h3>
+                    <p>در تب PXE Response مشخص می‌کنیم سرور به چه کسانی سرویس دهد:</p>
+                    <ul class="space-y-2 mb-6">
+                        <li><strong>Respond to all clients (Known and Unknown):</strong> به هر سیستمی که درخواست داد ویندوز بده.</li>
+                        <li class="bg-dark-800 p-3 rounded text-brand-light mt-2 border-r-2 border-brand">
+                            <i class="fa-solid fa-user-shield ml-2"></i><strong>Require administrator approval for unknown computers:</strong> (پیشنهادی) اگر سیستمی ناشناس بود، موقتاً نصب متوقف می‌شود و درخواستِ آن به پوشه <strong>Pending Devices</strong> در سرور WDS می‌رود. ادمین باید روی آن راست‌کلیک کرده و Approve کند تا نصب ویندوز آغاز شود.
+                        </li>
+                    </ul>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-dark-900/80 p-5 rounded-xl border border-white/5">
+                            <h4 class="text-white font-bold mb-2 text-sm"><i class="fa-solid fa-signature text-brand-light ml-2"></i>Client Naming Policy</h4>
+                            <p class="text-xs text-slate-300 mb-0">برای اینکه نام کامپیوترها تکراری نشود، در تب AD DS یک فرمت نام‌گذاری تعیین می‌کنیم. مثلاً اگر بگذاریم <code>%03# - IT</code>، سرور به صورت خودکار کامپیوتر اول را <code>IT-001</code> و بعدی را <code>IT-002</code> نام‌گذاری می‌کند (می‌توان از متغیر مک‌آدرس نیز استفاده کرد).</p>
+                        </div>
+                        <div class="bg-dark-900/80 p-5 rounded-xl border border-white/5">
+                            <h4 class="text-white font-bold mb-2 text-sm"><i class="fa-solid fa-folder-tree text-brand-light ml-2"></i>Computer Account Location</h4>
+                            <p class="text-xs text-slate-300 mb-0">باز هم در تب AD DS، می‌توانیم مسیر OU دلخواهمان را بدهیم تا سیستم‌هایی که از طریق WDS ویندوز نصب می‌کنند، پس از نصب مستقیماً و به صورت خودکار به همان OU (مثلاً OU مالی) منتقل شوند.</p>
+                        </div>
+                    </div>
+
+                    <h3>اتوماسیون ۱۰۰ درصدی با Answer File</h3>
+                    <div class="glass-card p-5 border-l-4 border-accent">
+                        <p class="text-sm text-slate-300 mb-2">وقتی ویندوز نصب می‌شود، از شما زبان، فرمت هارد دیسک، نام کامپیوتر و پسورد ادمین را می‌پرسد. برای اینکه این فرآیند بدون نیاز به کلیکِ کاربر (Zero Touch Installation) انجام شود، از <strong>Unattend File (یا Answer File)</strong> استفاده می‌کنیم.</p>
+                        <p class="text-sm text-slate-300 mb-0">این فایل (با نام <code class="highlight-code text-xs">autounattend.xml</code>) توسط ابزاری مثل Windows SIM ساخته می‌شود و حاوی جواب تمامِ سوالاتِ نصب ویندوز است. ما این فایل را در تب Client سرور WDS به ایمیجِ خود وصل می‌کنیم؛ پس از آن، نصب ویندوز از صفر تا صد بدون دخالت دست انجام می‌شود!</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+        const topTitle = document.getElementById('topTitle');
+        const mobileTitle = document.getElementById('mobileTitle');
+        const scrollArea = document.getElementById('scrollArea');
+
+        function openSidebar() { sidebar.classList.remove('translate-x-full'); overlay.classList.remove('hidden'); }
+        function closeSidebar() { sidebar.classList.add('translate-x-full'); overlay.classList.add('hidden'); }
+
+        function showSection(sectionNumber, btnElement) {
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.classList.remove('block', 'section-fade');
+                el.classList.add('hidden');
+            });
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+            const targetSection = document.getElementById('section-' + sectionNumber);
+            targetSection.classList.remove('hidden');
+            void targetSection.offsetWidth; 
+            targetSection.classList.add('block', 'section-fade');
+
+            btnElement.classList.add('active');
+            const btnText = btnElement.innerText.trim();
+            topTitle.innerText = btnText;
+            mobileTitle.innerText = btnText;
+            scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (window.innerWidth < 1024) closeSidebar();
+        }
+    </script>
+</body>
+</html>
